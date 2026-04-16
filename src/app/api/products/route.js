@@ -77,9 +77,16 @@ export async function POST(request) {
 
     // Update or Create
     if (newProduct.id) {
-      const index = products.findIndex((p) => p.id === newProduct.id);
+      const index = products.findIndex((p) => Number(p.id) === Number(newProduct.id));
       if (index !== -1) {
-        products[index] = { ...products[index], ...newProduct };
+        // Update existing product
+        const updatedProduct = { 
+          ...products[index], 
+          ...newProduct,
+          // Re-generate slug if name changed
+          slug: newProduct.name ? newProduct.name.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "") : products[index].slug
+        };
+        products[index] = updatedProduct;
       } else {
         products.push(newProduct);
       }

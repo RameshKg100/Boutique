@@ -81,7 +81,7 @@ export default function HomePage() {
   useEffect(() => {
     async function fetchFeatured() {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch("/api/products", { cache: "no-store" });
         const data = await res.json();
         setFeaturedProducts(data.filter(p => p.isFeatured).slice(0, 4));
       } catch (error) {

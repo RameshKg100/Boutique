@@ -15,7 +15,7 @@ function EditProductContent() {
     async function fetchProduct() {
       if (!id) return;
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch("/api/products", { cache: "no-store" });
         const data = await res.json();
         const found = data.find(p => p.id === parseInt(id));
         setProduct(found);

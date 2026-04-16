@@ -41,7 +41,7 @@ export async function DELETE(request, { params }) {
     }
 
     const initialLength = products.length;
-    products = products.filter((p) => p.id !== id);
+    products = products.filter((p) => Number(p.id) !== Number(id));
     
     if (products.length === initialLength) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
