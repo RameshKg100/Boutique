@@ -1,32 +1,17 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { kv } from "@vercel/kv";
 
-const productsFilePath = path.join(process.cwd(), "src/data/products.json");
-
-const readProducts = () => {
-  try {
-    const data = fs.readFileSync(productsFilePath, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-};
-
-const writeProducts = (products) => {
-  try {
-    fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2), "utf8");
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
+const KV_PRODUCTS_KEY = "boutique_products";
 
 export async function DELETE(request, { params }) {
   try {
     const id = parseInt(params.id);
-    let products = readProducts();
+    let products = await kv.get(KV_PRODUCTS_KEY);
     
+    if (!products) {
+      return NextResponse.json({ error: "Storage is empty" }, { status: 404 });
+    }
+
     const initialLength = products.length;
     products = products.filter((p) => p.id !== id);
     
@@ -34,13 +19,12 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    const success = writeProducts(products);
-    if (!success) {
-      return NextResponse.json({ error: "Failed to update storage" }, { status: 500 });
-    }
+    // Update cloud store
+    await kv.set(KV_PRODUCTS_KEY, products);
 
-    return NextResponse.json({ success: true, message: "Product deleted" });
+    return NextResponse.json({ success: true, message: "Product deleted from cloud store" });
   } catch (error) {
+    console.error("Error deleting from KV:", error);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 }
