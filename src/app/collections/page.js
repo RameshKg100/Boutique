@@ -88,33 +88,20 @@ function CollectionsContent() {
         <div className="container-boutique">
           {/* Filter Bar */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
-            {/* Category Circular Filters */}
-            <div className="flex overflow-x-auto pb-4 hide-scrollbar gap-6 md:gap-10 -mx-4 px-4 md:mx-0 md:px-0" id="category-filters">
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-2" id="category-filters">
               {staticCategories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.slug)}
-                  className="flex flex-col items-center gap-3 transition-all duration-300 group flex-shrink-0"
+                  className={`px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-all duration-300 ${
+                    activeCategory === cat.slug
+                      ? "bg-primary text-white shadow-md"
+                      : "bg-primary-light/20 text-text hover:bg-primary/10 border border-primary-light/50"
+                  }`}
                   id={`filter-${cat.slug}`}
                 >
-                  <div className={`relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 transition-all p-0.5 ${
-                    activeCategory === cat.slug
-                      ? "border-primary scale-110 shadow-lg shadow-primary/10"
-                      : "border-transparent opacity-60 group-hover:opacity-100 group-hover:border-primary/30"
-                  }`}>
-                    <div className="relative w-full h-full rounded-full overflow-hidden">
-                      <img 
-                        src={cat.image} 
-                        alt={cat.name} 
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                  </div>
-                  <span className={`text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors ${
-                    activeCategory === cat.slug ? "text-primary" : "text-text/60"
-                  }`}>
-                    {cat.name}
-                  </span>
+                  {cat.name}
                 </button>
               ))}
             </div>

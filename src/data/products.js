@@ -1,9 +1,9 @@
 export const categories = [
-  { id: "all", name: "All", slug: "all", image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200&h=200&fit=crop" },
-  { id: "maxis", name: "Maxis", slug: "maxis", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200&h=200&fit=crop" },
-  { id: "sarees", name: "Sarees", slug: "sarees", image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&h=200&fit=crop" },
-  { id: "tops", name: "Tops", slug: "tops", image: "https://images.unsplash.com/photo-1583395828681-4357492984fd?w=200&h=200&fit=crop" },
-  { id: "kurtis", name: "Kurtis", slug: "kurtis", image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=200&h=200&fit=crop" },
+  { id: "all", name: "All", slug: "all" },
+  { id: "maxis", name: "Maxis", slug: "maxis" },
+  { id: "sarees", name: "Sarees", slug: "sarees" },
+  { id: "tops", name: "Tops", slug: "tops" },
+  { id: "kurtis", name: "Kurtis", slug: "kurtis" },
 ];
 
 export const products = [

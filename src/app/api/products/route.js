@@ -6,50 +6,73 @@ import path from "path";
 // Cache key for products in KV
 const KV_PRODUCTS_KEY = "boutique_products";
 
+// Check if KV is configured
+const isKVEnabled = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+
+// Fallback to local file for development
+const localFilePath = path.join(process.cwd(), "src/data/products.json");
+
 // Helper to seed KV from local JSON (only runs if KV is empty)
 const seedKVIfEmpty = async () => {
+  if (!isKVEnabled) return null;
   try {
     const existing = await kv.get(KV_PRODUCTS_KEY);
     if (!existing) {
-      const localFilePath = path.join(process.cwd(), "src/data/products.json");
       const localData = fs.readFileSync(localFilePath, "utf8");
       const products = JSON.parse(localData);
       await kv.set(KV_PRODUCTS_KEY, products);
-      console.log("Seeded KV store with local products.json");
       return products;
     }
     return existing;
   } catch (error) {
-    console.error("KV Seeding failed:", error);
+    return null;
+  }
+};
+
+const readLocalProducts = () => {
+  try {
+    const data = fs.readFileSync(localFilePath, "utf8");
+    return JSON.parse(data);
+  } catch (error) {
     return [];
+  }
+};
+
+const writeLocalProducts = (products) => {
+  try {
+    fs.writeFileSync(localFilePath, JSON.stringify(products, null, 2), "utf8");
+    return true;
+  } catch (error) {
+    return false;
   }
 };
 
 export async function GET() {
   try {
-    // Attempt to get from cloud storage first
+    if (!isKVEnabled) {
+      return NextResponse.json(readLocalProducts());
+    }
+
     let products = await kv.get(KV_PRODUCTS_KEY);
-    
-    // Fallback/Seed if empty
     if (!products) {
       products = await seedKVIfEmpty();
     }
-    
-    return NextResponse.json(products);
+    return NextResponse.json(products || readLocalProducts());
   } catch (error) {
-    console.error("Error reading from KV:", error);
-    // Ultimate fallback for safety
-    return NextResponse.json([]);
+    return NextResponse.json(readLocalProducts());
   }
 }
 
 export async function POST(request) {
   try {
     const newProduct = await request.json();
-    let products = await kv.get(KV_PRODUCTS_KEY);
     
-    if (!products) {
-      products = await seedKVIfEmpty();
+    let products;
+    if (isKVEnabled) {
+      products = await kv.get(KV_PRODUCTS_KEY);
+      if (!products) products = await seedKVIfEmpty();
+    } else {
+      products = readLocalProducts();
     }
 
     // Update or Create
@@ -72,12 +95,15 @@ export async function POST(request) {
       products.push(productToSave);
     }
 
-    // Save to Cloud Persistence
-    await kv.set(KV_PRODUCTS_KEY, products);
+    // Save to Persistence
+    if (isKVEnabled) {
+      await kv.set(KV_PRODUCTS_KEY, products);
+    } else {
+      writeLocalProducts(products);
+    }
 
     return NextResponse.json({ success: true, product: newProduct });
   } catch (error) {
-    console.error("Error processing POST request:", error);
-    return NextResponse.json({ error: "Failed to save to cloud database" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to save data" }, { status: 500 });
   }
 }
