@@ -13,6 +13,7 @@ import {
   Heart,
   Search,
   ChevronDown,
+  User,
 } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -160,6 +161,17 @@ export default function Navbar() {
                 )}
               </Link>
 
+              {/* Admin Access / Login */}
+              <Link
+                href="/admin"
+                className="p-2 text-text hover:text-primary transition-colors ml-1 border border-primary/10 rounded-full hover:bg-primary/5"
+                id="admin-login-icon"
+                aria-label="Admin Login"
+                title="Admin Portal"
+              >
+                <User size={20} />
+              </Link>
+
             </div>
           </div>
         </div>
@@ -229,6 +241,14 @@ export default function Navbar() {
           </nav>
 
           <div className="mt-8 pt-8 border-t border-border">
+            <Link
+              href="/admin"
+              className="flex items-center gap-3 py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold text-primary hover:bg-primary-light"
+              onClick={() => setIsMobileOpen(false)}
+            >
+              <User size={18} />
+              Admin Portal / Login
+            </Link>
           </div>
 
           {/* Contact Info */}

@@ -3,24 +3,45 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { SlidersHorizontal, Loader2 } from "lucide-react";
 import ProductCard from "@/components/products/ProductCard";
-import { products, categories, getProductsByCategory } from "@/data/products";
-import { SlidersHorizontal } from "lucide-react";
-
+import { categories as staticCategories } from "@/data/products";
 
 function CollectionsContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category") || "all";
   const [activeCategory, setActiveCategory] = useState(categoryParam);
   const [sortBy, setSortBy] = useState("default");
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to load products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadProducts();
+  }, []);
 
   useEffect(() => {
     setActiveCategory(categoryParam);
   }, [categoryParam]);
 
   useEffect(() => {
-    let result = getProductsByCategory(activeCategory);
+    let result = products;
+
+    if (activeCategory !== "all") {
+      result = result.filter(p => p.category === activeCategory);
+    }
 
     switch (sortBy) {
       case "price-low":
@@ -37,7 +58,7 @@ function CollectionsContent() {
     }
 
     setFilteredProducts(result);
-  }, [activeCategory, sortBy]);
+  }, [activeCategory, sortBy, products]);
 
   return (
     <>
@@ -69,7 +90,7 @@ function CollectionsContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
             {/* Category Tabs */}
             <div className="flex flex-wrap gap-2" id="category-filters">
-              {categories.map((cat) => (
+              {staticCategories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.slug)}
@@ -107,13 +128,18 @@ function CollectionsContent() {
           <p className="text-sm font-bold text-text/70 mb-6 flex items-center gap-2">
             Showing <span className="bg-primary-light/20 text-text px-2.5 py-0.5 rounded-full">{filteredProducts.length}</span> pieces
             {activeCategory !== "all" && (
-              <> in <span className="text-primary capitalize font-black">{categories.find(c => c.slug === activeCategory)?.name || activeCategory}</span></>
+              <> in <span className="text-primary capitalize font-black">{staticCategories.find(c => c.slug === activeCategory)?.name || activeCategory}</span></>
             )}
           </p>
 
           {/* Product Grid - 2 columns layout */}
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-6 lg:gap-8">
-            {filteredProducts.map((product, index) => (
+            {loading ? (
+              <div className="col-span-full py-20 text-center">
+                <Loader2 className="animate-spin mx-auto text-primary mb-4" size={40} />
+                <p className="text-text-light italic">Refreshing collection...</p>
+              </div>
+            ) : filteredProducts.map((product, index) => (
               <AnimatedSection key={product.id} delay={(index % 4) * 80}>
                 <ProductCard product={product} />
               </AnimatedSection>

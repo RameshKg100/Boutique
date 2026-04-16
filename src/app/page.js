@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,12 +11,12 @@ import {
   TrendingUp,
   Gem,
   ShieldCheck,
+  Loader2,
 } from "lucide-react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProductCard from "@/components/products/ProductCard";
-import { getFeaturedProducts } from "@/data/products";
 import { reviews } from "@/data/reviews";
 
 const collections = [
@@ -73,8 +74,24 @@ const whyChooseUs = [
 ];
 
 export default function HomePage() {
-  const featuredProducts = getFeaturedProducts().slice(0, 4);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const topReviews = reviews.slice(0, 3);
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setFeaturedProducts(data.filter(p => p.isFeatured).slice(0, 4));
+      } catch (error) {
+        console.error("Failed to fetch featured products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchFeatured();
+  }, []);
 
   return (
     <>
@@ -247,11 +264,22 @@ export default function HomePage() {
           </AnimatedSection>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {featuredProducts.map((product, index) => (
-              <AnimatedSection key={product.id} delay={index * 100}>
-                <ProductCard product={product} />
-              </AnimatedSection>
-            ))}
+            {loading ? (
+              <div className="col-span-full py-20 text-center">
+                <Loader2 className="animate-spin mx-auto text-primary mb-4" size={40} />
+                <p className="text-text-light italic">Bringing out the best...</p>
+              </div>
+            ) : featuredProducts.length === 0 ? (
+              <div className="col-span-full text-center py-10">
+                <p className="text-text/40">Exclusive pieces coming soon.</p>
+              </div>
+            ) : (
+              featuredProducts.map((product, index) => (
+                <AnimatedSection key={product.id} delay={index * 100}>
+                  <ProductCard product={product} />
+                </AnimatedSection>
+              ))
+            )}
           </div>
 
           <AnimatedSection className="text-center mt-12">

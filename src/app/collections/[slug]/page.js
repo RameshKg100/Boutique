@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { getProductBySlug, getRelatedProducts } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -22,6 +21,7 @@ import {
   ChevronRight,
   X,
   Ruler,
+  Loader2
 } from "lucide-react";
 
 const sizeChart = {
@@ -38,7 +38,9 @@ const sizeChart = {
 
 export default function ProductDetailPage() {
   const params = useParams();
-  const product = getProductBySlug(params.slug);
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
 
@@ -47,6 +49,39 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        const found = data.find(p => p.slug === params.slug);
+        
+        if (found) {
+          setProduct(found);
+          const related = data
+            .filter(p => p.id !== found.id && p.category === found.category)
+            .slice(0, 4);
+          setRelatedProducts(related);
+        }
+      } catch (error) {
+        console.error("Error fetching product detail:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProduct();
+  }, [params.slug]);
+
+  if (loading) {
+    return (
+      <div className="container-boutique py-40 text-center">
+        <Loader2 className="animate-spin mx-auto text-primary mb-4" size={48} />
+        <p className="text-text-light italic">Adorning the view...</p>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -62,7 +97,6 @@ export default function ProductDetailPage() {
     );
   }
 
-  const relatedProducts = getRelatedProducts(product.id, product.category);
   const discount = getDiscountPercentage(product.originalPrice, product.price);
   const wishlisted = isInWishlist(product.id);
 
