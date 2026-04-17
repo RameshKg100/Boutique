@@ -6,31 +6,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import {
-  Menu,
-  X,
-  ShoppingBag,
-  Heart,
-  Search,
-  ChevronDown,
-  User,
-} from "lucide-react";
+import { Menu, X, ShoppingBag, Heart, User } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsMobileOpen(false);
@@ -51,13 +34,7 @@ export default function Navbar() {
   return (
     <>
       {/* Main Navbar */}
-      <header
-        className={`sticky top-0 z-40 transition-all duration-300 transform-gpu ${
-          isScrolled
-            ? "bg-cream/95 backdrop-blur-md shadow-sm border-b border-border/50"
-            : "bg-cream/80"
-        }`}
-      >
+      <header className="sticky top-0 z-40 bg-cream border-b border-border/20 w-full shadow-sm">
         <div className="container-boutique">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Mobile Menu Button */}
@@ -109,21 +86,13 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-sm tracking-wide transition-colors duration-300 hover:text-primary font-semibold ${
-                    pathname === link.href
-                      ? "text-primary shadow-sm"
-                      : "text-text"
+                  className={`relative text-sm tracking-wide transition-colors duration-300 font-bold ${
+                    pathname === link.href ? "text-primary" : "text-text hover:text-primary"
                   }`}
                 >
                   {link.name}
                   {pathname === link.href && (
-                    <span
-                      className="absolute -bottom-1 left-0 w-full h-[2px]"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, var(--color-primary), var(--color-secondary))",
-                      }}
-                    />
+                    <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-primary" />
                   )}
                 </Link>
               ))}
@@ -131,10 +100,9 @@ export default function Navbar() {
 
             {/* Right Actions */}
             <div className="flex-1 lg:flex-none flex justify-end items-center gap-2 md:gap-3">
-              {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative p-2 -mr-1 md:-mr-0 text-text hover:text-primary transition-colors"
+                className="relative p-2 text-text hover:text-primary transition-colors"
                 id="wishlist-icon"
                 aria-label="Wishlist"
               >
@@ -146,10 +114,9 @@ export default function Navbar() {
                 )}
               </Link>
 
-              {/* Cart */}
               <Link
                 href="/cart"
-                className="relative p-2 -mr-2 md:-mr-0 text-text hover:text-primary transition-colors"
+                className="relative p-2 text-text hover:text-primary transition-colors"
                 id="cart-icon"
                 aria-label="Shopping Cart"
               >
@@ -161,17 +128,14 @@ export default function Navbar() {
                 )}
               </Link>
 
-              {/* Admin Access / Login */}
               <Link
                 href="/admin"
                 className="p-2 text-text hover:text-primary transition-colors ml-1 border border-primary/10 rounded-full hover:bg-primary/5"
                 id="admin-login-icon"
                 aria-label="Admin Login"
-                title="Admin Portal"
               >
                 <User size={20} />
               </Link>
-
             </div>
           </div>
         </div>
@@ -229,10 +193,10 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold ${
+                className={`py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold block ${
                   pathname === link.href
-                    ? "bg-primary-light text-primary"
-                    : "text-text hover:bg-cream hover:text-primary"
+                    ? "bg-primary/10 text-primary"
+                    : "text-text hover:bg-primary/5 hover:text-primary"
                 }`}
               >
                 {link.name}

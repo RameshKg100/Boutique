@@ -12,7 +12,7 @@ export default function ReviewsPage() {
         <div className="container-boutique text-center">
           <AnimatedSection>
             <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
-              Client Stories
+              Client Reviews
             </span>
             <h1
               className="text-4xl md:text-5xl font-bold mt-3 mb-4"

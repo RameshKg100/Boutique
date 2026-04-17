@@ -94,7 +94,7 @@ function CollectionsContent() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-all duration-300 ${
+                  className={`px-6 py-2.5 rounded-lg text-sm font-black uppercase tracking-wider transition-all duration-300 ${
                     activeCategory === cat.slug
                       ? "bg-primary text-white shadow-md"
                       : "bg-primary-light/20 text-text hover:bg-primary/10 border border-primary-light/50"

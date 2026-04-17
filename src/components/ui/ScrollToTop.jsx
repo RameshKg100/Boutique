@@ -10,8 +10,8 @@ export default function ScrollToTop() {
   // Track the scroll position to toggle visibility
   useEffect(() => {
     const toggleVisibility = () => {
-      // Show the button when scrolled down 400px
-      if (window.scrollY > 400) {
+      // Show the button when scrolled down 200px
+      if (window.scrollY > 200) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -35,15 +35,16 @@ export default function ScrollToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.5, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.5, y: 20 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.2 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 lg:bottom-10 right-6 lg:right-10 z-[90] p-3 md:p-4 rounded-md bg-primary text-white shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:bg-primary-dark hover:scale-110 hover:-translate-y-1 transition-all duration-300 group"
+          className="fixed bottom-6 right-6 z-[100] w-11 h-11 flex items-center justify-center rounded-lg bg-primary text-white shadow-2xl hover:bg-primary-dark transition-all duration-300 group"
           aria-label="Scroll to Top"
+          id="scroll-to-top-button"
         >
-          <ArrowUp size={20} className="group-hover:animate-bounce" />
+          <ArrowUp size={22} className="group-hover:-translate-y-1 transition-transform" />
         </motion.button>
       )}
     </AnimatePresence>
