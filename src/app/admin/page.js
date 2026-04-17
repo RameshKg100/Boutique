@@ -100,14 +100,14 @@ export default function AdminDashboard() {
 
         <div className="bg-neutral-900 border border-white/5 p-8 rounded-3xl relative overflow-hidden group">
           <div className="relative z-10">
-            <h2 className="text-2xl font-bold mb-4">Manage Collection</h2>
-            <p className="text-white/60 mb-8 max-w-sm">Edit existing dress details, update pricing, or manage stock availability effortlessly.</p>
+            <h2 className="text-2xl font-bold mb-4">Customer Voice</h2>
+            <p className="text-white/60 mb-8 max-w-sm">Manage reviews, update customer testimonials, and upload new profile pictures for the review page.</p>
             <Link 
-              href="/admin/products" 
+              href="/admin/reviews" 
               className="inline-flex items-center gap-2 border border-white/20 hover:border-primary hover:text-primary px-6 py-3 rounded-xl font-bold transition-all"
             >
-              <Eye size={20} />
-              View All Products
+              <Star size={20} />
+              Manage Reviews
               <ArrowRight size={16} className="ml-2" />
             </Link>
           </div>

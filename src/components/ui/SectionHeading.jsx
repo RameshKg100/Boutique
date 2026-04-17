@@ -1,8 +1,8 @@
 export default function SectionHeading({ title, subtitle, centered = true, light = false }) {
   return (
-    <div className={`mb-12 ${centered ? "text-center" : ""}`}>
+    <div className={`mb-8 ${centered ? "text-center" : ""}`}>
       <h2
-        className={`text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 ${
+        className={`text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-2 ${
           light ? "text-white" : "text-dark"
         }`}
         style={{ fontFamily: "var(--font-heading)" }}
@@ -19,7 +19,7 @@ export default function SectionHeading({ title, subtitle, centered = true, light
         </p>
       )}
       <div
-        className={`mt-6 h-[2px] w-16 ${centered ? "mx-auto" : ""}`}
+        className={`mt-4 h-[2px] w-16 ${centered ? "mx-auto" : ""}`}
         style={{
           background: "linear-gradient(90deg, var(--color-primary), var(--color-secondary))",
         }}

@@ -51,7 +51,7 @@ export default function CartPage() {
 
   return (
     <>
-      <section className="bg-cream py-10 lg:py-16" id="cart-header">
+      <section className="bg-cream py-16 lg:py-24" id="cart-header">
         <div className="container-boutique text-center">
           <AnimatedSection>
              <h1
@@ -65,7 +65,7 @@ export default function CartPage() {
         </div>
       </section>
 
-      <section className="py-12 lg:py-20" id="cart-content">
+      <section className="py-16 lg:py-24 min-h-[70vh]" id="cart-content">
         <div className="container-boutique">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             

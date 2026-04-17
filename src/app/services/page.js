@@ -25,7 +25,7 @@ export default function ServicesPage() {
       </div>
 
       {/* Hero */}
-      <section className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 z-10" id="services-hero">
+      <section className="relative pt-24 pb-16 lg:pt-36 lg:pb-28 z-10" id="services-hero">
         <div className="container-boutique text-center max-w-4xl mx-auto">
           <AnimatedSection>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-border/50 shadow-sm mb-6">
@@ -49,7 +49,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Bento Grid */}
-      <section className="relative py-16 lg:py-24 z-10" id="services-list">
+      <section className="relative py-16 lg:py-20 z-10 bg-white" id="services-list">
         <div className="container-boutique">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {services.map((service, index) => {
@@ -122,7 +122,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Modern CTA */}
-      <section className="relative py-24 z-10" id="services-cta">
+      <section className="relative py-20 lg:py-24 z-10 bg-cream" id="services-cta">
         <div className="container-boutique">
           <AnimatedSection>
             <div 

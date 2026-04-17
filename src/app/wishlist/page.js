@@ -27,7 +27,7 @@ export default function WishlistPage() {
 
   return (
     <>
-      <section className="bg-cream py-10 lg:py-16" id="wishlist-header">
+      <section className="bg-cream py-16 lg:py-24" id="wishlist-header">
         <div className="container-boutique text-center">
           <AnimatedSection>
              <h1
@@ -41,7 +41,7 @@ export default function WishlistPage() {
         </div>
       </section>
 
-      <section className="py-12 lg:py-20" id="wishlist-content">
+      <section className="py-16 lg:py-24 min-h-[70vh]" id="wishlist-content">
         <div className="container-boutique">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {items.map((item, index) => (

@@ -20,8 +20,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-neutral-900 rounded-2xl border border-white/5 p-8 shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: "#3B2F2A" }}>
+      <div className="max-w-md w-full rounded-2xl border border-white/5 p-8 shadow-2xl" style={{ backgroundColor: "#4E3F3F" }}>
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: "var(--font-heading)" }}>
             Admin Portal

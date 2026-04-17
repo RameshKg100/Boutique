@@ -63,14 +63,14 @@ function CollectionsContent() {
   return (
     <>
       {/* Hero Banner */}
-      <section className="bg-cream py-16 lg:py-20" id="collections-hero">
+      <section className="bg-cream py-12 lg:py-16" id="collections-hero">
         <div className="container-boutique text-center">
           <AnimatedSection>
             <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
               Our Collections
             </span>
             <h1
-              className="text-4xl md:text-5xl font-bold mt-3 mb-4"
+              className="text-4xl md:text-5xl font-bold mt-1 mb-2"
               style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
             >
               Explore Our Collections
@@ -84,10 +84,10 @@ function CollectionsContent() {
       </section>
 
       {/* Filters & Products */}
-      <section className="py-12 lg:py-16 bg-cream" id="product-listing">
+      <section className="py-10 lg:py-16 bg-white min-h-[60vh] border-t border-border/20" id="product-listing">
         <div className="container-boutique">
           {/* Filter Bar */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
             {/* Category Tabs */}
             <div className="flex flex-wrap gap-2" id="category-filters">
               {staticCategories.map((cat) => (
@@ -112,7 +112,7 @@ function CollectionsContent() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="text-xs bg-primary-light/10 border border-primary-light/30 rounded-lg px-3 py-2 text-text focus:outline-none focus:border-primary cursor-pointer transition-colors"
+                className="text-xs bg-white border border-border rounded-lg px-3 py-2 text-text focus:outline-none focus:border-primary cursor-pointer transition-colors"
                 id="sort-select"
               >
                 <option value="default">Sort By: Default</option>
@@ -125,15 +125,15 @@ function CollectionsContent() {
           </div>
 
           {/* Results Count */}
-          <p className="text-sm font-bold text-text/70 mb-6 flex items-center gap-2">
-            Showing <span className="bg-primary-light/20 text-text px-2.5 py-0.5 rounded-full">{filteredProducts.length}</span> pieces
+          <p className="text-sm font-bold text-text/70 mb-4 flex items-center gap-2">
+            Showing <span className="bg-white border border-border text-text px-2.5 py-0.5 rounded-full">{filteredProducts.length}</span> pieces
             {activeCategory !== "all" && (
               <> in <span className="text-primary capitalize font-black">{staticCategories.find(c => c.slug === activeCategory)?.name || activeCategory}</span></>
             )}
           </p>
 
-          {/* Product Grid - 2 columns layout */}
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-6 lg:gap-8">
+          {/* Product Grid - Dynamic Density */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6">
             {loading ? (
               <div className="col-span-full py-20 text-center">
                 <Loader2 className="animate-spin mx-auto text-primary mb-4" size={40} />
@@ -147,7 +147,7 @@ function CollectionsContent() {
           </div>
 
           {filteredProducts.length === 0 && (
-            <div className="text-center py-20 bg-cream/30 rounded-2xl border border-border/50 mt-8">
+            <div className="text-center py-20 bg-white rounded-2xl border border-border mt-8">
               <p className="text-text-light text-lg">No pieces found in this category.</p>
             </div>
           )}

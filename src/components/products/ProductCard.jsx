@@ -77,7 +77,7 @@ My Query: `;
             className={`absolute top-3 right-3 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm ${
               wishlisted
                 ? "bg-primary text-white"
-                : "bg-cream/90 text-text hover:bg-primary hover:text-white"
+                : "bg-white text-text hover:bg-primary hover:text-white"
             }`}
             aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
@@ -94,16 +94,16 @@ My Query: `;
           </button>
 
           {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-cream/10 group-hover:bg-cream/20 transition-all duration-500 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-white/40 group-hover:bg-white/60 transition-all duration-500 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100">
             <div className="flex gap-2">
               <button
                 onClick={handleAddToCart}
-                className="bg-cream text-text hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1.5 shadow-lg"
+                className="bg-white text-text hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1.5 shadow-lg"
               >
                 <ShoppingBag size={13} />
                 Add to Cart
               </button>
-              <span className="bg-cream text-text hover:bg-primary hover:text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center shadow-lg">
+              <span className="bg-white text-text hover:bg-primary hover:text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center shadow-lg">
                 <Eye size={13} />
               </span>
             </div>

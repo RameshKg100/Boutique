@@ -52,10 +52,11 @@ export default function AdminLayout({ children }) {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-white flex">
+    <div className="min-h-screen text-white flex" style={{ backgroundColor: "#4E3F3F" }}>
       {/* Sidebar */}
       <aside 
-        className={`${isSidebarOpen ? "w-64" : "w-20"} bg-neutral-950 border-r border-white/5 transition-all duration-300 flex flex-col fixed h-full z-50`}
+        className={`${isSidebarOpen ? "w-64" : "w-20"} border-r border-white/5 transition-all duration-300 flex flex-col fixed h-full z-50`}
+        style={{ backgroundColor: "#3B2F2A" }}
       >
         <div className="p-6 flex items-center justify-between">
           <Link href="/admin" className={`font-bold text-primary tracking-tighter ${!isSidebarOpen && "hidden"}`}>
@@ -102,7 +103,10 @@ export default function AdminLayout({ children }) {
       {/* Main Content */}
       <main className={`flex-1 ${isSidebarOpen ? "ml-64" : "ml-20"} transition-all duration-300`}>
         {/* Top Header */}
-        <header className="sticky top-0 z-40 bg-neutral-900/80 backdrop-blur-md border-b border-white/5 px-8 h-16 flex items-center justify-between">
+        <header 
+          className="sticky top-0 z-40 backdrop-blur-md border-b border-white/5 px-8 h-16 flex items-center justify-between"
+          style={{ backgroundColor: "rgba(59, 47, 42, 0.8)" }}
+        >
           <div className="flex items-center gap-4">
             <h2 className="text-white/40 text-sm font-medium uppercase tracking-widest hidden md:block">
               {pathname === "/admin" ? "Overview" : pathname.split("/").pop()}
@@ -119,7 +123,7 @@ export default function AdminLayout({ children }) {
           </div>
         </header>
 
-        <div className="p-8">
+        <div className="p-8 lg:p-12">
           {children}
         </div>
       </main>

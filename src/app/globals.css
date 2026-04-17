@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #E2A9B0; /* Blush */
-  --color-primary-light: #EBD9D1; /* Nude */
-  --color-primary-dark: #A67C7C; /* Dusty Rose */
-  --color-secondary: #DCAE96; /* Nude Accent */
-  --color-accent: #E2A9B0; /* Blush as accent */
-  --color-cream: #F9F5F1; /* Primary Base */
-  --color-ivory: #FAF9F6;
-  --color-blush: #E2A9B0;
-  --color-rose: #A67C7C;
-  --color-warm-gray: #8C7E74;
-  --color-dark: #362B24; /* Deep Taupe */
-  --color-text: #4A3E37; /* Deep Taupe Text */
-  --color-text-light: #8C7E74;
-  --color-border: #E5D9D1;
-  --color-gold: #C29B6D;
-  --background: #F9F5F1;
-  --foreground: #4A3E37;
+  --color-primary: #CFA7B5; /* Blush */
+  --color-primary-transparent: rgba(207, 167, 181, 0.1);
+  --color-primary-dark: #C88F8F; /* Dusty Rose */
+  --color-secondary: #C88F8F; /* Dusty Rose */
+  --color-accent: #CFA7B5; /* Blush */
+  --color-cream: #FAF7F2; /* Warm Cream */
+  --color-ivory: #FAF7F2;
+  --color-blush: #CFA7B5;
+  --color-rose: #C88F8F;
+  --color-warm-gray: #4E3F3F; /* Deep Taupe */
+  --color-dark: #4E3F3F; /* Deep Taupe */
+  --color-text: #4E3F3F; /* Deep Taupe */
+  --color-text-light: #3B2F2A; /* Espresso */
+  --color-border: #D8D2D2;
+  --color-gold: #C88F8F;
+  --background: #FAF7F2;
+  --foreground: #3B2F2A;
 }
 
 @theme inline {
@@ -43,6 +43,7 @@
 /* ===== BASE STYLES ===== */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -52,6 +53,8 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -144,6 +147,24 @@ h1, h2, h3, h4, h5, h6 {
   animation: slideInRight 0.7s ease-out forwards;
 }
 
+.animate-window-reveal {
+  animation: windowReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-window-reveal-up {
+  animation: windowRevealUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes windowReveal {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes windowRevealUp {
+  0% { clip-path: inset(100% 0 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -210,12 +231,12 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ===== GRADIENT OVERLAY ===== */
 .gradient-overlay {
-  background: linear-gradient(135deg, rgba(139, 34, 82, 0.03) 0%, rgba(212, 165, 116, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(207, 167, 181, 0.05) 0%, rgba(200, 143, 143, 0.05) 100%);
 }
 
 /* ===== SELECTION ===== */
 ::selection {
-  background: rgba(139, 34, 82, 0.15);
+  background: rgba(207, 167, 181, 0.3);
   color: var(--color-dark);
 }
 
@@ -247,7 +268,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ===== CONTAINER ===== */
 .container-boutique {
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 0 20px;
 }

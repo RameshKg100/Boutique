@@ -153,7 +153,7 @@ My Query: `;
       </div>
 
       {/* Product Detail */}
-      <section className="py-8 lg:py-16" id="product-detail">
+      <section className="py-12 lg:py-24 min-h-[75vh]" id="product-detail">
         <div className="container-boutique">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Image Gallery */}

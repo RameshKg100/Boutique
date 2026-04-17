@@ -53,7 +53,7 @@ export default function ContactPage() {
               Get In Touch
             </span>
             <h1
-              className="text-4xl md:text-5xl font-bold mt-3 mb-4"
+              className="text-4xl md:text-5xl font-bold mt-1 mb-2"
               style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
             >
               Contact Us
@@ -66,9 +66,9 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24" id="contact-content">
+      <section className="py-12 lg:py-18 bg-white border-t border-border/10" id="contact-content">
         <div className="container-boutique">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14">
             {/* Contact Info & Map */}
             <AnimatedSection animation="slide-in-left">
               <h2
@@ -78,7 +78,7 @@ export default function ContactPage() {
                 Visit Our Boutique
               </h2>
               
-              <div className="space-y-6 mb-10">
+              <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-cream flex items-center justify-center text-primary flex-shrink-0 mt-1">
                     <MapPin size={20} />

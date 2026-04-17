@@ -83,7 +83,7 @@ export default function HomePage() {
       try {
         const res = await fetch("/api/products", { cache: "no-store" });
         const data = await res.json();
-        setFeaturedProducts(data.filter(p => p.isFeatured).slice(0, 4));
+        setFeaturedProducts(data.filter(p => p.isFeatured).slice(0, 5));
       } catch (error) {
         console.error("Failed to fetch featured products:", error);
       } finally {
@@ -96,9 +96,9 @@ export default function HomePage() {
   return (
     <>
       {/* ===== HERO SECTION ===== */}
-      <section className="relative bg-cream overflow-hidden" id="hero-section">
-        <div className="container-boutique">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[70vh] lg:min-h-[80vh] py-12 lg:py-0">
+      <section className="relative bg-cream overflow-hidden flex items-center" id="hero-section">
+        <div className="container-boutique w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[70vh] lg:min-h-[85vh] py-12 lg:py-0">
             {/* Left Content */}
             <AnimatedSection animation="slide-in-left" className="order-2 lg:order-1">
               <div className="max-w-lg">
@@ -133,8 +133,8 @@ export default function HomePage() {
             </AnimatedSection>
 
             {/* Right Image */}
-            <AnimatedSection animation="slide-in-right" className="order-1 lg:order-2 h-full min-h-[500px] lg:min-h-[600px]">
-              <div className="relative h-full w-full overflow-hidden shadow-2xl">
+            <AnimatedSection animation="window-reveal" className="order-1 lg:order-2 h-full min-h-[500px] lg:min-h-[600px]">
+              <div className="relative h-full w-full overflow-hidden shadow-2xl rounded-2xl">
                 {/* Auto Continuous Carousel Component */}
                 <HeroCarousel />
               </div>
@@ -144,17 +144,17 @@ export default function HomePage() {
       </section>
 
       {/* ===== ABOUT PREVIEW ===== */}
-      <section className="py-20 lg:py-28" id="about-preview">
+      <section className="py-12 lg:py-18 bg-white" id="about-preview">
         <div className="container-boutique">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Image */}
-            <AnimatedSection animation="slide-in-left">
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+            <AnimatedSection animation="window-reveal">
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-xl">
                 <Image
                   src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=750&fit=crop"
                   alt="Sashaa Boutiques - Crafting Elegance"
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-1000 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
@@ -167,7 +167,7 @@ export default function HomePage() {
                   Our Heritage
                 </span>
                 <h2
-                  className="text-3xl md:text-4xl lg:text-5xl font-bold mt-3 mb-6"
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4"
                   style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
                 >
                   Crafting Elegance Since 2010
@@ -205,7 +205,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FEATURED COLLECTIONS ===== */}
-      <section className="py-20 lg:py-28 bg-primary-light/30" id="featured-collections">
+      <section className="py-12 lg:py-18 bg-cream border-y border-border/10" id="featured-collections">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -216,32 +216,33 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {collections.map((collection, index) => (
-              <AnimatedSection key={collection.slug} delay={index * 100}>
+                <AnimatedSection key={collection.slug} animation="window-reveal-up" delay={index * 150}>
                 <Link
                   href={`/collections?category=${collection.slug}`}
                   className="group block"
                   id={`collection-${collection.slug}`}
                 >
-                  <div className="relative aspect-[3/4] rounded-xl overflow-hidden">
+                  <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg">
                     <Image
                       src={collection.image}
                       alt={collection.name}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover transition-transform duration-1000 group-hover:scale-110"
                       sizes="(max-width: 768px) 50vw, 25vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                    <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 transition-all duration-500 rounded-xl m-2" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                       <h3
                         className="text-white text-lg md:text-xl font-bold mb-1"
                         style={{ fontFamily: "var(--font-heading)" }}
                       >
                         {collection.name}
                       </h3>
-                      <p className="text-white font-medium text-xs md:text-sm">
+                      <p className="text-white/90 font-medium text-xs md:text-sm">
                         {collection.description}
                       </p>
-                      <span className="inline-flex items-center gap-1 text-secondary text-xs font-bold mt-2 group-hover:gap-2 transition-all">
+                      <span className="inline-flex items-center gap-1 text-secondary text-xs font-bold mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-[-10px] group-hover:translate-x-0">
                         Explore <ArrowRight size={12} />
                       </span>
                     </div>
@@ -254,7 +255,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FEATURED PRODUCTS ===== */}
-      <section className="py-20 lg:py-28" id="featured-products">
+      <section className="py-12 lg:py-18 bg-white" id="featured-products">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -263,7 +264,7 @@ export default function HomePage() {
             />
           </AnimatedSection>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {loading ? (
               <div className="col-span-full py-20 text-center">
                 <Loader2 className="animate-spin mx-auto text-primary mb-4" size={40} />
@@ -282,7 +283,7 @@ export default function HomePage() {
             )}
           </div>
 
-          <AnimatedSection className="text-center mt-12">
+          <AnimatedSection className="text-center mt-8">
             <Link href="/collections" className="btn-secondary">
               View All Collections
               <ArrowRight size={16} />
@@ -292,7 +293,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== WHY CHOOSE US ===== */}
-      <section className="py-20 lg:py-28 bg-secondary/10" id="why-choose-us">
+      <section className="py-12 lg:py-18 bg-cream border-y border-border/10" id="why-choose-us">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -301,7 +302,7 @@ export default function HomePage() {
             />
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {whyChooseUs.map((item, index) => (
               <AnimatedSection key={item.title} delay={index * 100}>
                 <div className="text-center p-6 md:p-8 bg-cream rounded-xl card-hover border border-border/30">
@@ -328,7 +329,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== TESTIMONIALS ===== */}
-      <section className="py-20 lg:py-28" id="testimonials-preview">
+      <section className="py-12 lg:py-18 bg-white" id="testimonials-preview">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -340,7 +341,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {topReviews.map((review, index) => (
               <AnimatedSection key={review.id} delay={index * 150}>
-                <div className="bg-primary-light/20 rounded-xl p-6 md:p-8 card-hover border border-border/30">
+                <div className="bg-white rounded-xl p-6 md:p-8 card-hover border border-border/50">
                   {/* Narrative Quote Icon */}
                   <div className="mb-4 text-primary/40">
                     <Quote size={20} fill="currentColor" />
@@ -366,7 +367,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <AnimatedSection className="text-center mt-10">
+          <AnimatedSection className="text-center mt-6">
             <Link href="/reviews" className="btn-secondary">
               Read All Reviews
               <ArrowRight size={16} />

@@ -8,6 +8,7 @@ import {
   Mail,
   Clock,
   ArrowRight,
+  ChevronRight,
 } from "lucide-react";
 
 const Instagram = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>;
@@ -15,200 +16,136 @@ const Facebook = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24"
 const Youtube = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>;
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-dark text-white/90">
-      {/* Main Footer */}
-      <div className="container-boutique py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-          {/* Brand Column */}
-          <div>
-            <div className="mb-6">
-              <span
-                className="text-2xl font-bold text-primary"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
-                Sashaa
-              </span>
-              <span className="block text-xs md:text-sm tracking-[0.3em] uppercase text-primary-light mt-1">
-                Boutiques
-              </span>
+    <footer className="bg-white text-dark border-t border-border/50" id="main-footer">
+      <div className="container-boutique py-24 lg:py-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+          {/* Column 1: Brand Identity */}
+          <div className="space-y-8">
+            <div className="flex items-center gap-4">
+              <div className="relative w-12 h-12 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/10 p-1">
+                <img src="/logo.png" alt="Sashaa Logo" className="w-full h-full object-contain" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-primary leading-tight" style={{ fontFamily: "var(--font-heading)" }}>
+                  Sashaa Boutiques
+                </h3>
+                <p className="text-[9px] tracking-[0.2em] uppercase text-primary-dark font-bold mt-0.5">
+                  Timeless Elegance
+                </p>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed text-white/60 mb-6">
-              Crafting elegant, custom fashion that empowers and inspires women
-              to embrace their unique style. Premium collections curated from
-              the heart of Chennai.
+            <p className="text-sm tracking-wide leading-relaxed text-dark font-medium opacity-70">
+              A sanctuary of refined taste in Chennai. We craft more than just fashion; we craft the confidence that comes with artisanal care.
             </p>
-            {/* Social Icons */}
-            <div className="flex gap-3">
-              <a
-                href={siteConfig.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-md border border-white/20 flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300"
-                aria-label="Instagram"
-                id="footer-instagram"
-              >
-                <Instagram size={16} />
-              </a>
-              <a
-                href={siteConfig.social.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-md border border-white/20 flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300"
-                aria-label="Facebook"
-                id="footer-facebook"
-              >
-                <Facebook size={16} />
-              </a>
-              <a
-                href={siteConfig.social.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-md border border-white/20 flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300"
-                aria-label="YouTube"
-                id="footer-youtube"
-              >
-                <Youtube size={16} />
-              </a>
+            <div className="flex gap-4">
+              {[
+                { icon: Instagram, href: siteConfig.social.instagram, label: "Instagram" },
+                { icon: Facebook, href: siteConfig.social.facebook, label: "Facebook" },
+                { icon: Youtube, href: siteConfig.social.youtube, label: "YouTube" }
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full border border-primary/10 flex items-center justify-center hover:bg-primary text-dark hover:text-white transition-all duration-300 shadow-sm"
+                  aria-label={social.label}
+                >
+                  <social.icon size={18} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3
-              className="text-white text-lg font-bold uppercase tracking-[0.1em] mb-7"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Quick Links
+          {/* Column 2: Discover */}
+          <div className="space-y-8">
+            <h3 className="text-lg font-black uppercase tracking-[0.2em] text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+              Discover
             </h3>
-            <nav className="space-y-3">
+            <nav className="flex flex-col gap-4">
               {siteConfig.navigation.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="flex items-center gap-2 text-sm text-white/60 hover:text-primary transition-colors group"
+                  className="flex items-center gap-2 text-sm tracking-wide text-dark hover:text-primary transition-colors font-medium group"
                 >
-                  <ArrowRight
-                    size={12}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
+                  <ChevronRight size={14} className="text-primary/40 group-hover:text-primary transition-colors" />
                   {link.name}
                 </Link>
               ))}
-              <Link
-                href="/collections"
-                className="flex items-center gap-2 text-sm text-white/60 hover:text-secondary transition-colors group"
-              >
-                <ArrowRight
-                  size={12}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-                Shop All
+            </nav>
+          </div>
+
+          {/* Column 3: Collections */}
+          <div className="space-y-8">
+            <h3 className="text-lg font-black uppercase tracking-[0.2em] text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+              Collections
+            </h3>
+            <nav className="flex flex-col gap-4">
+              {[
+                { name: "Silk Maxis", href: "/collections?category=maxis" },
+                { name: "Designer Sarees", href: "/collections?category=sarees" },
+                { name: "Premium Tops", href: "/collections?category=tops" },
+                { name: "Elegant Kurtis", href: "/collections?category=kurtis" }
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-2 text-sm tracking-wide text-dark hover:text-primary transition-colors font-medium group"
+                >
+                  <ChevronRight size={14} className="text-primary/40 group-hover:text-primary transition-colors" />
+                  {item.name}
+                </Link>
+              ))}
+              <Link href="/collections" className="text-sm tracking-wide text-primary font-bold hover:underline w-fit mt-2 italic flex items-center gap-1">
+                <ChevronRight size={14} />
+                View All Sets
               </Link>
             </nav>
           </div>
 
-          {/* Contact Us */}
-          <div>
-            <h3
-              className="text-white text-lg font-bold uppercase tracking-[0.1em] mb-7"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Contact Us
+          {/* Column 4: Reach Us */}
+          <div className="space-y-8">
+            <h3 className="text-lg font-black uppercase tracking-[0.2em] text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+              Reach Us
             </h3>
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <MapPin
-                  size={16}
-                  className="text-secondary mt-1 flex-shrink-0"
-                />
-                <p className="text-sm text-white/60">
+            <div className="space-y-6">
+              <div className="flex items-start gap-3">
+                <MapPin size={18} className="text-primary flex-shrink-0 mt-0.5" />
+                <p className="text-sm tracking-wide text-dark font-medium leading-relaxed">
                   {siteConfig.contact.address}
                 </p>
               </div>
-              <div className="flex gap-3 items-center">
-                <Phone size={16} className="text-secondary flex-shrink-0" />
-                <a
-                  href={`tel:${siteConfig.contact.phone}`}
-                  className="text-sm text-white/60 hover:text-secondary transition-colors"
-                >
+              <div className="flex flex-col gap-3">
+                <a href={`tel:${siteConfig.contact.phone}`} className="flex items-center gap-3 text-sm tracking-wide text-dark hover:text-primary transition-colors font-medium">
+                  <Phone size={18} className="text-primary" />
                   {siteConfig.contact.phone}
                 </a>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Phone size={16} className="inline opacity-0 w-0" /> {/* Spacer */}
-                <a
-                  href={`tel:${siteConfig.contact.phone2}`}
-                  className="text-sm text-white/60 hover:text-secondary transition-colors"
-                >
-                  {siteConfig.contact.phone2}
-                </a>
-              </div>
-              <div className="flex gap-3 items-center">
-                <Mail size={16} className="text-secondary flex-shrink-0" />
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="text-sm text-white/60 hover:text-secondary transition-colors"
-                >
+                <a href={`mailto:${siteConfig.contact.email}`} className="flex items-center gap-3 text-sm tracking-wide text-dark hover:text-primary transition-colors font-medium">
+                  <Mail size={18} className="text-primary" />
                   {siteConfig.contact.email}
                 </a>
               </div>
-              <div className="flex gap-3">
-                <Clock
-                  size={16}
-                  className="text-secondary mt-1 flex-shrink-0"
-                />
-                <p className="text-sm text-white/60">
-                  {siteConfig.contact.hours}
-                </p>
+              <div className="pt-4 border-t border-border/50">
+                <div className="flex items-start gap-3">
+                  <Clock size={18} className="text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-xs tracking-wide text-dark/70 font-medium italic">
+                    {siteConfig.contact.hours}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3
-              className="text-white text-sm font-semibold uppercase tracking-wider mb-6"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Newsletter
-            </h3>
-            <p className="text-sm text-white/60 mb-4">
-              Subscribe to get the latest updates on our collections and
-              exclusive offers.
-            </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex gap-0"
-              id="newsletter-form"
-            >
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 bg-white/10 border border-white/20 px-4 py-2.5 text-sm text-white placeholder-white/40 rounded-l focus:outline-none focus:border-secondary"
-                id="newsletter-email"
-              />
-              <button
-                type="submit"
-                className="bg-primary hover:bg-primary-dark px-4 py-2.5 text-sm font-medium rounded-r transition-colors"
-                id="newsletter-submit"
-              >
-                Subscribe
-              </button>
-            </form>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/5">
-        <div className="container-boutique py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30">
-            © {currentYear} Sashaa Boutiques. All rights reserved.
+      {/* Bottom Bar: Copyright Only */}
+      <div className="border-t border-border/10">
+        <div className="container-boutique py-12 text-center">
+          <p className="text-xs font-bold tracking-widest uppercase text-dark/40">
+            © 2026 Sasha boutique. All rights reserved.
           </p>
-
         </div>
       </div>
     </footer>

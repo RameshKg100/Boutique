@@ -51,8 +51,8 @@ export default function Navbar() {
 
             {/* Logo */}
             <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
-              <Link href="/" className="flex items-center gap-3" id="brand-logo">
-                <div className="relative w-10 h-10 md:w-12 md:h-12 overflow-hidden rounded-lg">
+              <Link href="/" className="flex items-center gap-4" id="brand-logo">
+                <div className="relative w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1">
                   <Image 
                     src="/logo.png" 
                     alt="Sashaa Boutiques Logo" 
@@ -62,7 +62,7 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-col items-start whitespace-nowrap">
                   <span
-                    className="text-xl md:text-2xl font-bold tracking-wide leading-tight"
+                    className="text-2xl md:text-4xl font-black tracking-tight leading-none"
                     style={{
                       fontFamily: "var(--font-heading)",
                       color: "var(--color-primary)",
@@ -71,8 +71,8 @@ export default function Navbar() {
                     Sashaa
                   </span>
                   <span
-                    className="text-[10px] md:text-xs tracking-[0.3em] uppercase leading-tight"
-                    style={{ color: "var(--color-warm-gray)" }}
+                    className="text-[11px] md:text-sm tracking-[0.4em] uppercase leading-none mt-1 font-bold"
+                    style={{ color: "var(--color-dark)" }}
                   >
                     Boutiques
                   </span>
@@ -128,14 +128,6 @@ export default function Navbar() {
                 )}
               </Link>
 
-              <Link
-                href="/admin"
-                className="p-2 text-text hover:text-primary transition-colors ml-1 border border-primary/10 rounded-full hover:bg-primary/5"
-                id="admin-login-icon"
-                aria-label="Admin Login"
-              >
-                <User size={20} />
-              </Link>
             </div>
           </div>
         </div>
@@ -204,22 +196,9 @@ export default function Navbar() {
             ))}
           </nav>
 
-          <div className="mt-8 pt-8 border-t border-border">
-            <Link
-              href="/admin"
-              className="flex items-center gap-3 py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold text-primary hover:bg-primary-light"
-              onClick={() => setIsMobileOpen(false)}
-            >
-              <User size={18} />
-              Admin Portal / Login
-            </Link>
-          </div>
+          {/* Admin link removed from public menu as per request */}
 
-          {/* Contact Info */}
-          <div className="mt-8 text-xs text-text-light space-y-2 pb-8">
-            <p>{siteConfig.contact.phone}</p>
-            <p>{siteConfig.contact.email}</p>
-          </div>
+          {/* Contact Info removed for mobile/tablet as per request */}
         </div>
       </div>
     </>

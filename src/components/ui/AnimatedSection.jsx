@@ -7,7 +7,7 @@ export default function AnimatedSection({
   className = "",
   animation = "fade-in-up",
   delay = 0,
-  threshold = 0.1,
+  threshold = 0.01,
 }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -35,6 +35,8 @@ export default function AnimatedSection({
     "fade-in": "animate-fade-in",
     "slide-in-left": "animate-slide-in-left",
     "slide-in-right": "animate-slide-in-right",
+    "window-reveal": "animate-window-reveal",
+    "window-reveal-up": "animate-window-reveal-up",
   };
 
   return (

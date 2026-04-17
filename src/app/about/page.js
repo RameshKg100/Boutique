@@ -26,7 +26,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Banner */}
-      <section className="relative bg-cream py-20 lg:py-28" id="about-hero">
+      <section className="relative bg-cream py-16 lg:py-20" id="about-hero">
         <div className="container-boutique text-center">
           <AnimatedSection>
             <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
@@ -47,9 +47,9 @@ export default function AboutPage() {
       </section>
 
       {/* Brand Story */}
-      <section className="py-20 lg:py-28" id="brand-story">
+      <section className="py-12 lg:py-18 bg-white" id="brand-story">
         <div className="container-boutique">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
             <AnimatedSection animation="slide-in-left">
               <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
                 <Image
@@ -66,7 +66,7 @@ export default function AboutPage() {
                 Our Beginning
               </span>
               <h2
-                className="text-3xl md:text-4xl font-black mt-3 mb-6"
+                className="text-3xl md:text-4xl font-black mt-2 mb-4"
                 style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
               >
                 Born from a Love of Fashion
@@ -95,7 +95,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 lg:py-28 bg-primary-light/30" id="mission-vision">
+      <section className="py-12 lg:py-18 bg-cream border-y border-border/10" id="mission-vision">
         <div className="container-boutique">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <AnimatedSection delay={0}>
@@ -145,8 +145,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-20 lg:py-28" id="our-journey">
+      {/* Tree-wise Vertical Timeline */}
+      <section className="py-12 lg:py-18 bg-white" id="our-journey">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -154,44 +154,61 @@ export default function AboutPage() {
               subtitle="Key milestones that have shaped the Sashaa Boutiques story."
             />
           </AnimatedSection>
-          <div className="max-w-3xl mx-auto">
-            {milestones.map((milestone, index) => (
-              <AnimatedSection key={milestone.year} delay={index * 100}>
-                <div className="flex gap-6 mb-10 last:mb-0">
-                  <div className="flex flex-col items-center">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
-                      style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-secondary))" }}
-                    >
-                      {milestone.year.slice(2)}
+          
+          <div className="max-w-4xl mx-auto relative px-2 sm:px-4">
+            {/* Vertical Line (The Tree Trunk) - Visible on all screens */}
+            <div className="absolute left-[31px] md:left-1/2 top-0 bottom-0 w-[2px] bg-primary/20 -translate-x-1/2" />
+            
+            <div className="space-y-12 relative">
+              {milestones.map((milestone, index) => (
+                <AnimatedSection key={milestone.year} delay={index * 100} animation={index % 2 === 0 ? "slide-in-left" : "slide-in-right"}>
+                  <div className={`group relative flex flex-col md:flex-row items-center gap-8 ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
+                    
+                    {/* Node/Year Icon - Now visible on all screens */}
+                    <div className="absolute left-[31px] md:left-1/2 top-10 md:top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                      <div 
+                        className="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-white text-xs md:text-lg font-black shadow-lg transition-transform duration-500 group-hover:scale-125 group-hover:rotate-12 border-4 border-[#FAF4F2]"
+                        style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-secondary))" }}
+                      >
+                        {milestone.year.slice(2)}
+                      </div>
                     </div>
-                    {index < milestones.length - 1 && (
-                      <div className="w-px h-full bg-border mt-2" />
-                    )}
+
+                    {/* Content Card (The Pop-up Box) */}
+                    <div className="w-full pl-16 md:pl-0 md:w-[45%]">
+                      <div className="relative bg-white p-6 md:p-8 rounded-2xl border border-primary/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(226,169,176,0.3)] overflow-hidden">
+                        {/* Hover Backdrop Pop-up Slide */}
+                        <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                        
+                        <div className="relative z-10">
+                          <span className="text-primary text-xs font-black uppercase tracking-widest mb-2 block transition-transform duration-300 group-hover:translate-x-2">
+                            {milestone.year}
+                          </span>
+                          <h3
+                            className="text-lg md:text-xl font-bold text-dark mb-2 md:mb-3 transition-colors duration-300 group-hover:text-primary"
+                            style={{ fontFamily: "var(--font-heading)" }}
+                          >
+                            {milestone.title}
+                          </h3>
+                          <p className="text-sm md:text-base text-dark/70 font-medium leading-relaxed">
+                            {milestone.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Spacer for symmetrical layout on Desktop */}
+                    <div className="hidden md:block w-[45%]" />
                   </div>
-                  <div className="pb-10">
-                    <span className="text-primary text-xs font-medium uppercase tracking-wider">
-                      {milestone.year}
-                    </span>
-                    <h3
-                      className="text-lg font-bold text-dark mt-1 mb-2"
-                      style={{ fontFamily: "var(--font-heading)" }}
-                    >
-                      {milestone.title}
-                    </h3>
-                    <p className="text-sm text-text/70 leading-relaxed">
-                      {milestone.description}
-                    </p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
+                </AnimatedSection>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-20 lg:py-28 bg-secondary/10" id="our-values">
+      <section className="py-12 lg:py-18 bg-cream border-y border-border/10" id="our-values">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
