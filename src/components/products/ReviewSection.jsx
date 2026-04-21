@@ -5,7 +5,7 @@ import { Star, MessageSquare, User, Calendar, Send } from "lucide-react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 
 const ReviewItem = ({ review }) => (
-  <div className="bg-cream/40 rounded-2xl p-6 border border-border/30 mb-4 transition-all hover:bg-white hover:shadow-md">
+  <div className="bg-cream/40 rounded-2xl p-6 border border-border/30 mb-4 transition-all duration-300 transform hover:scale-105 hover:bg-white hover:shadow-xl hover:-translate-y-1 z-10 relative">
     <div className="flex justify-between items-start mb-4">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">

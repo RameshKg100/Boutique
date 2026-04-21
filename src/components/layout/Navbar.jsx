@@ -6,11 +6,23 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { Menu, X, ShoppingBag, Heart, User } from "lucide-react";
+import { Menu, X, ShoppingBag, Heart, User, Home, Info, Layers, Sparkles, Star, Phone } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  const getNavIcon = (name) => {
+    switch(name) {
+      case "Home": return <Home size={18} />;
+      case "About Us": return <Info size={18} />;
+      case "Collections": return <Layers size={18} />;
+      case "Services": return <Sparkles size={18} />;
+      case "Reviews": return <Star size={18} />;
+      case "Contact": return <Phone size={18} />;
+      default: return null;
+    }
+  };
   const pathname = usePathname();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
@@ -185,13 +197,14 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold block ${
+                className={`py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold flex items-center gap-3 ${
                   pathname === link.href
                     ? "bg-primary/10 text-primary"
                     : "text-text hover:bg-primary/5 hover:text-primary"
                 }`}
               >
-                {link.name}
+                {getNavIcon(link.name)}
+                <span>{link.name}</span>
               </Link>
             ))}
           </nav>
