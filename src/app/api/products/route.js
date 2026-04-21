@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseAdmin } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
@@ -28,20 +28,39 @@ export async function GET() {
     if (supabase) {
       const { data: products, error } = await supabase
         .from('products')
-        .select('*')
-        .order('id', { ascending: true });
+        .select(`
+          *,
+          category:categories(name, slug)
+        `)
+        .order('created_at', { ascending: false });
         
       if (error) {
         console.error("Supabase GET error:", error);
         return NextResponse.json(readLocalProducts());
       }
-      return NextResponse.json(products || []);
+
+      // Map snake_case to camelCase and extract category name
+      const mappedProducts = products.map(p => ({
+        ...p,
+        category: p.category?.slug || 'all',
+        categoryName: p.category?.name || 'Uncategorized',
+        shortDescription: p.short_description,
+        originalPrice: p.original_price,
+        isFeatured: p.is_featured,
+        isNew: p.is_new,
+        inStock: p.in_stock,
+        // Keep the original fields just in case
+      }));
+
+      return NextResponse.json(mappedProducts);
     }
     return NextResponse.json(readLocalProducts());
   } catch (error) {
+    console.error("API GET Catch error:", error);
     return NextResponse.json(readLocalProducts());
   }
 }
+
 
 export async function POST(request) {
   try {
@@ -52,15 +71,34 @@ export async function POST(request) {
         : newProduct.slug;
         
     const productData = {
-        ...newProduct,
+        name: newProduct.name,
         slug: generatedSlug,
-        rating: newProduct.rating || 0,
-        reviews: newProduct.reviews || 0,
+        description: newProduct.description,
+        short_description: newProduct.shortDescription,
+        price: newProduct.price,
+        original_price: newProduct.originalPrice,
+        images: newProduct.images || [],
+        sizes: newProduct.sizes || [],
+        colors: newProduct.colors || [],
+        is_featured: newProduct.isFeatured || false,
+        is_new: newProduct.isNew || false,
+        in_stock: newProduct.inStock || true,
     };
 
-    if (supabase) {
-      if (newProduct.id) {
-         const { data, error } = await supabase
+    if (supabaseAdmin) {
+      // 1. Get Category ID from slug
+      const { data: catData, error: catError } = await supabaseAdmin
+        .from('categories')
+        .select('id')
+        .eq('slug', newProduct.category)
+        .single();
+      
+      if (catData) {
+        productData.category_id = catData.id;
+      }
+
+      if (newProduct.id && isNaN(newProduct.id)) { // UUID check
+         const { data, error } = await supabaseAdmin
            .from('products')
            .update(productData)
            .eq('id', newProduct.id)
@@ -69,11 +107,8 @@ export async function POST(request) {
          if (error) throw error;
          return NextResponse.json({ success: true, product: data[0] });
       } else {
-         if (!productData.id) {
-           delete productData.id;
-         }
-         
-         const { data, error } = await supabase
+         // If it's a new product or has a numeric ID (from local storage)
+         const { data, error } = await supabaseAdmin
            .from('products')
            .insert([productData])
            .select();
@@ -83,26 +118,28 @@ export async function POST(request) {
       }
     } else {
       let products = readLocalProducts();
+      const localProductData = {
+        ...newProduct,
+        slug: generatedSlug,
+        rating: newProduct.rating || 0,
+        reviews: newProduct.reviews || 0,
+      };
       
       if (newProduct.id) {
-        const index = products.findIndex((p) => Number(p.id) === Number(newProduct.id));
+        const index = products.findIndex((p) => String(p.id) === String(newProduct.id));
         if (index !== -1) {
-          const updatedProduct = { 
-            ...products[index], 
-            ...productData
-          };
-          products[index] = updatedProduct;
+          products[index] = { ...products[index], ...localProductData };
         } else {
-          products.push(productData);
+          products.push(localProductData);
         }
       } else {
-        const maxId = products.reduce((max, p) => (p.id > max ? p.id : max), 0);
-        productData.id = maxId + 1;
-        products.push(productData);
+        const maxId = products.reduce((max, p) => (Number(p.id) > max ? Number(p.id) : max), 0);
+        localProductData.id = maxId + 1;
+        products.push(localProductData);
       }
 
       writeLocalProducts(products);
-      return NextResponse.json({ success: true, product: productData });
+      return NextResponse.json({ success: true, product: localProductData });
     }
   } catch (error) {
     console.error("POST error:", error);
@@ -119,8 +156,8 @@ export async function DELETE(request) {
       return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
     }
 
-    if (supabase) {
-      const { error } = await supabase
+    if (supabaseAdmin) {
+      const { error } = await supabaseAdmin
         .from('products')
         .delete()
         .eq('id', id);
@@ -129,7 +166,7 @@ export async function DELETE(request) {
       return NextResponse.json({ success: true });
     } else {
       let products = readLocalProducts();
-      products = products.filter(p => Number(p.id) !== Number(id));
+      products = products.filter(p => String(p.id) !== String(id));
       writeLocalProducts(products);
       return NextResponse.json({ success: true });
     }
@@ -138,3 +175,4 @@ export async function DELETE(request) {
     return NextResponse.json({ error: "Failed to delete product" }, { status: 500 });
   }
 }
+

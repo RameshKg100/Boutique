@@ -17,7 +17,8 @@ function EditProductContent() {
       try {
         const res = await fetch("/api/products", { cache: "no-store" });
         const data = await res.json();
-        const found = data.find(p => p.id === parseInt(id));
+        const found = data.find(p => String(p.id) === String(id));
+
         setProduct(found);
       } catch (error) {
         console.error("Failed to fetch product for editing:", error);
