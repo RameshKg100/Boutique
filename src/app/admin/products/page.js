@@ -6,13 +6,15 @@ import Link from "next/link";
 import { 
   Plus, 
   Search, 
-  Filter, 
   Edit2, 
   Trash2, 
   ExternalLink,
-  ChevronLeft,
-  ChevronRight,
-  Loader2
+  Loader2,
+  Filter,
+  CheckCircle2,
+  XCircle,
+  AlertCircle,
+  Star
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
@@ -41,7 +43,7 @@ export default function ProductsListPage() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this dress? This cannot be undone.")) return;
+    if (!confirm("Are you sure you want to delete this product?")) return;
     
     try {
       setIsDeleting(id);
@@ -64,142 +66,157 @@ export default function ProductsListPage() {
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ["all", ...new Set(products.map(p => p.category))];
+  const categories = ["all", "maxis", "sarees", "tops", "kurtis"];
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>Manage Collection</h1>
-          <p className="text-white/40 text-sm">You have {products.length} dresses in your catalog.</p>
-        </div>
-        <Link 
-          href="/admin/products/new" 
-          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg active:scale-95"
-        >
-          <Plus size={18} />
-          Add New Product
-        </Link>
-      </div>
-
-      {/* Filters Bar */}
-      <div className="bg-neutral-900 border border-white/5 p-4 rounded-2xl flex flex-col md:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+    <div className="space-y-6 animate-fade-in">
+      {/* Search & Action Bar */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input 
             type="text"
-            placeholder="Search by product name..."
-            className="w-full bg-black/40 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
+            placeholder="Search products by name..."
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF66A1]/20 focus:border-[#FF66A1] transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-2">
-          <Filter size={16} className="text-white/40" />
-          <select 
-            className="bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary capitalize"
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/admin/products/new" 
+            className="flex items-center gap-2 bg-[#FF66A1] hover:bg-[#D43372] text-white px-6 py-2 rounded-lg font-bold text-sm transition-all shadow-sm active:scale-95"
           >
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
+            <Plus size={18} />
+            Add Product
+          </Link>
         </div>
       </div>
 
-      {/* Products Table */}
-      <div className="bg-neutral-900 border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-black/20 border-b border-white/5 text-white/40 text-[10px] uppercase tracking-widest">
-                <th className="px-6 py-4 font-semibold">Product</th>
-                <th className="px-6 py-4 font-semibold">Category</th>
-                <th className="px-6 py-4 font-semibold">Price</th>
-                <th className="px-6 py-4 font-semibold">Status</th>
-                <th className="px-6 py-4 font-semibold text-right">Actions</th>
+      {/* Category Tabs */}
+      <div className="flex flex-wrap items-center gap-6 border-b border-gray-200 pb-2">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setCategoryFilter(cat)}
+            className={`px-6 py-4 text-xl font-black transition-all relative border-b-4 
+              ${categoryFilter === cat 
+                ? "text-[#FF66A1] border-[#FF66A1]" 
+                : "text-gray-400 border-transparent hover:text-gray-600 hover:border-gray-200"
+              }`}
+          >
+            {cat === "all" ? "All Collections" : cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {/* Table Section */}
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        {/* Desktop View */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4">Product Info</th>
+                <th className="px-6 py-4">Category</th>
+                <th className="px-6 py-4">Price</th>
+                <th className="px-6 py-4">Stock Status</th>
+                <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
                   <td colSpan="5" className="px-6 py-20 text-center">
-                    <Loader2 className="animate-spin mx-auto text-primary mb-2" size={32} />
-                    <p className="text-white/40 italic">Loading collection...</p>
+                    <Loader2 className="animate-spin mx-auto text-[#FF66A1] mb-2" size={32} />
+                    <p className="text-gray-400 text-sm font-medium">Fetching inventory...</p>
                   </td>
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-20 text-center text-white/40 italic">
-                    No products found matching your criteria.
-                  </td>
+                  <td colSpan="5" className="px-6 py-20 text-center text-gray-400 font-medium">No products found in this category.</td>
                 </tr>
               ) : (
                 filteredProducts.map((p) => (
-                  <tr key={p.id} className="hover:bg-white/[0.02] transition-colors group">
+                  <tr key={p.id} className="hover:bg-gray-50 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-16 relative rounded overflow-hidden bg-black/50 flex-shrink-0 border border-white/5">
-                          <Image 
-                            src={p.images[0] || "/placeholder.jpg"} 
-                            alt={p.name} 
-                            fill
-                            className="object-cover"
-                          />
+                        <div className="w-12 h-14 relative rounded-lg overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0 shadow-sm">
+                          <Image src={p.images[0] || "/placeholder.jpg"} alt={p.name} fill className="object-cover" />
                         </div>
-                        <div>
-                          <div className="font-bold text-white text-sm line-clamp-1">{p.name}</div>
-                          <div className="text-[10px] text-white/20 font-mono tracking-tighter uppercase">ID: {p.id}</div>
+                        <div className="min-w-0">
+                          <div className="font-bold text-gray-900 truncate hover:text-[#FF66A1] transition-colors">{p.name}</div>
+                          <div className="text-[10px] text-gray-400 font-medium mt-0.5">SKU: {p.id.slice(0, 8).toUpperCase()}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-white/60 capitalize">
-                        {p.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 font-medium text-sm">
-                      {formatPrice(p.price)}
+                      <span className="text-sm font-bold px-4 py-1.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200 capitalize">{p.category}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex flex-col gap-1">
-                        {p.isFeatured && <span className="text-[10px] text-yellow-500 font-bold uppercase tracking-tighter flex items-center gap-1">• Featured</span>}
-                        {p.isNew && <span className="text-[10px] text-primary font-bold uppercase tracking-tighter flex items-center gap-1">• New</span>}
-                        {!p.inStock && <span className="text-[10px] text-red-500 font-bold uppercase tracking-tighter flex items-center gap-1">• Out of Stock</span>}
+                       <p className="font-bold text-gray-900">{formatPrice(p.price)}</p>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1.5">
+                        {p.inStock ? (
+                          <div className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-600">
+                             <CheckCircle2 size={12} /> In Stock
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5 text-[10px] font-bold text-rose-600">
+                             <XCircle size={12} /> Out of Stock
+                          </div>
+                        )}
+                        {p.isFeatured && (
+                          <div className="flex items-center gap-1.5 text-[10px] font-bold text-amber-500">
+                             <Star size={12} className="fill-amber-500" /> Featured
+                          </div>
+                        )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-right space-x-2">
-                      <Link 
-                        href={`/collections/${p.slug}`}
-                        target="_blank"
-                        className="inline-flex p-2 rounded-lg bg-white/5 hover:bg-blue-500/10 hover:text-blue-400 transition-all"
-                        title="View Live"
-                      >
-                        <ExternalLink size={16} />
-                      </Link>
-                      {/* Edit would typically pass state or ID to the form page */}
-                      <Link 
-                        href={`/admin/products/edit?id=${p.id}`}
-                        className="inline-flex p-2 rounded-lg bg-white/5 hover:bg-primary/20 hover:text-primary transition-all"
-                        title="Edit Details"
-                      >
-                        <Edit2 size={16} />
-                      </Link>
-                      <button 
-                        onClick={() => handleDelete(p.id)}
-                        disabled={isDeleting === p.id}
-                        className="inline-flex p-2 rounded-lg bg-white/5 hover:bg-red-500/20 hover:text-red-500 transition-all disabled:opacity-50"
-                        title="Delete Product"
-                      >
-                        {isDeleting === p.id ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
-                      </button>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                        <Link href={`/collections/${p.slug}`} target="_blank" className="p-2 text-gray-500 hover:text-[#FF66A1] hover:bg-pink-50 rounded-lg transition-all" title="View Live"><ExternalLink size={16} /></Link>
+                        <Link href={`/admin/products/edit?id=${p.id}`} className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" title="Edit"><Edit2 size={16} /></Link>
+                        <button onClick={() => handleDelete(p.id)} className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all" title="Delete"><Trash2 size={16} /></button>
+                      </div>
                     </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Look (Cards) */}
+        <div className="md:hidden divide-y divide-gray-100">
+          {filteredProducts.map((p) => (
+             <div key={p.id} className="p-4 space-y-4 hover:bg-gray-50 transition-colors">
+                <div className="flex items-center gap-4">
+                    <div className="w-20 h-24 relative rounded-lg overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0">
+                      <Image src={p.images[0] || "/placeholder.jpg"} alt={p.name} fill className="object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                       <p className="text-[12px] font-bold text-[#FF66A1] uppercase tracking-wider mb-0.5">{p.category}</p>
+                       <h4 className="font-bold text-gray-900 line-clamp-1">{p.name}</h4>
+                       <p className="font-black text-gray-900 mt-1">{formatPrice(p.price)}</p>
+                    </div>
+                </div>
+                <div className="flex items-center justify-between pt-2">
+                   <div className="flex gap-4">
+                      <Link href={`/admin/products/edit?id=${p.id}`} className="flex items-center gap-1.5 text-xs font-bold text-blue-600">
+                         <Edit2 size={14} /> Edit
+                      </Link>
+                      <button onClick={() => handleDelete(p.id)} className="flex items-center gap-1.5 text-xs font-bold text-rose-600">
+                         <Trash2 size={14} /> Delete
+                      </button>
+                   </div>
+                   <Link href={`/collections/${p.slug}`} target="_blank" className="text-gray-400">
+                      <ExternalLink size={16} />
+                   </Link>
+                </div>
+             </div>
+          ))}
         </div>
       </div>
     </div>

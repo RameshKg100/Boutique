@@ -31,29 +31,27 @@ function EditProductContent() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-96">
-        <Loader2 className="animate-spin text-primary mb-4" size={48} />
-        <p className="text-white/40 italic">Loading dress details...</p>
+      <div className="flex flex-col items-center justify-center py-40">
+        <Loader2 className="animate-spin text-[#FF66A1] mb-6" size={48} />
+        <p className="text-gray-400 font-medium italic">Retrieving collection details...</p>
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-2">Product Not Found</h2>
-        <p className="text-white/40">The dress you are trying to edit does not exist.</p>
+      <div className="text-center py-40 bg-white rounded-xl border border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Item Not Located</h2>
+        <p className="text-gray-500 font-medium">The product you are attempting to modify could not be found.</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-          Edit Dress Details
-        </h1>
-        <p className="text-white/40">Update information and images for "{product.name}".</p>
+        <h2 className="text-3xl font-bold text-gray-900">Refine Collection Item</h2>
+        <p className="text-gray-500 mt-1 font-medium italic">Modifying "{product.name}"</p>
       </div>
       <ProductForm mode="edit" initialData={product} />
     </div>
@@ -62,7 +60,11 @@ function EditProductContent() {
 
 export default function EditProductPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+       <div className="flex flex-col items-center justify-center py-40">
+          <Loader2 className="animate-spin text-[#FF66A1]" size={40} />
+       </div>
+    }>
       <EditProductContent />
     </Suspense>
   );

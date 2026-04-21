@@ -9,7 +9,8 @@ import {
   Loader2, 
   CheckCircle2, 
   AlertCircle,
-  Star
+  Star,
+  User as UserIcon
 } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -86,7 +87,7 @@ export default function EditReviewPage() {
       });
       if (res.ok) {
         setStatus({ type: "success", message: "Review updated successfully!" });
-        setTimeout(() => router.push("/admin/reviews"), 2000);
+        setTimeout(() => router.push("/admin/reviews"), 1500);
       }
     } catch (error) {
       setStatus({ type: "error", message: "Failed to update review." });
@@ -97,166 +98,151 @@ export default function EditReviewPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20">
-        <Loader2 className="animate-spin text-primary mb-4" size={40} />
-        <p className="text-white/40">Loading review details...</p>
+      <div className="flex flex-col items-center justify-center py-40">
+        <Loader2 className="animate-spin text-[#FF66A1] mb-4" size={40} />
+        <p className="text-gray-400 font-medium italic">Loading feedback records...</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto pb-20">
-      <div className="mb-8">
+    <div className="max-w-5xl mx-auto space-y-6 pb-20 font-sans animate-fade-in">
+      {/* Header / Actions Sidebar Style */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm sticky top-20 z-40">
         <Link 
           href="/admin/reviews" 
-          className="inline-flex items-center gap-2 text-white/40 hover:text-primary mb-4 transition-colors group"
+          className="flex items-center gap-2 text-gray-500 hover:text-[#FF66A1] transition-all font-bold text-sm"
         >
-          <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          Back to List
+          <ChevronLeft size={18} />
+          Review Catalog
         </Link>
-        <h1 className="text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-          Edit Testimonial
-        </h1>
-        <p className="text-white/40 mt-1">Refine customer feedback and update profile images.</p>
+        <button
+          onClick={handleSubmit}
+          disabled={saving || uploading}
+          className="w-full sm:w-auto bg-[#FF66A1] hover:bg-[#D43372] text-white px-8 py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-50"
+        >
+          {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
+          Save Changes
+        </button>
       </div>
 
       {status.message && (
-        <div className={`mb-8 p-4 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300 ${
-          status.type === "success" ? "bg-green-500/10 border border-green-500/20 text-green-400" : "bg-red-500/10 border border-red-500/20 text-red-500"
+        <div className={`p-4 rounded-lg flex items-center gap-3 font-bold text-sm ${
+          status.type === "success" ? "bg-green-50 border border-green-100 text-green-600" : "bg-red-50 border border-red-100 text-red-600"
         }`}>
-          {status.type === "primary" ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+          {status.type === "success" ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
           {status.message}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Avatar Section */}
-          <div className="md:col-span-1">
-            <div className="bg-neutral-900 border border-white/5 p-6 rounded-3xl text-center">
-              <span className="block text-xs uppercase tracking-widest text-white/40 font-bold mb-4">Customer Profile</span>
-              <div className="relative w-32 h-32 mx-auto mb-6">
-                <div className="w-full h-full rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center overflow-hidden shadow-2xl">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Profile Card */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
+               <UserIcon size={16} className="text-[#FF66A1]" />
+               <h3 className="text-gray-900 font-bold text-sm">Reviewer Persona</h3>
+            </div>
+            <div className="p-8 text-center">
+              <div className="relative w-32 h-32 mx-auto mb-6 group">
+                <div className="w-full h-full rounded-2xl bg-gray-50 border-2 border-gray-100 flex items-center justify-center overflow-hidden shadow-inner group-hover:border-[#FF66A1]/30 transition-all">
                   {formData.avatar?.startsWith("http") ? (
                     <img src={formData.avatar} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-3xl font-black text-primary">{formData.avatar || "??"}</span>
+                    <span className="text-4xl font-black text-[#FF66A1]">{formData.avatar || "??"}</span>
                   )}
                 </div>
                 {uploading && (
-                  <div className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center">
-                    <Loader2 className="animate-spin text-white" size={24} />
+                  <div className="absolute inset-0 bg-white/80 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                    <Loader2 className="animate-spin text-[#FF66A1]" size={24} />
                   </div>
                 )}
               </div>
               
-              <label className="block">
-                <span className="sr-only">Choose profile photo</span>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="block w-full text-sm text-white/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 transition-all cursor-pointer"
-                />
+              <label className="inline-flex items-center gap-2 bg-gray-50 hover:bg-[#FF66A1] hover:text-white text-gray-600 text-xs font-black px-4 py-2 rounded-lg cursor-pointer border border-gray-200 transition-all">
+                <Upload size={14} />
+                Modify Profile Image
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </label>
-              <p className="text-[10px] text-white/20 mt-4 leading-relaxed">
-                Suggested size: 200x200px. JPG, PNG or WebP.
+              <p className="text-[10px] text-gray-400 mt-4 leading-relaxed font-bold uppercase tracking-widest">
+                256 x 256 Recommended
               </p>
             </div>
           </div>
 
-          {/* Details Section */}
-          <div className="md:col-span-2 space-y-6 bg-neutral-900 border border-white/5 p-8 rounded-3xl">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-white/60">Customer Name</label>
+          <div className="bg-blue-900 p-6 rounded-xl text-white shadow-xl shadow-blue-900/20 relative overflow-hidden">
+             <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -translate-y-8 translate-x-8" />
+             <h4 className="text-sm font-bold mb-2">Testimonial Impact</h4>
+             <p className="text-xs text-blue-100 leading-relaxed">Reviews with photos generate 48% more conversion on product pages.</p>
+          </div>
+        </div>
+
+        {/* Content Section */}
+        <div className="lg:col-span-8 space-y-6">
+          <div className="bg-white border border-gray-200 rounded-xl p-8 space-y-8 shadow-sm">
+            <div className="border-b border-gray-100 pb-4">
+               <h3 className="text-lg font-bold text-gray-900">Feedback Details</h3>
+               <p className="text-xs text-gray-400 font-medium mt-1">Ensure the customer's voice is accurately reflected.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider ml-1">Customer Name</label>
                 <input 
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary outline-none transition-all"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3.5 text-gray-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#FF66A1]/10 focus:border-[#FF66A1] transition-all"
                   placeholder="e.g. Priya Raghavan"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-white/60">Location</label>
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider ml-1">Location Origin</label>
                 <input 
                   type="text"
                   required
                   value={formData.location}
                   onChange={(e) => setFormData({...formData, location: e.target.value})}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary outline-none transition-all"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3.5 text-gray-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#FF66A1]/10 focus:border-[#FF66A1] transition-all"
                   placeholder="e.g. Chennai, Tamil Nadu"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-white/60">Rating (1-5)</label>
-                <div className="flex items-center gap-4">
-                  <input 
-                    type="range"
-                    min="1"
-                    max="5"
-                    step="1"
-                    value={formData.rating}
-                    onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})}
-                    className="flex-1 accent-primary"
-                  />
-                  <div className="flex items-center gap-2 bg-primary/20 text-primary px-3 py-1 rounded-lg font-bold">
-                    <Star size={14} fill="currentColor" />
-                    {formData.rating}
-                  </div>
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider ml-1">Rating Experience</label>
+              <div className="flex items-center gap-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <input 
+                  type="range"
+                  min="1"
+                  max="5"
+                  step="1"
+                  value={formData.rating}
+                  onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})}
+                  className="flex-1 accent-[#FF66A1]"
+                />
+                <div className="flex items-center gap-2 bg-[#FF66A1] text-white px-4 py-2 rounded-lg font-black shadow-lg shadow-pink-500/20">
+                  <Star size={16} fill="currentColor" />
+                  {formData.rating}.0
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-white/60">Avatar (Initials or URL)</label>
-                <input 
-                  type="text"
-                  value={formData.avatar}
-                  onChange={(e) => setFormData({...formData, avatar: e.target.value})}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary outline-none transition-all"
-                  placeholder="e.g. PR"
-                />
-              </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-white/60">Testimonial Text</label>
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider ml-1">Written Testimonial</label>
               <textarea 
                 required
-                rows={4}
+                rows={6}
                 value={formData.text}
                 onChange={(e) => setFormData({...formData, text: e.target.value})}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary outline-none transition-all resize-none"
-                placeholder="What did the customer say about Sashaa Boutiques?"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-6 py-4 text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#FF66A1]/10 focus:border-[#FF66A1] transition-all resize-none leading-relaxed"
+                placeholder="What feedback did they share?"
               />
-            </div>
-
-            <div className="pt-4">
-              <button 
-                type="submit"
-                disabled={saving}
-                className="w-full bg-primary hover:bg-white hover:text-primary text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {saving ? (
-                  <>
-                    <Loader2 className="animate-spin" size={20} />
-                    Saving Changes...
-                  </>
-                ) : (
-                  <>
-                    <Save size={20} />
-                    Update Testimonial
-                  </>
-                )}
-              </button>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

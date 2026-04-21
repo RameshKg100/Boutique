@@ -1,295 +1,185 @@
-@import "tailwindcss";
+/* ===== TYPOGRAPHY ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  --color-primary: #CFA7B5; /* Blush */
-  --color-primary-transparent: rgba(207, 167, 181, 0.1);
-  --color-primary-dark: #C88F8F; /* Dusty Rose */
-  --color-secondary: #C88F8F; /* Dusty Rose */
-  --color-accent: #CFA7B5; /* Blush */
-  --color-cream: #FAF7F2; /* Warm Cream */
-  --color-ivory: #FAF7F2;
-  --color-blush: #CFA7B5;
-  --color-rose: #C88F8F;
-  --color-warm-gray: #4E3F3F; /* Deep Taupe */
-  --color-dark: #4E3F3F; /* Deep Taupe */
-  --color-text: #4E3F3F; /* Deep Taupe */
-  --color-text-light: #3B2F2A; /* Espresso */
-  --color-border: #D8D2D2;
-  --color-gold: #C88F8F;
-  --background: #FAF7F2;
-  --foreground: #3B2F2A;
+  /* Fonts */
+  --font-inter: 'Inter', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  
+  /* Modern Professional Admin Theme */
+  --admin-bg: #F9FAFB;
+  --admin-card: #FFFFFF;
+  --admin-primary: #FF66A1; /* Brand Pink - but used more sparingly */
+  --admin-primary-dark: #D43372;
+  --admin-text-main: #111827;
+  --admin-text-muted: #6B7280;
+  --admin-border: #E5E7EB;
+  --admin-sidebar: #FFFFFF;
+  --admin-accent-bg: #FFF5F7;
+
+  /* Global variables used in project */
+  --color-primary: #FF66A1;
+  --color-primary-dark: #D43372;
+  --color-secondary: #C88F8F;
+  --color-accent: #FF99BD;
+  --color-cream: #FFF8F5;
+  --color-warm-gray: #4E3F3F;
+  --color-border: #E5E7EB;
+  --color-gold: #C6A769;
+  --background: #FFFFFF;
+  --foreground: #111827;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--color-primary);
-  --color-primary-light: var(--color-primary-light);
   --color-primary-dark: var(--color-primary-dark);
   --color-secondary: var(--color-secondary);
   --color-accent: var(--color-accent);
   --color-cream: var(--color-cream);
-  --color-ivory: var(--color-ivory);
-  --color-blush: var(--color-blush);
-  --color-rose: var(--color-rose);
   --color-warm-gray: var(--color-warm-gray);
-  --color-dark: var(--color-dark);
   --color-border: var(--color-border);
   --color-gold: var(--color-gold);
-  --font-heading: var(--font-heading);
-  --font-body: var(--font-body);
+
+  /* Admin Utility Classes */
+  --color-adm-bg: var(--admin-bg);
+  --color-adm-card: var(--admin-card);
+  --color-adm-primary: var(--admin-primary);
+  --color-adm-text: var(--admin-text-main);
+  --color-adm-muted: var(--admin-text-muted);
+  --color-adm-border: var(--admin-border);
+  --color-adm-sidebar: var(--admin-sidebar);
 }
 
 /* ===== BASE STYLES ===== */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
   overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body);
-  line-height: 1.7;
+  font-family: var(--font-inter);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+  font-family: var(--font-poppins);
+  font-weight: 800;
+  color: var(--foreground);
+  letter-spacing: -0.02em;
   line-height: 1.2;
-  color: var(--color-dark);
-  font-weight: 700;
 }
 
-/* ===== CUSTOM SCROLLBAR ===== */
-::-webkit-scrollbar {
-  width: 8px;
+p {
+  margin-bottom: 1.5rem;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-cream);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-secondary);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary-dark);
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.7s ease-out forwards;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.7s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.7s ease-out forwards;
-}
-
-.animate-window-reveal {
-  animation: windowReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-window-reveal-up {
-  animation: windowRevealUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes windowReveal {
-  0% { clip-path: inset(0 100% 0 0); }
-  100% { clip-path: inset(0 0 0 0); }
-}
-
-@keyframes windowRevealUp {
-  0% { clip-path: inset(100% 0 0 0); }
-  100% { clip-path: inset(0 0 0 0); }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-
-/* ===== PREMIUM BUTTON STYLES ===== */
-.btn-primary {
-  background: var(--color-primary);
-  color: white;
-  padding: 12px 32px;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  border: none;
-}
-
-.btn-primary:hover {
-  background: var(--color-primary-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(226, 169, 176, 0.3);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--color-primary);
-  padding: 12px 32px;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  border: 1.5px solid var(--color-primary);
-}
-
-.btn-secondary:hover {
-  background: var(--color-primary);
-  color: white;
-  transform: translateY(-1px);
-}
-
-/* ===== GLASS EFFECT ===== */
-.glass {
-  background: var(--color-cream);
-  border: 1px solid var(--color-border);
-}
-
-/* ===== GRADIENT OVERLAY ===== */
-.gradient-overlay {
-  background: linear-gradient(135deg, rgba(207, 167, 181, 0.05) 0%, rgba(200, 143, 143, 0.05) 100%);
-}
-
-/* ===== SELECTION ===== */
-::selection {
-  background: rgba(207, 167, 181, 0.3);
-  color: var(--color-dark);
-}
-
-/* ===== IMAGE HOVER ZOOM ===== */
-.img-zoom {
-  overflow: hidden;
-}
-.img-zoom img {
-  transition: transform 0.5s ease;
-}
-.img-zoom:hover img {
-  transform: scale(1.08);
-}
-
-/* ===== CARD HOVER ===== */
-.card-hover {
-  transition: all 0.3s ease;
-}
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(45, 31, 26, 0.08);
-}
-
-/* ===== DIVIDER ===== */
-.elegant-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
-}
-
-/* ===== CONTAINER ===== */
+/* ===== UTILITY CLASSES ===== */
 .container-boutique {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 20px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  max-width: 1400px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .container-boutique {
-    padding: 0 40px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .container-boutique {
-    padding: 0 60px;
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 }
 
-/* ===== UTILITIES ===== */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+@media (min-width: 1536px) {
+  .container-boutique {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
 }
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+/* Common Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(207, 167, 181, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(207, 167, 181, 0.4);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--color-warm-gray);
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-cream);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Card Hover Effects */
+.card-hover {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Admin Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E5E7EB;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #D1D5DB;
 }

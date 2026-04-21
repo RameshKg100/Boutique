@@ -6,12 +6,11 @@ import {
   MapPin, 
   Trash2, 
   Edit3, 
-  Plus, 
   Loader2,
-  ChevronLeft,
   Search,
   CheckCircle2,
-  XCircle
+  XCircle,
+  MessageSquare
 } from "lucide-react";
 import Link from "next/link";
 
@@ -44,108 +43,154 @@ export default function AdminReviewsPage() {
   );
 
   return (
-    <div className="space-y-8 pb-20">
-      {/* Header */}
+    <div className="space-y-6 animate-fade-in">
+      {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <Link 
-            href="/admin" 
-            className="inline-flex items-center gap-2 text-white/40 hover:text-primary mb-4 transition-colors group"
-          >
-            <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-            Back to Dashboard
-          </Link>
-          <h1 className="text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-            Customer Reviews
-          </h1>
-          <p className="text-white/40 mt-1">Manage testimonials and update profile pictures.</p>
+          <h2 className="text-3xl font-bold text-gray-900">Customer Feedback</h2>
+          <p className="text-gray-500 mt-1">Monitor and manage your boutique's reputation.</p>
         </div>
       </div>
 
-      {/* Action Bar */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+      {/* Control Bar */}
+      <div className="flex flex-col sm:flex-row gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+        <div className="relative flex-1 group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#FF66A1] transition-colors" size={18} />
           <input
             type="text"
             placeholder="Search by name or content..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-neutral-900 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white"
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg py-2.5 pl-10 pr-4 focus:border-[#FF66A1] focus:ring-2 focus:ring-[#FF66A1]/10 outline-none transition-all text-gray-900 text-sm font-medium"
           />
         </div>
       </div>
 
       {/* Status Message */}
       {statusMsg.text && (
-        <div className={`p-4 rounded-xl flex items-center gap-3 ${
-          statusMsg.type === "success" ? "bg-green-500/10 border border-green-500/20 text-green-400" : "bg-red-500/10 border border-red-500/20 text-red-500"
+        <div className={`p-4 rounded-lg flex items-center gap-3 font-bold text-sm ${
+          statusMsg.type === "success" ? "bg-green-50 border border-green-100 text-green-600" : "bg-red-50 border border-red-100 text-red-600"
         }`}>
-          {statusMsg.type === "success" ? <CheckCircle2 size={20} /> : <XCircle size={20} />}
+          {statusMsg.type === "success" ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
           {statusMsg.text}
         </div>
       )}
 
-      {/* Reviews Grid */}
-      {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-neutral-900/50 rounded-3xl border border-white/5">
-          <Loader2 className="animate-spin text-primary mb-4" size={40} />
-          <p className="text-white/40 italic">Loading your fans' words...</p>
+      {/* Reviews Table Container */}
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4">Reviewer</th>
+                <th className="px-6 py-4">Rating</th>
+                <th className="px-6 py-4">Content</th>
+                <th className="px-6 py-4">Date</th>
+                <th className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {loading ? (
+                <tr>
+                  <td colSpan="5" className="px-6 py-20 text-center">
+                    <Loader2 className="animate-spin mx-auto text-[#FF66A1] mb-2" size={32} />
+                    <p className="text-gray-400 text-sm font-medium italic">Synchronizing testimonials...</p>
+                  </td>
+                </tr>
+              ) : filteredReviews.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="px-6 py-20 text-center text-gray-400 font-medium italic">No reviews match your search.</td>
+                </tr>
+              ) : (
+                filteredReviews.map((r) => (
+                  <tr key={r.id} className="hover:bg-gray-50 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-pink-100 border border-pink-200 flex items-center justify-center overflow-hidden shrink-0">
+                            {r.avatar && r.avatar.startsWith("http") ? (
+                               <img src={r.avatar} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                               <span className="text-[#FF66A1] font-bold text-xs uppercase">{r.name.slice(0, 2)}</span>
+                            )}
+                         </div>
+                         <div className="min-w-0">
+                            <p className="font-bold text-gray-900 border-b border-transparent hover:border-[#FF66A1] transition-all cursor-default">{r.name}</p>
+                            <div className="flex items-center gap-1 text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">
+                               <MapPin size={10} className="text-[#FF66A1]" />
+                               {r.location}
+                            </div>
+                         </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                       <div className="flex items-center gap-1.5">
+                          <Star size={16} className="text-amber-400 fill-amber-400" />
+                          <span className="font-bold text-gray-900">{r.rating}</span>
+                       </div>
+                    </td>
+                    <td className="px-6 py-4 max-w-md">
+                       <p className="text-sm text-gray-600 italic line-clamp-2 leading-relaxed">"{r.text}"</p>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                       <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{r.date || "Just Now"}</span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                          <Link 
+                            href={`/admin/reviews/edit/${r.id}`}
+                            className="p-2.5 rounded-lg bg-gray-50 text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                            title="Edit Review"
+                          >
+                            <Edit3 size={18} />
+                          </Link>
+                          <button 
+                            className="p-2.5 rounded-lg bg-gray-50 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                            title="Remove Testimonial"
+                            onClick={() => alert("Deletion restricted in demo mode.")}
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                       </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
-      ) : filteredReviews.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {filteredReviews.map((review) => (
-            <div 
-              key={review.id} 
-              className="bg-neutral-900 border border-white/5 p-6 rounded-3xl hover:border-white/10 transition-all group"
-            >
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center bg-primary/10 border border-primary/20 text-primary font-black overflow-hidden shadow-inner">
-                    {review.avatar && review.avatar.startsWith("http") ? (
-                      <img src={review.avatar} alt="" className="w-full h-full object-cover" />
-                    ) : (review.avatar)}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg leading-tight">{review.name}</h3>
-                    <div className="flex items-center gap-2 text-white/40 text-xs mt-1">
-                      <MapPin size={12} />
-                      {review.location}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg">
-                  <Star size={14} className="text-yellow-400 fill-yellow-400" />
-                  <span className="text-sm font-bold">{review.rating}</span>
-                </div>
-              </div>
+      </div>
 
-              <div className="mb-6 relative">
-                <p className="text-white/60 text-sm leading-relaxed italic line-clamp-3">
-                  "{review.text}"
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between pt-6 border-t border-white/5">
-                <span className="text-[10px] uppercase tracking-widest text-white/20 font-bold">
-                  {review.date}
-                </span>
-                <div className="flex items-center gap-2">
-                  <Link 
-                    href={`/admin/reviews/edit/${review.id}`}
-                    className="p-2.5 rounded-xl bg-white/5 hover:bg-primary hover:text-white transition-all text-white/60"
-                  >
-                    <Edit3 size={18} />
-                  </Link>
-                </div>
-              </div>
+      {/* Stats Summary Panel */}
+      {!loading && reviews.length > 0 && (
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-xl border border-gray-200 flex items-center justify-between">
+               <div>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Total Mentions</p>
+                  <h4 className="text-2xl font-black text-gray-900">{reviews.length}</h4>
+               </div>
+               <div className="p-3 bg-pink-50 text-[#FF66A1] rounded-lg">
+                  <MessageSquare size={24} />
+               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-20 bg-neutral-900/50 rounded-3xl border border-white/5">
-          <p className="text-white/40">No reviews found matching your search.</p>
-        </div>
+            <div className="bg-white p-6 rounded-xl border border-gray-200 flex items-center justify-between">
+               <div>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Avg Rating</p>
+                  <h4 className="text-2xl font-black text-gray-900">4.8</h4>
+               </div>
+               <div className="p-3 bg-amber-50 text-amber-500 rounded-lg">
+                  <Star size={24} className="fill-amber-500" />
+               </div>
+            </div>
+            <div className="bg-[#111827] p-6 rounded-xl text-white flex items-center justify-between">
+               <div>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Status</p>
+                  <h4 className="text-lg font-bold">Feedback High</h4>
+               </div>
+               <div className="flex -space-x-2">
+                  {[1,2,3].map(i => <div key={i} className="w-8 h-8 rounded-full border-2 border-[#111827] bg-gray-700" />)}
+               </div>
+            </div>
+         </div>
       )}
     </div>
   );

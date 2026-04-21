@@ -1,10 +1,8 @@
 import { Cormorant_Garamond, Lato } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
-import ScrollToTop from "@/components/ui/ScrollToTop";
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -40,10 +38,9 @@ export default function RootLayout({ children }) {
       >
         <CartProvider>
           <WishlistProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <ScrollToTop />
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
           </WishlistProvider>
         </CartProvider>
       </body>
