@@ -1213,8 +1213,8 @@
   },
   {
     "id": 40,
-    "slug": "palazzo-kurti-set",
-    "name": "Palazzo Kurti Set",
+    "slug": "palazzo-kurti-set-special-",
+    "name": "Palazzo Kurti Set Special ",
     "price": 3999,
     "originalPrice": 5299,
     "category": "kurtis",
@@ -1232,10 +1232,10 @@
       "Maroon & Gold"
     ],
     "images": [
-      "https://images.unsplash.com/photo-1609357912444-1d897f29a08e?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1621012431610-8bbf4b7ab790?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d44?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1583395828681-4357492984fd?w=600&h=800&fit=crop"
+      "/uploads/1776755337899-OIP.jpg",
+      "/uploads/1776755344139-OIP.jpg",
+      "/uploads/1776755356056-Maxi2.jpg",
+      "/uploads/1776755359851-Maxi1.jpg"
     ],
     "rating": 4.8,
     "reviews": 45,
