@@ -1,33 +1,9 @@
 import { NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
+import { supabase } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
-// Cache key for products in KV
-const KV_PRODUCTS_KEY = "boutique_products";
-
-// Check if KV is configured
-const isKVEnabled = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
-
-// Fallback to local file for development
 const localFilePath = path.join(process.cwd(), "src/data/products.json");
-
-// Helper to seed KV from local JSON (only runs if KV is empty)
-const seedKVIfEmpty = async () => {
-  if (!isKVEnabled) return null;
-  try {
-    const existing = await kv.get(KV_PRODUCTS_KEY);
-    if (!existing) {
-      const localData = fs.readFileSync(localFilePath, "utf8");
-      const products = JSON.parse(localData);
-      await kv.set(KV_PRODUCTS_KEY, products);
-      return products;
-    }
-    return existing;
-  } catch (error) {
-    return null;
-  }
-};
 
 const readLocalProducts = () => {
   try {
@@ -49,15 +25,19 @@ const writeLocalProducts = (products) => {
 
 export async function GET() {
   try {
-    if (!isKVEnabled) {
-      return NextResponse.json(readLocalProducts());
+    if (supabase) {
+      const { data: products, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('id', { ascending: true });
+        
+      if (error) {
+        console.error("Supabase GET error:", error);
+        return NextResponse.json(readLocalProducts());
+      }
+      return NextResponse.json(products || []);
     }
-
-    let products = await kv.get(KV_PRODUCTS_KEY);
-    if (!products) {
-      products = await seedKVIfEmpty();
-    }
-    return NextResponse.json(products || readLocalProducts());
+    return NextResponse.json(readLocalProducts());
   } catch (error) {
     return NextResponse.json(readLocalProducts());
   }
@@ -67,50 +47,94 @@ export async function POST(request) {
   try {
     const newProduct = await request.json();
     
-    let products;
-    if (isKVEnabled) {
-      products = await kv.get(KV_PRODUCTS_KEY);
-      if (!products) products = await seedKVIfEmpty();
-    } else {
-      products = readLocalProducts();
-    }
+    const generatedSlug = newProduct.name 
+        ? newProduct.name.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "") 
+        : newProduct.slug;
+        
+    const productData = {
+        ...newProduct,
+        slug: generatedSlug,
+        rating: newProduct.rating || 0,
+        reviews: newProduct.reviews || 0,
+    };
 
-    // Update or Create
-    if (newProduct.id) {
-      const index = products.findIndex((p) => Number(p.id) === Number(newProduct.id));
-      if (index !== -1) {
-        // Update existing product
-        const updatedProduct = { 
-          ...products[index], 
-          ...newProduct,
-          // Re-generate slug if name changed
-          slug: newProduct.name ? newProduct.name.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "") : products[index].slug
-        };
-        products[index] = updatedProduct;
+    if (supabase) {
+      if (newProduct.id) {
+         const { data, error } = await supabase
+           .from('products')
+           .update(productData)
+           .eq('id', newProduct.id)
+           .select();
+           
+         if (error) throw error;
+         return NextResponse.json({ success: true, product: data[0] });
       } else {
-        products.push(newProduct);
+         if (!productData.id) {
+           delete productData.id;
+         }
+         
+         const { data, error } = await supabase
+           .from('products')
+           .insert([productData])
+           .select();
+           
+         if (error) throw error;
+         return NextResponse.json({ success: true, product: data[0] });
       }
     } else {
-      const maxId = products.reduce((max, p) => (p.id > max ? p.id : max), 0);
-      const productToSave = {
-        ...newProduct,
-        id: maxId + 1,
-        slug: newProduct.name.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, ""),
-        rating: 0,
-        reviews: 0,
-      };
-      products.push(productToSave);
-    }
+      let products = readLocalProducts();
+      
+      if (newProduct.id) {
+        const index = products.findIndex((p) => Number(p.id) === Number(newProduct.id));
+        if (index !== -1) {
+          const updatedProduct = { 
+            ...products[index], 
+            ...productData
+          };
+          products[index] = updatedProduct;
+        } else {
+          products.push(productData);
+        }
+      } else {
+        const maxId = products.reduce((max, p) => (p.id > max ? p.id : max), 0);
+        productData.id = maxId + 1;
+        products.push(productData);
+      }
 
-    // Save to Persistence
-    if (isKVEnabled) {
-      await kv.set(KV_PRODUCTS_KEY, products);
-    } else {
       writeLocalProducts(products);
+      return NextResponse.json({ success: true, product: productData });
+    }
+  } catch (error) {
+    console.error("POST error:", error);
+    return NextResponse.json({ error: "Failed to save data: " + error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true, product: newProduct });
+    if (supabase) {
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      return NextResponse.json({ success: true });
+    } else {
+      let products = readLocalProducts();
+      products = products.filter(p => Number(p.id) !== Number(id));
+      writeLocalProducts(products);
+      return NextResponse.json({ success: true });
+    }
   } catch (error) {
-    return NextResponse.json({ error: "Failed to save data" }, { status: 500 });
+    console.error("DELETE error:", error);
+    return NextResponse.json({ error: "Failed to delete product" }, { status: 500 });
   }
 }

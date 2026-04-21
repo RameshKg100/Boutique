@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
+import { supabase } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
-const KV_PRODUCTS_KEY = "boutique_products";
-const isKVEnabled = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 const localFilePath = path.join(process.cwd(), "src/data/products.json");
 
 const readLocalProducts = () => {
@@ -28,32 +26,34 @@ const writeLocalProducts = (products) => {
 export async function DELETE(request, { params }) {
   try {
     const id = parseInt(params.id);
-    let products;
 
-    if (isKVEnabled) {
-      products = await kv.get(KV_PRODUCTS_KEY);
+    if (supabase) {
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
+      }
+      return NextResponse.json({ success: true, message: "Product deleted" });
     } else {
-      products = readLocalProducts();
-    }
-    
-    if (!products) {
-      return NextResponse.json({ error: "Storage is empty" }, { status: 404 });
-    }
+      let products = readLocalProducts();
+      
+      if (!products) {
+        return NextResponse.json({ error: "Storage is empty" }, { status: 404 });
+      }
 
-    const initialLength = products.length;
-    products = products.filter((p) => Number(p.id) !== Number(id));
-    
-    if (products.length === initialLength) {
-      return NextResponse.json({ error: "Product not found" }, { status: 404 });
-    }
+      const initialLength = products.length;
+      products = products.filter((p) => Number(p.id) !== Number(id));
+      
+      if (products.length === initialLength) {
+        return NextResponse.json({ error: "Product not found" }, { status: 404 });
+      }
 
-    if (isKVEnabled) {
-      await kv.set(KV_PRODUCTS_KEY, products);
-    } else {
       writeLocalProducts(products);
+      return NextResponse.json({ success: true, message: "Product deleted" });
     }
-
-    return NextResponse.json({ success: true, message: "Product deleted" });
   } catch (error) {
     console.error("Delete error:", error);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });

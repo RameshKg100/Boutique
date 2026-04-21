@@ -73,7 +73,7 @@ export default function ReviewsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {reviews.map((review, index) => (
                 <AnimatedSection key={review.id} delay={(index % 3) * 100}>
-                  <div className="group relative bg-transparent p-6 md:p-8 rounded-2xl border-2 border-border/40 transition-all duration-300 hover:border-primary/50 h-full flex flex-col">
+                  <div className="group relative bg-transparent p-6 md:p-8 rounded-2xl border-2 border-border/40 transition-all duration-300 hover:border-primary/50 hover:scale-105 hover:shadow-lg h-full flex flex-col">
                     {/* Decorative Quote Icon */}
                     <div className="absolute top-6 right-6 text-primary/5 group-hover:text-primary/10 transition-colors">
                       <Quote size={50} fill="currentColor" />
