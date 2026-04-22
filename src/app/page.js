@@ -83,7 +83,11 @@ export default function HomePage() {
       try {
         const res = await fetch("/api/products", { cache: "no-store" });
         const data = await res.json();
-        setFeaturedProducts(data.filter(p => p.isFeatured).slice(0, 5));
+        if (Array.isArray(data)) {
+          setFeaturedProducts(data.filter(p => p.isFeatured).slice(0, 5));
+        } else {
+          console.error("API did not return an array:", data);
+        }
       } catch (error) {
         console.error("Failed to fetch featured products:", error);
       } finally {
