@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
@@ -10,18 +12,37 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function CartPage() {
-  const { items, updateQuantity, removeItem, cartTotal } = useCart();
+  const { items, updateQuantity, removeItem, cartTotal, clearCart } = useCart();
   const shipping = cartTotal > 2999 ? 0 : 150;
   const total = cartTotal + shipping;
   
-  const handleWhatsAppCheckout = () => {
+  const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "" });
+
+  const handleWhatsAppCheckout = (e) => {
+    e.preventDefault();
+    if (!customerInfo.name || !customerInfo.phone || !customerInfo.location) {
+      alert("Please fill in all details to proceed.");
+      return;
+    }
+
     const phoneNumber = siteConfig.contact.phone.replace(/[^0-9]/g, "");
     
     let message = "*Order Request from Sashaa Boutiques*\n\n";
+    
+    message += "*Customer Details:*\n";
+    message += `Name: ${customerInfo.name}\n`;
+    message += `Phone: ${customerInfo.phone}\n`;
+    message += `Location: ${customerInfo.location}\n\n`;
+
     message += "*Items:*\n";
     
     items.forEach((item) => {
-      message += `- ${item.name} (${item.size}) x ${item.quantity}: ${formatPrice(item.price * item.quantity)}\n`;
+      message += `- ${item.name}\n  Size: ${item.size} | Qty: ${item.quantity} | Price: ${formatPrice(item.price * item.quantity)}\n`;
+      if (item.slug) {
+        const productUrl = `${window.location.origin}/collections/${item.slug}`;
+        message += `  Link: ${productUrl}\n`;
+      }
     });
     
     message += `\n*Summary:*\n`;
@@ -32,6 +53,9 @@ export default function CartPage() {
     
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
+    
+    // Clear the cart after sending the order
+    clearCart();
   };
 
   if (items.length === 0) {
@@ -162,12 +186,46 @@ export default function CartPage() {
                    <p className="text-[10px] text-text/40 mt-1 text-right">Local taxes included</p>
                  </div>
 
-                 <button 
-                   onClick={handleWhatsAppCheckout}
-                   className="btn-primary w-full justify-center py-3.5 mb-4"
-                 >
-                    PROCEED TO CHECKOUT [ VIA WHATSAPP]
-                 </button>
+                 {!showCheckoutForm ? (
+                   <button 
+                     onClick={() => setShowCheckoutForm(true)}
+                     className="btn-primary w-full justify-center py-3.5 mb-4"
+                   >
+                      PROCEED TO CHECKOUT [ VIA WHATSAPP]
+                   </button>
+                 ) : (
+                   <form onSubmit={handleWhatsAppCheckout} className="space-y-3 mb-4 text-left border border-border/20 bg-white p-4 rounded-xl shadow-sm">
+                     <p className="text-sm font-bold text-dark mb-2" style={{ fontFamily: "var(--font-heading)" }}>Delivery Details</p>
+                     <input
+                       type="text"
+                       required
+                       placeholder="Full Name"
+                       className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                       value={customerInfo.name}
+                       onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
+                     />
+                     <input
+                       type="tel"
+                       required
+                       placeholder="Mobile Number"
+                       className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                       value={customerInfo.phone}
+                       onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
+                     />
+                     <textarea
+                       required
+                       placeholder="Complete Delivery Address"
+                       rows="2"
+                       className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white resize-none focus:outline-none focus:border-primary"
+                       value={customerInfo.location}
+                       onChange={(e) => setCustomerInfo({...customerInfo, location: e.target.value})}
+                     />
+                     <div className="flex gap-2 pt-2">
+                       <button type="button" onClick={() => setShowCheckoutForm(false)} className="px-4 py-2 text-xs font-bold text-text/60 hover:text-dark uppercase tracking-wider">Cancel</button>
+                       <button type="submit" className="btn-primary flex-1 justify-center py-2 text-sm shadow-md">Send Order</button>
+                     </div>
+                   </form>
+                 )}
                  
                  <Link href="/collections" className="btn-secondary w-full justify-center py-3.5 border-transparent hover:border-current bg-cream text-dark">
                     Continue Shopping

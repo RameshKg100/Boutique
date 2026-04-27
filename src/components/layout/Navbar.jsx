@@ -46,14 +46,14 @@ export default function Navbar() {
   return (
     <>
       {/* Main Navbar */}
-      <header className="sticky top-0 z-40 bg-cream border-b border-border/20 w-full shadow-sm">
+      <header className="sticky top-0 z-40 bg-background border-b border-border/10 w-full shadow-sm">
         <div className="container-boutique">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Mobile Menu Button */}
             <div className="flex-1 flex lg:hidden">
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="p-2 -ml-2 text-text hover:text-primary transition-colors"
+                className="p-2 -ml-2 text-foreground hover:text-primary transition-colors"
                 aria-label="Toggle menu"
                 id="mobile-menu-toggle"
               >
@@ -84,7 +84,7 @@ export default function Navbar() {
                   </span>
                   <span
                     className="text-[11px] md:text-sm tracking-[0.4em] uppercase leading-none mt-1 font-bold"
-                    style={{ color: "var(--color-dark)" }}
+                    style={{ color: "var(--foreground)" }}
                   >
                     Boutiques
                   </span>
@@ -99,7 +99,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`relative text-sm tracking-wide transition-colors duration-300 font-bold ${
-                    pathname === link.href ? "text-primary" : "text-text hover:text-primary"
+                    pathname === link.href ? "text-primary" : "text-foreground hover:text-primary"
                   }`}
                 >
                   {link.name}
@@ -114,7 +114,7 @@ export default function Navbar() {
             <div className="flex-1 lg:flex-none flex justify-end items-center gap-2 md:gap-3">
               <Link
                 href="/wishlist"
-                className="relative p-2 text-text hover:text-primary transition-colors"
+                className="relative p-2 text-foreground hover:text-primary transition-colors"
                 id="wishlist-icon"
                 aria-label="Wishlist"
               >
@@ -128,7 +128,7 @@ export default function Navbar() {
 
               <Link
                 href="/cart"
-                className="relative p-2 text-text hover:text-primary transition-colors"
+                className="relative p-2 text-foreground hover:text-primary transition-colors"
                 id="cart-icon"
                 aria-label="Shopping Cart"
               >
@@ -155,7 +155,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`fixed top-0 left-0 h-screen w-[280px] bg-cream z-[60] transform transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed top-0 left-0 h-screen w-[280px] bg-background z-[60] transform transition-transform duration-300 ease-in-out lg:hidden ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         id="mobile-menu-drawer"
@@ -164,7 +164,7 @@ export default function Navbar() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="relative w-8 h-8 overflow-hidden rounded-md text-dark">
+              <div className="relative w-8 h-8 overflow-hidden rounded-md text-foreground">
                 <Image 
                   src="/logo.png" 
                   alt="Sashaa Logo" 
@@ -184,7 +184,7 @@ export default function Navbar() {
             </div>
             <button
               onClick={() => setIsMobileOpen(false)}
-              className="p-2 -mr-2 text-dark hover:text-primary"
+              className="p-2 -mr-2 text-foreground hover:text-primary"
               aria-label="Close menu"
             >
               <X size={24} />
@@ -200,7 +200,7 @@ export default function Navbar() {
                 className={`py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold flex items-center gap-3 ${
                   pathname === link.href
                     ? "bg-primary/10 text-primary"
-                    : "text-text hover:bg-primary/5 hover:text-primary"
+                    : "text-foreground hover:bg-primary/5 hover:text-primary"
                 }`}
               >
                 {getNavIcon(link.name)}

@@ -3,6 +3,9 @@ import { kv } from "@vercel/kv";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Cache key for reviews in KV
 const KV_REVIEWS_KEY = "boutique_reviews";
 

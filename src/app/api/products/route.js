@@ -3,6 +3,9 @@ import { supabase, supabaseAdmin } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const localFilePath = path.join(process.cwd(), "src/data/products.json");
 
 const readLocalProducts = () => {

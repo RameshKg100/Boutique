@@ -51,9 +51,9 @@ My Query: `;
       className="group block"
       id={`product-card-${product.slug}`}
     >
-      <div className="card-hover bg-cream rounded-lg overflow-hidden border border-border/50">
+      <div className="card-hover bg-background rounded-lg overflow-hidden border border-border/10">
         {/* Image Container */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-cream">
+        <div className="relative aspect-[3/4] overflow-hidden bg-background">
           <Image
             src={product.images[0]}
             alt={product.name}

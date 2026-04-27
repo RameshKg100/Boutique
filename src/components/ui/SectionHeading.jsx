@@ -3,7 +3,7 @@ export default function SectionHeading({ title, subtitle, centered = true, light
     <div className={`mb-8 ${centered ? "text-center" : ""}`}>
       <h2
         className={`text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-2 ${
-          light ? "text-white" : "text-dark"
+          light ? "text-white" : "text-foreground"
         }`}
         style={{ fontFamily: "var(--font-heading)" }}
       >
@@ -13,7 +13,7 @@ export default function SectionHeading({ title, subtitle, centered = true, light
         <p
           className={`text-base md:text-lg max-w-2xl leading-relaxed ${
             centered ? "mx-auto" : ""
-          } ${light ? "text-white/80" : "text-text-light"}`}
+          } ${light ? "text-white/80" : "text-foreground/70"}`}
         >
           {subtitle}
         </p>

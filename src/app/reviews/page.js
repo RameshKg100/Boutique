@@ -26,7 +26,7 @@ export default function ReviewsPage() {
 
   return (
     <>
-      <section className="bg-cream py-16 lg:py-20" id="reviews-hero">
+      <section className="bg-secondary py-8 lg:py-12" id="reviews-hero">
         <div className="container-boutique text-center">
           <AnimatedSection>
             <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
@@ -34,35 +34,35 @@ export default function ReviewsPage() {
             </span>
             <h1
               className="text-4xl md:text-5xl font-bold mt-3 mb-4"
-              style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
+              style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
             >
               Love from Our Clients
             </h1>
-            <p className="text-text-light max-w-xl mx-auto">
+            <p className="text-foreground/70 max-w-xl mx-auto">
               Read what our wonderful clients have to say about their experience
               with Sashaa Boutiques and our premium fashion collections.
             </p>
 
             {/* Statistics Banner */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-8 pt-6 border-t border-border/60 max-w-4xl mx-auto">
-              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 border border-transparent hover:border-border/30">
-                <span className="block text-4xl md:text-5xl font-bold text-dark mb-2 group-hover:text-primary transition-colors duration-300" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
-                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-text-light font-semibold group-hover:text-dark transition-colors duration-300">Trusted Customers</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-8 pt-6 border-t border-border/20 max-w-4xl mx-auto">
+              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white/40 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-primary/20">
+                <span className="block text-4xl md:text-5xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
+                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-foreground/50 font-semibold group-hover:text-foreground transition-colors duration-300">Trusted Customers</span>
               </div>
-              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 border border-transparent hover:border-border/30">
+              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white/40 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-primary/20">
                 <span className="block text-4xl md:text-5xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform duration-300" style={{ fontFamily: "var(--font-heading)" }}>1000+</span>
-                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-text-light font-semibold group-hover:text-dark transition-colors duration-300">Orders Delivered</span>
+                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-foreground/50 font-semibold group-hover:text-foreground transition-colors duration-300">Orders Delivered</span>
               </div>
-              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 border border-transparent hover:border-border/30">
-                <span className="block text-4xl md:text-5xl font-bold text-secondary mb-2 group-hover:text-primary transition-colors duration-300" style={{ fontFamily: "var(--font-heading)" }}>100%</span>
-                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-text-light font-semibold group-hover:text-dark transition-colors duration-300">Quality Assured</span>
+              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white/40 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-primary/20">
+                <span className="block text-4xl md:text-5xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300" style={{ fontFamily: "var(--font-heading)" }}>100%</span>
+                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-foreground/50 font-semibold group-hover:text-foreground transition-colors duration-300">Quality Assured</span>
               </div>
             </div>
           </AnimatedSection>
         </div>
       </section>
 
-      <section className="py-12 lg:py-16 bg-white border-t border-border/10" id="reviews-grid">
+      <section className="py-8 lg:py-12 bg-background border-t border-white/10" id="reviews-grid">
         <div className="container-boutique">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
@@ -103,11 +103,11 @@ export default function ReviewsPage() {
                         )}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-dark tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
+                        <p className="text-sm font-bold text-foreground tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
                           {review.name}
                         </p>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] uppercase tracking-widest text-text-light font-bold">
+                          <span className="text-[10px] uppercase tracking-widest text-foreground/50 font-bold">
                             {review.location}
                           </span>
                         </div>

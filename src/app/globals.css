@@ -1,35 +1,43 @@
-@import "tailwindcss";
-
 /* ===== TYPOGRAPHY ===== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
 
 :root {
   /* Fonts */
   --font-inter: 'Inter', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
   
-  /* Modern Professional Admin Theme */
-  --admin-bg: #F9FAFB;
-  --admin-card: #FFFFFF;
-  --admin-primary: #FF66A1; /* Brand Pink - but used more sparingly */
-  --admin-primary-dark: #D43372;
-  --admin-text-main: #111827;
-  --admin-text-muted: #6B7280;
-  --admin-border: #E5E7EB;
-  --admin-sidebar: #FFFFFF;
-  --admin-accent-bg: #FFF5F7;
+  /* User Defined Theme: Charcoal & Rose */
+  --bg: #FFFFFF;
+  --bg-soft: #FFF7F8;
+  --text: #2B2B2B;
+  --text-muted: #6B6B6B;
+  --primary: #C56B8A;
+  --primary-hover: #AE5574;
+  --accent: #E9AFC0;
+  --border-color: #E9E2E5;
 
-  /* Global variables used in project */
-  --color-primary: #FF66A1;
-  --color-primary-dark: #D43372;
-  --color-secondary: #C88F8F;
-  --color-accent: #FF99BD;
-  --color-cream: #FFF8F5;
-  --color-warm-gray: #4E3F3F;
-  --color-border: #E5E7EB;
-  --color-gold: #C6A769;
-  --background: #FFFFFF;
-  --foreground: #111827;
+  /* Mapping to project variables */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-hover);
+  --color-secondary: var(--bg-soft); /* 20% block color */
+  --color-accent: var(--accent);
+  --color-cream: var(--bg-soft);
+  --color-warm-gray: var(--text-muted);
+  --color-border: var(--border-color);
+  
+  /* Admin variables (syncing with theme) */
+  --admin-bg: var(--bg);
+  --admin-card: #FFFFFF;
+  --admin-primary: var(--primary);
+  --admin-primary-dark: var(--primary-hover);
+  --admin-text-main: var(--text);
+  --admin-text-muted: var(--text-muted);
+  --admin-border: var(--border-color);
+  --admin-sidebar: #FFFFFF;
+  --admin-accent-bg: var(--bg-soft);
 }
 
 @theme inline {
@@ -42,7 +50,6 @@
   --color-cream: var(--color-cream);
   --color-warm-gray: var(--color-warm-gray);
   --color-border: var(--color-border);
-  --color-gold: var(--color-gold);
 
   /* Admin Utility Classes */
   --color-adm-bg: var(--admin-bg);
@@ -120,16 +127,16 @@ p {
   background-color: var(--color-primary);
   color: white;
   padding: 1rem 2rem;
-  border-radius: 9999px;
+  border-radius: 8px;
   font-weight: 700;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 15px -3px rgba(207, 167, 181, 0.3);
+  box-shadow: 0 10px 15px -3px rgba(197, 107, 138, 0.3);
 }
 
 .btn-primary:hover {
   background-color: var(--color-primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 20px 25px -5px rgba(207, 167, 181, 0.4);
+  box-shadow: 0 20px 25px -5px rgba(197, 107, 138, 0.4);
 }
 
 .btn-secondary {
@@ -139,7 +146,7 @@ p {
   background-color: transparent;
   color: var(--color-warm-gray);
   padding: 1rem 2rem;
-  border-radius: 9999px;
+  border-radius: 8px;
   font-weight: 700;
   border: 1px solid var(--color-border);
   transition: all 0.3s ease;

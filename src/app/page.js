@@ -100,9 +100,9 @@ export default function HomePage() {
   return (
     <>
       {/* ===== HERO SECTION ===== */}
-      <section className="relative bg-cream overflow-hidden flex items-center" id="hero-section">
+      <section className="relative bg-background overflow-hidden flex items-center" id="hero-section">
         <div className="container-boutique w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[70vh] lg:min-h-[85vh] py-12 lg:py-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[50vh] lg:min-h-[60vh] py-8 lg:py-12">
             {/* Left Content */}
             <AnimatedSection animation="slide-in-left" className="order-2 lg:order-1">
               <div className="max-w-lg">
@@ -112,7 +112,7 @@ export default function HomePage() {
                 </span>
                 <h1
                   className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6"
-                  style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
+                  style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
                 >
                   Elevate Your Style with{" "}
                   <span style={{ color: "var(--color-primary)" }}>
@@ -148,7 +148,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== ABOUT PREVIEW ===== */}
-      <section className="py-12 lg:py-18 bg-white" id="about-preview">
+      <section className="py-8 lg:py-12 bg-background" id="about-preview">
         <div className="container-boutique">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Image */}
@@ -172,7 +172,7 @@ export default function HomePage() {
                 </span>
                 <h2
                   className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4"
-                  style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
+                  style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
                 >
                   Crafting Elegance Since 2010
                 </h2>
@@ -209,7 +209,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FEATURED COLLECTIONS ===== */}
-      <section className="py-12 lg:py-18 bg-cream border-y border-border/10" id="featured-collections">
+      <section className="py-8 lg:py-12 bg-secondary border-y border-white/10" id="featured-collections">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -259,7 +259,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FEATURED PRODUCTS ===== */}
-      <section className="py-12 lg:py-18 bg-white" id="featured-products">
+      <section className="py-8 lg:py-12 bg-background" id="featured-products">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -297,7 +297,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== WHY CHOOSE US ===== */}
-      <section className="py-12 lg:py-18 bg-cream border-y border-border/10" id="why-choose-us">
+      <section className="py-8 lg:py-12 bg-secondary border-y border-white/10" id="why-choose-us">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -309,20 +309,19 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {whyChooseUs.map((item, index) => (
               <AnimatedSection key={item.title} delay={index * 100}>
-                <div className="text-center p-6 md:p-8 bg-cream rounded-xl card-hover border border-border/30">
+                <div className="text-center p-6 md:p-8 bg-white/40 backdrop-blur-sm rounded-xl card-hover border border-white/20 shadow-sm">
                   <div
-                    className="w-14 h-14 rounded-full mx-auto mb-5 flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-secondary))" }}
+                    className="w-14 h-14 rounded-xl mx-auto mb-5 flex items-center justify-center bg-primary/10 border border-primary/20"
                   >
-                    <item.icon size={24} className="text-white" />
+                    <item.icon size={24} className="text-primary" />
                   </div>
                   <h3
-                    className="text-lg font-bold mb-3 text-dark"
+                    className="text-lg font-bold mb-3 text-foreground"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     {item.title}
                   </h3>
-                  <p className="text-sm text-text/70 font-medium leading-relaxed">
+                  <p className="text-sm text-foreground/70 font-medium leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -333,7 +332,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== TESTIMONIALS ===== */}
-      <section className="py-12 lg:py-18 bg-white" id="testimonials-preview">
+      <section className="py-8 lg:py-12 bg-background" id="testimonials-preview">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
@@ -379,6 +378,7 @@ export default function HomePage() {
           </AnimatedSection>
         </div>
       </section>
+
     </>
   );
 }

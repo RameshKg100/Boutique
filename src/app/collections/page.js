@@ -63,7 +63,7 @@ function CollectionsContent() {
   return (
     <>
       {/* Hero Banner */}
-      <section className="bg-cream py-12 lg:py-16" id="collections-hero">
+      <section className="bg-secondary py-8 lg:py-12" id="collections-hero">
         <div className="container-boutique text-center">
           <AnimatedSection>
             <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
@@ -71,11 +71,11 @@ function CollectionsContent() {
             </span>
             <h1
               className="text-4xl md:text-5xl font-bold mt-1 mb-2"
-              style={{ fontFamily: "var(--font-heading)", color: "var(--color-dark)" }}
+              style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
             >
               Explore Our Collections
             </h1>
-            <p className="text-text/70 font-medium max-w-xl mx-auto">
+            <p className="text-foreground/70 font-medium max-w-xl mx-auto">
               Discover handcrafted pieces that blend timeless elegance with
               contemporary design.
             </p>
@@ -84,7 +84,7 @@ function CollectionsContent() {
       </section>
 
       {/* Filters & Products */}
-      <section className="py-10 lg:py-16 bg-white min-h-[60vh] border-t border-border/20" id="product-listing">
+      <section className="py-8 lg:py-12 bg-background min-h-[60vh] border-t border-white/10" id="product-listing">
         <div className="container-boutique">
           {/* Filter Bar */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
