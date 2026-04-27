@@ -210,7 +210,7 @@ export default function ContactPage() {
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full bg-cream border border-border/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 9976474102"
                       />
                     </div>
                     <div className="space-y-1.5">

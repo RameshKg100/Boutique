@@ -100,7 +100,7 @@ export default function CheckoutPage() {
                      </div>
                      <div>
                        <label htmlFor="phone" className="block text-dark font-medium mb-1.5">Phone Number</label>
-                       <input required type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-cream/50 border border-border/50 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="+91 90000 00000" />
+                       <input required type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-cream/50 border border-border/50 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="+91 9976474102" />
                      </div>
                   </div>
                </div>
