@@ -1,112 +1,78 @@
 import { NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
-import fs from "fs";
-import path from "path";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// Cache key for reviews in KV
-const KV_REVIEWS_KEY = "boutique_reviews";
-
-// Check if KV is configured
-const isKVEnabled = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
-
-// Fallback to local file for development
-const localFilePath = path.join(process.cwd(), "src/data/reviews.json");
-
-// Helper to seed KV from local JSON (only runs if KV is empty)
-const seedKVIfEmpty = async () => {
-  if (!isKVEnabled) return null;
-  try {
-    const existing = await kv.get(KV_REVIEWS_KEY);
-    if (!existing) {
-      const localData = fs.readFileSync(localFilePath, "utf8");
-      const reviews = JSON.parse(localData);
-      await kv.set(KV_REVIEWS_KEY, reviews);
-      return reviews;
-    }
-    return existing;
-  } catch (error) {
-    return null;
-  }
-};
-
-const readLocalReviews = () => {
-  try {
-    const data = fs.readFileSync(localFilePath, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-};
-
-const writeLocalReviews = (reviews) => {
-  try {
-    fs.writeFileSync(localFilePath, JSON.stringify(reviews, null, 2), "utf8");
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
 export async function GET() {
   try {
-    if (!isKVEnabled) {
-      return NextResponse.json(readLocalReviews());
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: "Supabase not connected" }, { status: 500 });
     }
 
-    let reviews = await kv.get(KV_REVIEWS_KEY);
-    if (!reviews) {
-      reviews = await seedKVIfEmpty();
-    }
-    return NextResponse.json(reviews || readLocalReviews());
+    const { data, error } = await supabaseAdmin
+      .from("reviews")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    // Map Supabase fields to frontend fields
+    const mappedReviews = data.map(r => ({
+      id: r.id,
+      name: r.user_name,
+      location: r.user_location,
+      rating: r.rating,
+      text: r.comment,
+      avatar: r.avatar || (r.user_name ? r.user_name.slice(0, 2).toUpperCase() : "??"),
+      date: new Date(r.created_at).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }),
+      status: r.status
+    }));
+
+    return NextResponse.json(mappedReviews);
   } catch (error) {
-    return NextResponse.json(readLocalReviews());
+    console.error("API Error (GET):", error);
+    return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
   }
 }
 
 export async function POST(request) {
   try {
-    const updatedReview = await request.json();
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: "Supabase not connected" }, { status: 500 });
+    }
+
+    const body = await request.json();
     
-    let reviews;
-    if (isKVEnabled) {
-      reviews = await kv.get(KV_REVIEWS_KEY);
-      if (!reviews) reviews = await seedKVIfEmpty();
+    const dbReview = {
+      user_name: body.name,
+      user_location: body.location,
+      rating: parseInt(body.rating),
+      comment: body.text,
+      avatar: body.avatar,
+      status: body.status || "PUBLISHED"
+    };
+
+    let result;
+    
+    // If ID is a UUID (contains a hyphen), it's an update
+    if (body.id && body.id.toString().includes("-")) {
+      result = await supabaseAdmin
+        .from("reviews")
+        .update(dbReview)
+        .eq("id", body.id);
     } else {
-      reviews = readLocalReviews();
+      // Create new
+      result = await supabaseAdmin
+        .from("reviews")
+        .insert([dbReview]);
     }
 
-    // Update or Create
-    if (updatedReview.id) {
-      const index = reviews.findIndex((r) => Number(r.id) === Number(updatedReview.id));
-      if (index !== -1) {
-        // Update existing review
-        reviews[index] = { ...reviews[index], ...updatedReview };
-      } else {
-        reviews.push(updatedReview);
-      }
-    } else {
-      const maxId = reviews.reduce((max, r) => (r.id > max ? r.id : max), 0);
-      const reviewToSave = {
-        ...updatedReview,
-        id: maxId + 1,
-        date: new Date().toISOString().split('T')[0]
-      };
-      reviews.push(reviewToSave);
-    }
+    if (result.error) throw result.error;
 
-    // Save to Persistence
-    if (isKVEnabled) {
-      await kv.set(KV_REVIEWS_KEY, reviews);
-    } else {
-      writeLocalReviews(reviews);
-    }
-
-    return NextResponse.json({ success: true, review: updatedReview });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("API Error:", error);
-    return NextResponse.json({ error: "Failed to save data" }, { status: 500 });
+    console.error("API Error (POST):", error);
+    return NextResponse.json({ error: error.message || "Failed to save review" }, { status: 500 });
   }
 }
