@@ -17,7 +17,6 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProductCard from "@/components/products/ProductCard";
-import { reviews } from "@/data/reviews";
 
 const collections = [
   {
@@ -75,26 +74,34 @@ const whyChooseUs = [
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const topReviews = reviews.slice(0, 3);
-
   useEffect(() => {
-    async function fetchFeatured() {
+    async function fetchData() {
       try {
-        const res = await fetch("/api/products", { cache: "no-store" });
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setFeaturedProducts(data.filter(p => p.isFeatured).slice(0, 5));
-        } else {
-          console.error("API did not return an array:", data);
+        const [prodRes, revRes] = await Promise.all([
+          fetch("/api/products", { cache: "no-store" }),
+          fetch("/api/reviews", { cache: "no-store" })
+        ]);
+        
+        const prodData = await prodRes.json();
+        const revData = await revRes.json();
+
+        if (Array.isArray(prodData)) {
+          setFeaturedProducts(prodData.filter(p => p.isFeatured).slice(0, 5));
+        }
+        
+        if (Array.isArray(revData)) {
+          setReviews(revData);
         }
       } catch (error) {
-        console.error("Failed to fetch featured products:", error);
+        console.error("Failed to fetch data:", error);
       } finally {
         setLoading(false);
       }
     }
-    fetchFeatured();
+    fetchData();
   }, []);
 
   return (
