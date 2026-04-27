@@ -1,14 +1,10 @@
 import { NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { supabaseAdmin } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
 export async function POST(request) {
   try {
-    const isBlobEnabled = !!process.env.BLOB_READ_WRITE_TOKEN;
-    const { searchParams } = new URL(request.url);
-    const filename = searchParams.get("filename") || `upload-${Date.now()}`;
-    
     const formData = await request.formData();
     const file = formData.get("file");
 
@@ -16,17 +12,36 @@ export async function POST(request) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    if (isBlobEnabled) {
-      // Production: Upload to Vercel Blob Storage
-      const blob = await put(file.name || filename, file, {
-        access: "public",
-      });
-      return NextResponse.json({ success: true, url: blob.url });
+    const uniqueFilename = `${Date.now()}-${file.name.replace(/\s+/g, "_")}`;
+
+    if (supabaseAdmin) {
+      // Production: Upload to Supabase Storage bucket named 'uploads'
+      const bytes = await file.arrayBuffer();
+      
+      const { data, error } = await supabaseAdmin.storage
+        .from('uploads')
+        .upload(uniqueFilename, bytes, {
+          contentType: file.type || 'image/jpeg',
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        console.error("Supabase Storage Error:", error);
+        throw error;
+      }
+
+      // Get the public URL for the uploaded file
+      const { data: { publicUrl } } = supabaseAdmin.storage
+        .from('uploads')
+        .getPublicUrl(uniqueFilename);
+
+      return NextResponse.json({ success: true, url: publicUrl });
+      
     } else {
       // Local Development: Save to public/uploads
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
-      const uniqueFilename = `${Date.now()}-${file.name.replace(/\s+/g, "_")}`;
       const uploadDir = path.join(process.cwd(), "public/uploads");
       
       if (!fs.existsSync(uploadDir)) {
@@ -43,6 +58,6 @@ export async function POST(request) {
     }
   } catch (error) {
     console.error("Upload error:", error);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    return NextResponse.json({ error: "Upload failed: " + error.message }, { status: 500 });
   }
 }

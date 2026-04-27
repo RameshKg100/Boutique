@@ -69,9 +69,12 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
         const data = await res.json();
         if (data.success) {
           uploadedUrls.push(data.url);
+        } else {
+          alert(`Failed to upload ${file.name}: ${data.error || "Unknown error"}\n\nHave you added your SUPABASE_SERVICE_ROLE_KEY to Vercel?`);
         }
       } catch (error) {
         console.error("Upload failed for", file.name, error);
+        alert(`Failed to upload ${file.name}. Please check your connection and Supabase keys.`);
       }
     }
 
