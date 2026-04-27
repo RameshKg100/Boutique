@@ -12,7 +12,9 @@ import {
   MapPin,
   CreditCard,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  X,
+  ZoomIn
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
@@ -22,6 +24,7 @@ export default function OrdersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [expandedOrder, setExpandedOrder] = useState(null);
+  const [zoomedImage, setZoomedImage] = useState(null);
 
   useEffect(() => {
     fetchOrders();
@@ -97,6 +100,37 @@ export default function OrdersPage() {
 
   return (
     <div className="space-y-6 pb-20 font-sans">
+
+      {/* Lightbox Modal */}
+      {zoomedImage && (
+        <div 
+          className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setZoomedImage(null)}
+        >
+          <div className="relative max-w-lg w-full max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setZoomedImage(null)}
+              className="absolute -top-3 -right-3 z-10 bg-white rounded-full p-1.5 shadow-xl text-gray-700 hover:text-red-500 transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src={zoomedImage.image}
+                alt={zoomedImage.name}
+                fill
+                className="object-cover"
+                sizes="500px"
+              />
+            </div>
+            <div className="bg-white rounded-xl mt-3 p-4 shadow-lg text-center">
+              <p className="font-bold text-gray-900">{zoomedImage.name}</p>
+              <p className="text-xs text-gray-500 mt-1">Size: {zoomedImage.size} &nbsp;|&nbsp; Qty: {zoomedImage.quantity}</p>
+              <p className="text-[#FF66A1] font-black mt-1">{formatPrice(zoomedImage.price * zoomedImage.quantity)}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Header */}
       <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
@@ -227,16 +261,24 @@ export default function OrdersPage() {
                     <div className="flex flex-wrap gap-4">
                       {order.items.map((item, idx) => (
                         <div key={idx} className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl p-3 shadow-sm max-w-[280px]">
-                          {/* Dress Image */}
-                          <div className="relative w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
+                          {/* Dress Image - Clickable to zoom */}
+                          <div 
+                            className="relative w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-100 cursor-zoom-in group"
+                            onClick={() => item.image && setZoomedImage(item)}
+                          >
                             {item.image ? (
-                              <Image 
-                                src={item.image} 
-                                alt={item.name} 
-                                fill 
-                                className="object-cover"
-                                sizes="64px"
-                              />
+                              <>
+                                <Image 
+                                  src={item.image} 
+                                  alt={item.name} 
+                                  fill 
+                                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                  sizes="64px"
+                                />
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                  <ZoomIn size={18} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
+                              </>
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
                                 <ShoppingBag size={20} className="text-gray-300" />
