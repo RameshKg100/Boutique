@@ -40,6 +40,7 @@ export async function POST(request) {
         customer_name: orderData.customerName,
         customer_phone: orderData.customerPhone,
         customer_location: orderData.customerLocation,
+        payment_mode: orderData.paymentMode || "Not specified",
         items: orderData.items,
         total_amount: orderData.totalAmount,
         status: "Pending",

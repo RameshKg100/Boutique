@@ -18,12 +18,12 @@ export default function CartPage() {
   
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "" });
+  const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "", paymentMode: "" });
 
   const handleWhatsAppCheckout = async (e) => {
     e.preventDefault();
-    if (!customerInfo.name || !customerInfo.phone || !customerInfo.location) {
-      alert("Please fill in all details to proceed.");
+    if (!customerInfo.name || !customerInfo.phone || !customerInfo.location || !customerInfo.paymentMode) {
+      alert("Please fill in all details including Payment Mode to proceed.");
       return;
     }
 
@@ -38,6 +38,7 @@ export default function CartPage() {
           customerName: customerInfo.name,
           customerPhone: customerInfo.phone,
           customerLocation: customerInfo.location,
+          paymentMode: customerInfo.paymentMode,
           items: items,
           totalAmount: total,
         }),
@@ -56,7 +57,8 @@ export default function CartPage() {
       message += "*Customer Details:*\n";
       message += `Name: ${customerInfo.name}\n`;
       message += `Phone: ${customerInfo.phone}\n`;
-      message += `Location: ${customerInfo.location}\n\n`;
+      message += `Location: ${customerInfo.location}\n`;
+      message += `Payment Mode: ${customerInfo.paymentMode}\n\n`;
 
       message += "*Items:*\n";
       
@@ -71,8 +73,9 @@ export default function CartPage() {
       message += `\n*Summary:*\n`;
       message += `Subtotal: ${formatPrice(cartTotal)}\n`;
       message += `Shipping: ${shipping === 0 ? "Free" : formatPrice(shipping)}\n`;
-      message += `*Total: ${formatPrice(total)}*\n\n`;
-      message += "Please let me know how to proceed with the payment!";
+      message += `*Total: ${formatPrice(total)}*\n`;
+      message += `Payment via: *${customerInfo.paymentMode}*\n\n`;
+      message += "Please confirm my order. I will make the payment shortly!";
       
       // 3. Redirect to WhatsApp and clear cart
       const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -224,36 +227,51 @@ export default function CartPage() {
                    </button>
                  ) : (
                    <form onSubmit={handleWhatsAppCheckout} className="space-y-3 mb-4 text-left border border-border/20 bg-white p-4 rounded-xl shadow-sm">
-                     <p className="text-sm font-bold text-dark mb-2" style={{ fontFamily: "var(--font-heading)" }}>Delivery Details</p>
-                     <input
-                       type="text"
-                       required
-                       placeholder="Full Name"
-                       className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
-                       value={customerInfo.name}
-                       onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
-                     />
-                     <input
-                       type="tel"
-                       required
-                       placeholder="Mobile Number"
-                       className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
-                       value={customerInfo.phone}
-                       onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
-                     />
-                     <textarea
-                       required
-                       placeholder="Complete Delivery Address"
-                       rows="2"
-                       className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white resize-none focus:outline-none focus:border-primary"
-                       value={customerInfo.location}
-                       onChange={(e) => setCustomerInfo({...customerInfo, location: e.target.value})}
-                     />
-                     <div className="flex gap-2 pt-2">
-                       <button type="button" onClick={() => setShowCheckoutForm(false)} className="px-4 py-2 text-xs font-bold text-text/60 hover:text-dark uppercase tracking-wider">Cancel</button>
-                       <button type="submit" className="btn-primary flex-1 justify-center py-2 text-sm shadow-md">Send Order</button>
-                     </div>
-                   </form>
+                      <p className="text-sm font-bold text-dark mb-2" style={{ fontFamily: "var(--font-heading)" }}>Delivery &amp; Payment Details</p>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Full Name"
+                        className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                        value={customerInfo.name}
+                        onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
+                      />
+                      <input
+                        type="tel"
+                        required
+                        placeholder="Mobile Number"
+                        className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                        value={customerInfo.phone}
+                        onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
+                      />
+                      <textarea
+                        required
+                        placeholder="Complete Delivery Address"
+                        rows="2"
+                        className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white resize-none focus:outline-none focus:border-primary"
+                        value={customerInfo.location}
+                        onChange={(e) => setCustomerInfo({...customerInfo, location: e.target.value})}
+                      />
+                      <select
+                        required
+                        className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary cursor-pointer text-text"
+                        value={customerInfo.paymentMode}
+                        onChange={(e) => setCustomerInfo({...customerInfo, paymentMode: e.target.value})}
+                      >
+                        <option value="" disabled>Select Payment Mode</option>
+                        <option value="GPay">📱 GPay (Google Pay)</option>
+                        <option value="PhonePe">📱 PhonePe</option>
+                        <option value="Paytm">📱 Paytm</option>
+                        <option value="Bank Transfer">🏦 Bank Transfer (NEFT/IMPS)</option>
+                        <option value="Cash on Delivery">💵 Cash on Delivery</option>
+                      </select>
+                      <div className="flex gap-2 pt-2">
+                        <button type="button" onClick={() => setShowCheckoutForm(false)} className="px-4 py-2 text-xs font-bold text-text/60 hover:text-dark uppercase tracking-wider">Cancel</button>
+                        <button type="submit" disabled={isSubmitting} className="btn-primary flex-1 justify-center py-2 text-sm shadow-md disabled:opacity-70">
+                          {isSubmitting ? "Sending..." : "Send Order via WhatsApp"}
+                        </button>
+                      </div>
+                    </form>
                  )}
                  
                  <Link href="/collections" className="btn-secondary w-full justify-center py-3.5 border-transparent hover:border-current bg-cream text-dark">
