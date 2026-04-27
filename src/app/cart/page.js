@@ -17,45 +17,74 @@ export default function CartPage() {
   const total = cartTotal + shipping;
   
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "" });
 
-  const handleWhatsAppCheckout = (e) => {
+  const handleWhatsAppCheckout = async (e) => {
     e.preventDefault();
     if (!customerInfo.name || !customerInfo.phone || !customerInfo.location) {
       alert("Please fill in all details to proceed.");
       return;
     }
 
-    const phoneNumber = siteConfig.contact.phone.replace(/[^0-9]/g, "");
-    
-    let message = "*Order Request from Sashaa Boutiques*\n\n";
-    
-    message += "*Customer Details:*\n";
-    message += `Name: ${customerInfo.name}\n`;
-    message += `Phone: ${customerInfo.phone}\n`;
-    message += `Location: ${customerInfo.location}\n\n`;
+    setIsSubmitting(true);
 
-    message += "*Items:*\n";
-    
-    items.forEach((item) => {
-      message += `- ${item.name}\n  Size: ${item.size} | Qty: ${item.quantity} | Price: ${formatPrice(item.price * item.quantity)}\n`;
-      if (item.slug) {
-        const productUrl = `${window.location.origin}/collections/${item.slug}`;
-        message += `  Link: ${productUrl}\n`;
+    try {
+      // 1. Save the order to Supabase
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerName: customerInfo.name,
+          customerPhone: customerInfo.phone,
+          customerLocation: customerInfo.location,
+          items: items,
+          totalAmount: total,
+        }),
+      });
+
+      if (!res.ok) {
+        console.error("Failed to save order to database");
+        // We still proceed to WhatsApp even if DB fails, to not lose the sale.
       }
-    });
-    
-    message += `\n*Summary:*\n`;
-    message += `Subtotal: ${formatPrice(cartTotal)}\n`;
-    message += `Shipping: ${shipping === 0 ? "Free" : formatPrice(shipping)}\n`;
-    message += `*Total: ${formatPrice(total)}*\n\n`;
-    message += "Please let me know how to proceed with the payment!";
-    
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
-    
-    // Clear the cart after sending the order
-    clearCart();
+
+      // 2. Format WhatsApp Message
+      const phoneNumber = siteConfig.contact.phone.replace(/[^0-9]/g, "");
+      
+      let message = "*Order Request from Sashaa Boutiques*\n\n";
+      
+      message += "*Customer Details:*\n";
+      message += `Name: ${customerInfo.name}\n`;
+      message += `Phone: ${customerInfo.phone}\n`;
+      message += `Location: ${customerInfo.location}\n\n`;
+
+      message += "*Items:*\n";
+      
+      items.forEach((item) => {
+        message += `- ${item.name}\n  Size: ${item.size} | Qty: ${item.quantity} | Price: ${formatPrice(item.price * item.quantity)}\n`;
+        if (item.slug) {
+          const productUrl = `${window.location.origin}/collections/${item.slug}`;
+          message += `  Link: ${productUrl}\n`;
+        }
+      });
+      
+      message += `\n*Summary:*\n`;
+      message += `Subtotal: ${formatPrice(cartTotal)}\n`;
+      message += `Shipping: ${shipping === 0 ? "Free" : formatPrice(shipping)}\n`;
+      message += `*Total: ${formatPrice(total)}*\n\n`;
+      message += "Please let me know how to proceed with the payment!";
+      
+      // 3. Redirect to WhatsApp and clear cart
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+      
+      clearCart();
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (items.length === 0) {
