@@ -66,7 +66,14 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
           method: "POST",
           body: uploadData,
         });
-        const data = await res.json();
+        
+        let data;
+        try {
+          data = await res.json();
+        } catch (parseError) {
+          throw new Error(`Server returned non-JSON response. Status: ${res.status}`);
+        }
+
         if (data.success) {
           uploadedUrls.push(data.url);
         } else {
@@ -74,7 +81,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
         }
       } catch (error) {
         console.error("Upload failed for", file.name, error);
-        alert(`Failed to upload ${file.name}. Please check your connection and Supabase keys.`);
+        alert(`Failed to upload ${file.name}. Error: ${error.message}\n\n(If it says non-JSON response, the image file might be larger than Vercel's 4.5MB limit.)`);
       }
     }
 
