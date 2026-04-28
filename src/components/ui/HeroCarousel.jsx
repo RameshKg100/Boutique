@@ -16,6 +16,7 @@ const FALLBACK_IMAGES = [
 
 export default function HeroCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // -1 for prev, 1 for next
   const [heroImages, setHeroImages] = useState(FALLBACK_IMAGES);
 
   // Fetch images from DB on mount
@@ -44,20 +45,43 @@ export default function HeroCarousel() {
 
   useEffect(() => {
     const timer = setInterval(() => {
+      setDirection(1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-    }, 4500);
+    }, 3500); // 3.5 seconds interval
     return () => clearInterval(timer);
   }, [heroImages]);
 
+  const slideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 0
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) => ({
+      zIndex: 0,
+      x: direction < 0 ? "100%" : "-100%",
+      opacity: 0
+    })
+  };
+
   return (
     <div className="relative overflow-hidden w-full h-full bg-cream group">
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 }
+          }}
           className="absolute inset-0 w-full h-full"
         >
           <Image
@@ -78,7 +102,10 @@ export default function HeroCarousel() {
         {heroImages.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentIndex(index)}
+            onClick={() => {
+              setDirection(index > currentIndex ? 1 : -1);
+              setCurrentIndex(index);
+            }}
             className={`transition-all duration-500 rounded-sm shadow-sm ${
               index === currentIndex
                 ? "w-8 h-1.5 bg-white scale-110"
