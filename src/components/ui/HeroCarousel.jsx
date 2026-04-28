@@ -16,7 +16,7 @@ const FALLBACK_IMAGES = [
 
 export default function HeroCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0); // -1 for prev, 1 for next
+  const [direction, setDirection] = useState(1); // 1 for next
   const [heroImages, setHeroImages] = useState(FALLBACK_IMAGES);
 
   // Fetch images from DB on mount
@@ -36,7 +36,6 @@ export default function HeroCarousel() {
           }
         }
       } catch (err) {
-        // Silently fall back to static images
         console.warn("Using fallback hero images:", err.message);
       }
     }
@@ -47,24 +46,21 @@ export default function HeroCarousel() {
     const timer = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-    }, 3500); // 3.5 seconds interval
+    }, 4000); // 4 seconds interval for a calm feel
     return () => clearInterval(timer);
   }, [heroImages]);
 
   const slideVariants = {
     enter: (direction) => ({
       x: direction > 0 ? "100%" : "-100%",
-      opacity: 0
     }),
     center: {
       zIndex: 1,
       x: 0,
-      opacity: 1
     },
     exit: (direction) => ({
       zIndex: 0,
       x: direction < 0 ? "100%" : "-100%",
-      opacity: 0
     })
   };
 
@@ -79,8 +75,10 @@ export default function HeroCarousel() {
           animate="center"
           exit="exit"
           transition={{
-            x: { type: "spring", stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 }
+            x: { 
+              duration: 1.5, // Slower, smoother transition
+              ease: [0.45, 0, 0.55, 1] // Custom cubic-bezier for a very smooth "gliding" effect
+            }
           }}
           className="absolute inset-0 w-full h-full"
         >
