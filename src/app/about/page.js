@@ -148,16 +148,16 @@ export default function AboutPage() {
             </div>
           </AnimatedSection>
           
-          <div className="relative">
+          <div className="relative max-w-5xl mx-auto">
             {/* The Rail Line (Desktop) */}
-            <div className="absolute top-[48px] left-0 right-0 h-[1px] bg-border-color hidden lg:block" />
+            <div className="absolute top-[48px] left-[16%] right-[16%] h-[1px] bg-border-color hidden lg:block" />
             
             {/* The Single Row Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 relative">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
               {milestones.map((milestone, index) => (
-                <div key={milestone.year} className="relative group">
-                  <AnimatedSection delay={index * 100} animation="slide-in-up">
-                    <div className="flex flex-col items-center">
+                <div key={milestone.year} className="relative group h-full">
+                  <AnimatedSection delay={index * 100} animation="slide-in-up" className="h-full">
+                    <div className="flex flex-col items-center h-full">
                       
                       {/* Interactive Dot on Rail */}
                       <div className="hidden lg:flex items-center justify-center w-full h-12 relative mb-6">
@@ -168,9 +168,9 @@ export default function AboutPage() {
                       </div>
 
                       {/* Compact Milestone Card */}
-                      <div className="bg-[#FBFBFB] p-6 rounded-2xl border border-border-color w-full h-full min-h-[220px] flex flex-col items-center text-center transition-all duration-500 hover:bg-white hover:shadow-xl hover:-translate-y-2 group-hover:border-primary/20">
+                      <div className="bg-[#FBFBFB] p-8 rounded-2xl border border-border-color w-full h-full min-h-[260px] flex flex-col items-center text-center transition-all duration-500 hover:bg-white hover:shadow-xl hover:-translate-y-2 group-hover:border-primary/20">
                         {/* Medium Icon */}
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5 transition-colors group-hover:bg-primary group-hover:text-white">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 transition-colors group-hover:bg-primary group-hover:text-white">
                           <milestone.icon size={22} strokeWidth={2.5} />
                         </div>
                         
@@ -178,11 +178,11 @@ export default function AboutPage() {
                           {milestone.year}
                         </span>
                         
-                        <h3 className="text-lg font-bold mb-3 text-foreground leading-tight" style={{ fontFamily: "var(--font-heading)" }}>
+                        <h3 className="text-xl font-bold mb-3 text-foreground leading-tight" style={{ fontFamily: "var(--font-heading)" }}>
                           {milestone.title}
                         </h3>
                         
-                        <p className="text-[13px] text-foreground/60 font-medium leading-relaxed">
+                        <p className="text-sm text-foreground/60 font-medium leading-relaxed">
                           {milestone.description}
                         </p>
                       </div>
