@@ -208,11 +208,11 @@ export default function Navbar() {
                   gap: '14px',
                   transition: 'all 0.25s ease',
                   background: pathname === link.href
-                    ? 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))'
+                    ? 'rgba(197, 107, 138, 0.15)'
                     : 'transparent',
-                  color: pathname === link.href ? '#FFFFFF' : 'var(--foreground)',
+                  color: pathname === link.href ? 'var(--color-primary)' : 'var(--foreground)',
                   boxShadow: pathname === link.href
-                    ? '0 4px 15px rgba(197, 107, 138, 0.35)'
+                    ? '0 2px 8px rgba(197, 107, 138, 0.12)'
                     : 'none',
                 }}
               >
