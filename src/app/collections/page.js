@@ -9,7 +9,7 @@ import { categories as staticCategories } from "@/data/products";
 
 function CollectionsContent() {
   const searchParams = useSearchParams();
-  const categoryParam = searchParams.get("category") || "all";
+  const categoryParam = searchParams.get("category") || staticCategories[0]?.slug;
   const [activeCategory, setActiveCategory] = useState(categoryParam);
   const [sortBy, setSortBy] = useState("default");
   const [products, setProducts] = useState([]);
@@ -39,9 +39,7 @@ function CollectionsContent() {
   useEffect(() => {
     let result = products;
 
-    if (activeCategory !== "all") {
-      result = result.filter(p => p.category === activeCategory);
-    }
+    result = result.filter(p => p.category === activeCategory);
 
     switch (sortBy) {
       case "price-low":
@@ -125,11 +123,8 @@ function CollectionsContent() {
           </div>
 
           {/* Results Count */}
-          <p className="text-sm font-bold text-text/70 mb-4 flex items-center gap-2">
             Showing <span className="bg-white border border-border text-text px-2.5 py-0.5 rounded-full">{filteredProducts.length}</span> pieces
-            {activeCategory !== "all" && (
-              <> in <span className="text-primary capitalize font-black">{staticCategories.find(c => c.slug === activeCategory)?.name || activeCategory}</span></>
-            )}
+            in <span className="text-primary capitalize font-black">{staticCategories.find(c => c.slug === activeCategory)?.name || activeCategory}</span>
           </p>
 
           {/* Product Grid - Dynamic Density */}

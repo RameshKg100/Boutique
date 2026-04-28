@@ -1,5 +1,4 @@
 export const categories = [
-  { id: "all", name: "All", slug: "all" },
   { id: "maxis", name: "Maxis", slug: "maxis" },
   { id: "sarees", name: "Sarees", slug: "sarees" },
   { id: "tops", name: "Tops", slug: "tops" },

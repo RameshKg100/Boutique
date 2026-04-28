@@ -20,7 +20,7 @@ export default function ProductsListPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("maxis");
   const [isDeleting, setIsDeleting] = useState(null);
 
   const fetchProducts = async () => {
@@ -50,11 +50,11 @@ export default function ProductsListPage() {
 
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === "all" || p.category === categoryFilter;
+    const matchesCategory = p.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ["all", "maxis", "sarees", "tops", "kurtis"];
+  const categories = ["maxis", "sarees", "tops", "kurtis"];
 
   return (
     <div className="space-y-6 pb-12">
