@@ -123,6 +123,7 @@ function CollectionsContent() {
           </div>
 
           {/* Results Count */}
+          <p className="text-sm font-bold text-text/70 mb-4 flex items-center gap-2">
             Showing <span className="bg-white border border-border text-text px-2.5 py-0.5 rounded-full">{filteredProducts.length}</span> pieces
             in <span className="text-primary capitalize font-black">{staticCategories.find(c => c.slug === activeCategory)?.name || activeCategory}</span>
           </p>

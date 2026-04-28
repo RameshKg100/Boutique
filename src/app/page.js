@@ -279,7 +279,7 @@ export default function HomePage() {
 
           <AnimatedSection className="text-center mt-8">
             <Link href="/collections" className="btn-secondary">
-              View All Collections
+              Explore Collections
               <ArrowRight size={16} />
             </Link>
           </AnimatedSection>

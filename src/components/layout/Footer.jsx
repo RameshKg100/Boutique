@@ -100,7 +100,7 @@ export default function Footer() {
                 ))}
                 <Link href="/collections" className="text-sm tracking-wide text-primary font-bold hover:underline w-fit mt-2 italic flex items-center gap-1">
                   <ChevronRight size={14} />
-                  View All Sets
+                  View Collections
                 </Link>
               </nav>
             </div>

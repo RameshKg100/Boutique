@@ -97,7 +97,7 @@ export default function ProductsListPage() {
                     : "text-[#6B7280] hover:bg-gray-100"
                   }`}
               >
-                {cat === "all" ? "All" : cat}
+                {cat}
               </button>
             ))}
           </div>

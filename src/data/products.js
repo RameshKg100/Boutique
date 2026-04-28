@@ -940,7 +940,6 @@ export function getProductBySlug(slug) {
 }
 
 export function getProductsByCategory(category) {
-  if (category === "all") return products;
   return products.filter((p) => p.category === category);
 }
 
