@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { Menu, X, ShoppingBag, Heart, User, Home, Info, Layers, Sparkles, Star, Phone } from "lucide-react";
+import { Menu, X, ShoppingBag, Heart, User, Home, Info, Layers, Star, Phone } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function Navbar() {
@@ -17,7 +17,6 @@ export default function Navbar() {
       case "Home": return <Home size={18} />;
       case "About Us": return <Info size={18} />;
       case "Collections": return <Layers size={18} />;
-      case "Services": return <Sparkles size={18} />;
       case "Reviews": return <Star size={18} />;
       case "Contact": return <Phone size={18} />;
       default: return null;
