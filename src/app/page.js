@@ -7,7 +7,6 @@ import {
   ArrowRight,
   Sparkles,
   Scissors,
-  Quote,
   TrendingUp,
   Gem,
   ShieldCheck,
@@ -20,80 +19,69 @@ import ProductCard from "@/components/products/ProductCard";
 
 const collections = [
   {
-    name: "Maxis & Ethnic Gowns",
-    slug: "maxis",
-    image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500&h=600&fit=crop",
-    description: "Flowing elegance for every occasion",
-  },
-  {
-    name: "Kanchipuram Sarees",
+    name: "Kanchipuram Silks",
     slug: "sarees",
     image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&h=600&fit=crop",
-    description: "Timeless Tamil Nadu traditions meets modern grace",
+    description: "Authentic handwoven sarees from the looms of Kanchi",
   },
   {
-    name: "Tops & Blouses",
-    slug: "tops",
+    name: "Designer Blouses",
+    slug: "blouses",
     image: "https://images.unsplash.com/photo-1583395828681-4357492984fd?w=500&h=600&fit=crop",
-    description: "Versatile style for the contemporary woman",
+    description: "Intricate Maggam work and bespoke tailoring",
   },
   {
-    name: "Kurtis & Suits",
-    slug: "kurtis",
+    name: "Pattu Pavadai & Dhavani",
+    slug: "half-sarees",
+    image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500&h=600&fit=crop",
+    description: "Traditional attire for auspicious beginnings",
+  },
+  {
+    name: "Festive Salwars",
+    slug: "suits",
     image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&h=600&fit=crop",
-    description: "Artisanal craftsmanship in every stitch",
+    description: "Elegant ethnics blending comfort with tradition",
   },
 ];
 
 const whyChooseUs = [
   {
     icon: Gem,
-    title: "Unique Designs",
+    title: "Authentic Craftsmanship",
     description:
-      "Exclusive patterns and stunning styles that ensure you stand out elegantly in any crowd.",
+      "Showcasing the finest traditional weaving and hand-embroidery techniques of Tamil Nadu.",
   },
   {
     icon: ShieldCheck,
-    title: "Premium Fabrics",
+    title: "Pure Zari & Silk",
     description:
-      "Sourced from top global mills to guarantee luxurious comfort and long-lasting quality.",
+      "Sourced directly from generational weavers to guarantee authenticity and heirloom quality.",
   },
   {
     icon: Scissors,
-    title: "Custom Tailoring",
+    title: "Bespoke Bridal Fits",
     description:
-      "A flawless, personalized fit achieved through expert measurements and precision cutting.",
+      "Impeccable custom tailoring ensuring you look radiant on your most auspicious days.",
   },
   {
     icon: TrendingUp,
-    title: "Latest Trends",
+    title: "Modern Tradition",
     description:
-      "Continuously updated collections keeping you at the forefront of modern fashion.",
+      "Beautifully blending classic South Indian motifs with contemporary styling.",
   },
 ];
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const topReviews = reviews.slice(0, 3);
   useEffect(() => {
     async function fetchData() {
       try {
-        const [prodRes, revRes] = await Promise.all([
-          fetch("/api/products", { cache: "no-store" }),
-          fetch("/api/reviews", { cache: "no-store" })
-        ]);
-        
+        const prodRes = await fetch("/api/products", { cache: "no-store" });
         const prodData = await prodRes.json();
-        const revData = await revRes.json();
 
         if (Array.isArray(prodData)) {
           setFeaturedProducts(prodData.filter(p => p.isFeatured).slice(0, 5));
-        }
-        
-        if (Array.isArray(revData)) {
-          setReviews(revData);
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -115,21 +103,19 @@ export default function HomePage() {
               <div className="max-w-lg">
                 <span className="inline-flex items-center gap-2 text-primary text-xs uppercase tracking-[0.2em] font-medium mb-4">
                   <Sparkles size={14} />
-                  Premium Chennai Boutique
+                  Authentic Tamil Nadu Boutique
                 </span>
                 <h1
                   className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6"
                   style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
                 >
-                  Elevate Your Style with{" "}
+                  Discover the Essence of{" "}
                   <span style={{ color: "var(--color-primary)" }}>
-                    Timeless Elegance
+                    South Indian Grace
                   </span>
                 </h1>
                 <p className="text-text/70 text-base md:text-lg font-medium leading-relaxed mb-8">
-                  Discover premium tailoring and exclusive fashion collections
-                  crafted just for you. Embrace a wardrobe that speaks to your
-                  unique identity.
+                  Experience the rich heritage of Tamil Nadu through our exquisite Kanchipuram silks, bespoke traditional wear, and premium craftsmanship tailored for the modern woman.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link href="/collections" className="btn-primary">
@@ -181,19 +167,16 @@ export default function HomePage() {
                   className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4"
                   style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
                 >
-                  Crafting Elegance Since 2010
+                  Rooted in Tamil Tradition
                 </h2>
                 <p className="text-text/80 leading-relaxed mb-8">
-                  We believe fashion is an expression of your unique identity.
-                  Our boutique brings together the finest fabrics and
-                  unparalleled craftsmanship to create pieces that make you feel
-                  truly extraordinary.
+                  From the weaving clusters of Kanchipuram to modern boutique styling, we blend centuries of South Indian textile heritage with contemporary elegance. Every drape and stitch tells a story of cultural pride.
                 </p>
                 <div className="space-y-4 mb-8">
                   {[
-                    "Expert Custom Tailoring",
-                    "Premium Fabric Selection",
-                    "Personalized Design Consultations",
+                    "Authentic Handloom Silks",
+                    "Intricate Maggam & Aari Work",
+                    "Custom Bridal Tailoring",
                   ].map((item) => (
                     <div key={item} className="flex items-center gap-3">
                       <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -338,53 +321,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS ===== */}
-      <section className="py-8 lg:py-12 bg-background" id="testimonials-preview">
-        <div className="container-boutique">
-          <AnimatedSection>
-            <SectionHeading
-              title="What Our Clients Say"
-              subtitle="Hear from the women who have trusted us to craft their most important wardrobe pieces."
-            />
-          </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {topReviews.map((review, index) => (
-              <AnimatedSection key={review.id} delay={index * 150}>
-                <div className="bg-white rounded-xl p-6 md:p-8 card-hover border border-border/50">
-                  {/* Narrative Quote Icon */}
-                  <div className="mb-4 text-primary/40">
-                    <Quote size={20} fill="currentColor" />
-                  </div>
-                  <p className="text-sm text-text-light leading-relaxed mb-6 italic">
-                    &ldquo;{review.text}&rdquo;
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm font-medium">
-                      {review.avatar}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-dark">
-                        {review.name}
-                      </p>
-                      <p className="text-xs text-text-light">
-                        {review.location}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          <AnimatedSection className="text-center mt-6">
-            <Link href="/reviews" className="btn-secondary">
-              Read All Reviews
-              <ArrowRight size={16} />
-            </Link>
-          </AnimatedSection>
-        </div>
-      </section>
 
     </>
   );

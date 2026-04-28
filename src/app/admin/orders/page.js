@@ -161,8 +161,8 @@ export default function OrdersPage() {
                 </tr>
               ) : (
                 filteredOrders.map((order) => (
-                  <>
-                    <tr key={order.id} className="hover:bg-[#F9FAFB] transition-colors">
+                  <React.Fragment key={order.id}>
+                    <tr className="hover:bg-[#F9FAFB] transition-colors">
                       <td className="px-4 py-3">
                         <p className="font-semibold text-[#111827]">{order.id}</p>
                         <p className="text-xs text-[#6B7280] mt-0.5">
@@ -244,7 +244,7 @@ export default function OrdersPage() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </React.Fragment>
                 ))
               )}
             </tbody>
