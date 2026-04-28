@@ -19,28 +19,28 @@ import ProductCard from "@/components/products/ProductCard";
 
 const collections = [
   {
+    name: "Elegant Maxis",
+    slug: "maxis",
+    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&h=600&fit=crop",
+    description: "Flowing floor-length designs for every occasion",
+  },
+  {
     name: "Kanchipuram Silks",
     slug: "sarees",
     image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&h=600&fit=crop",
     description: "Authentic handwoven sarees from the looms of Kanchi",
   },
   {
-    name: "Designer Blouses",
-    slug: "blouses",
-    image: "https://images.unsplash.com/photo-1583395828681-4357492984fd?w=500&h=600&fit=crop",
-    description: "Intricate Maggam work and bespoke tailoring",
+    name: "Designer Tops",
+    slug: "tops",
+    image: "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=500&h=600&fit=crop",
+    description: "Elegant blouses and contemporary fusion tops",
   },
   {
-    name: "Pattu Pavadai & Dhavani",
-    slug: "half-sarees",
-    image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500&h=600&fit=crop",
-    description: "Traditional attire for auspicious beginnings",
-  },
-  {
-    name: "Festive Salwars",
-    slug: "suits",
-    image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=500&h=600&fit=crop",
-    description: "Elegant ethnics blending comfort with tradition",
+    name: "Festive Kurtis",
+    slug: "kurtis",
+    image: "https://images.unsplash.com/photo-1621012431610-8bbf4b7ab790?w=500&h=600&fit=crop",
+    description: "Beautifully embroidered kurtis for a graceful look",
   },
 ];
 
