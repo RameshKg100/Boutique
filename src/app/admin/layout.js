@@ -9,6 +9,7 @@ import {
   Package, 
   ShoppingCart,
   Star, 
+  ImageIcon,
   Settings, 
   LogOut, 
   Menu, 
@@ -40,6 +41,7 @@ export default function AdminLayout({ children }) {
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
     { name: "Products", href: "/admin/products", icon: Package },
     { name: "Reviews", href: "/admin/reviews", icon: Star },
+    { name: "Images", href: "/admin/images", icon: ImageIcon },
     { name: "Settings", href: "/admin/settings", icon: Settings },
   ];
 
