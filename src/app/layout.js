@@ -19,9 +19,9 @@ const lato = Lato({
 });
 
 export const metadata = {
-  title: "Sashaa Boutiques | Premium Fashion from Chennai",
+  title: "Sathyas Boutique | Premium Fashion from Chennai",
   description:
-    "Discover exquisite collections of Maxis, Sarees, Tops, and Kurtis at Sashaa Boutiques. Premium Chennai boutique offering custom tailoring, personal styling, and bridal curation services.",
+    "Discover exquisite collections of Maxis, Sarees, Tops, and Kurtis at Sathyas Boutique. Premium Chennai boutique offering custom tailoring, personal styling, and bridal curation services.",
   keywords:
     "boutique, fashion, sarees, kurtis, maxis, tops, Chennai, custom tailoring, bridal wear",
 };

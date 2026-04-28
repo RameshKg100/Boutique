@@ -24,11 +24,11 @@ export default function Footer() {
           <div className="space-y-8">
             <div className="flex items-center gap-4">
               <div className="relative w-12 h-12 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/10 p-1">
-                <img src="/logo.png" alt="Sashaa Logo" className="w-full h-full object-contain" />
+                <img src="/logo.png" alt="Sathyas Boutique Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                   <h3 className="text-xl font-bold text-primary leading-tight" style={{ fontFamily: "var(--font-heading)" }}>
-                    Sashaa Boutiques
+                    Sathyas Boutique
                   </h3>
                   <p className="text-[9px] tracking-[0.2em] uppercase text-primary-dark font-bold mt-0.5">
                     Timeless Elegance
@@ -144,7 +144,7 @@ export default function Footer() {
         <div className="border-t border-border/10">
           <div className="container-boutique py-12 text-center">
             <p className="text-xs font-bold tracking-widest uppercase text-foreground/40">
-              © 2026 Sasha boutique. All rights reserved.
+              © 2026 Sathyas Boutique. All rights reserved.
             </p>
           </div>
         </div>

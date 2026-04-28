@@ -66,7 +66,7 @@ export default function Navbar() {
                 <div className="relative w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1">
                   <Image 
                     src="/logo.png" 
-                    alt="Sashaa Boutiques Logo" 
+                    alt="Sathyas Boutique Logo" 
                     fill 
                     className="object-contain"
                   />
@@ -79,13 +79,13 @@ export default function Navbar() {
                       color: "var(--color-primary)",
                     }}
                   >
-                    Sashaa
+                    Sathyas
                   </span>
                   <span
                     className="text-[11px] md:text-sm tracking-[0.4em] uppercase leading-none mt-1 font-bold"
                     style={{ color: "var(--foreground)" }}
                   >
-                    Boutiques
+                    Boutique
                   </span>
                 </div>
               </Link>
@@ -166,7 +166,7 @@ export default function Navbar() {
               <div className="relative w-8 h-8 overflow-hidden rounded-md text-foreground">
                 <Image 
                   src="/logo.png" 
-                  alt="Sashaa Logo" 
+                  alt="Sathyas Boutique Logo" 
                   fill 
                   className="object-contain"
                 />
@@ -178,7 +178,7 @@ export default function Navbar() {
                   color: "var(--color-primary)",
                 }}
               >
-                Sashaa
+                Sathyas Boutique
               </span>
             </div>
             <button

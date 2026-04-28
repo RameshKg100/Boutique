@@ -1,11 +1,11 @@
 export const siteConfig = {
-  name: "Sashaa Boutiques",
+  name: "Sathyas Boutique",
   tagline: "Elevate Your Style with Timeless Elegance",
   description: "Premium Chennai boutique offering exquisite collections of Maxis, Sarees, Tops, and Kurtis with custom tailoring and personal styling services.",
-  url: "https://sashaaboutiques.com",
+  url: "https://sathyasboutique.vercel.app",
   contact: {
     phone: "+91 9976474102",
-    email: "hello@sashaaboutiques.com",
+    email: "hello@sathyasboutique.com",
     address: "No. 42, Cathedral Road, Gopalapuram, Chennai - 600086, Tamil Nadu, India",
     hours: "Mon - Sat: 10:00 AM - 8:00 PM | Sun: 11:00 AM - 6:00 PM",
   },
