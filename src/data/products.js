@@ -30,6 +30,29 @@ export const products = [
     isNew: true,
     isFeatured: true,
   },
+  {
+    id: 2,
+    slug: "midnight-velvet-maxi",
+    name: "Midnight Velvet Maxi",
+    price: 5999,
+    originalPrice: 7999,
+    category: "maxis",
+    description: "Luxurious velvet maxi dress in deep midnight blue. Features a sweetheart neckline, fitted bodice, and flowing skirt. Perfect for evening events and special occasions.",
+    shortDescription: "Luxurious velvet maxi in deep midnight blue",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: ["Midnight Blue", "Burgundy"],
+    images: [
+      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1568252542512-9fe8fe9c87bb?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600&h=800&fit=crop",
+    ],
+    rating: 4.9,
+    reviews: 38,
+    inStock: true,
+    isNew: false,
+    isFeatured: true,
+  },
 
   // ===== SAREES (1) =====
   {
