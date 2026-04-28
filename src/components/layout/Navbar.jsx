@@ -191,18 +191,41 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Nav Links */}
-          <nav className="flex flex-col gap-1">
+          <nav className="flex flex-col gap-2 mt-2">
             {siteConfig.navigation.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`py-3 px-4 rounded-lg text-sm tracking-wide transition-all font-bold flex items-center gap-3 ${
-                  pathname === link.href
-                    ? "bg-primary/10 text-primary"
-                    : "text-foreground hover:bg-primary/5 hover:text-primary"
-                }`}
+                className="block"
+                style={{
+                  padding: '14px 20px',
+                  borderRadius: '14px',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  letterSpacing: '0.01em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  transition: 'all 0.25s ease',
+                  background: pathname === link.href
+                    ? 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))'
+                    : 'transparent',
+                  color: pathname === link.href ? '#FFFFFF' : 'var(--foreground)',
+                  boxShadow: pathname === link.href
+                    ? '0 4px 15px rgba(197, 107, 138, 0.35)'
+                    : 'none',
+                }}
               >
-                {getNavIcon(link.name)}
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '24px',
+                  height: '24px',
+                  opacity: pathname === link.href ? 1 : 0.6,
+                }}>
+                  {getNavIcon(link.name)}
+                </span>
                 <span>{link.name}</span>
               </Link>
             ))}
