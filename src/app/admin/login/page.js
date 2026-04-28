@@ -18,7 +18,8 @@ export default function AdminLogin() {
     
     // Simulate slight delay for professional feel
     setTimeout(() => {
-      if (password === "12345") {
+      const secureKey = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123";
+      if (password === secureKey) {
         localStorage.setItem("isAdminAuthenticated", "true");
         router.push("/admin");
       } else {

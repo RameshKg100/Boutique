@@ -29,12 +29,26 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAdminAuthenticated");
-    if (!isAuthenticated && pathname !== "/admin/login") {
+    const auth = localStorage.getItem("isAdminAuthenticated");
+    if (!auth && pathname !== "/admin/login") {
       router.push("/admin/login");
+    } else {
+      setIsAuthenticated(!!auth || pathname === "/admin/login");
+      setIsLoading(false);
     }
   }, [pathname, router]);
+
+  if (isLoading && pathname !== "/admin/login") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB]">
+        <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   const navItems = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -52,6 +66,10 @@ export default function AdminLayout({ children }) {
 
   if (pathname === "/admin/login") {
     return <div className={`${inter.variable} ${inter.className}`}>{children}</div>;
+  }
+
+  if (!isAuthenticated && pathname !== "/admin/login") {
+    return null;
   }
 
   return (
