@@ -148,44 +148,45 @@ export default function AboutPage() {
             </div>
           </AnimatedSection>
           
-          <div className="relative max-w-5xl mx-auto">
-            {/* The Rail Line (Desktop) */}
-            <div className="absolute top-[48px] left-[16%] right-[16%] h-[1px] bg-border-color hidden lg:block" />
+          <div className="relative max-w-4xl mx-auto py-10">
+            {/* The Vertical Central Line (Desktop) */}
+            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-0.5 bg-border-color hidden md:block" />
             
-            {/* The Single Row Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* The Rows */}
+            <div className="space-y-16 md:space-y-24">
               {milestones.map((milestone, index) => (
-                <div key={milestone.year} className="relative group h-full">
-                  <AnimatedSection delay={index * 100} animation="slide-in-up" className="h-full">
-                    <div className="flex flex-col items-center h-full">
+                <div key={milestone.year} className="relative">
+                  <AnimatedSection animation={index % 2 === 0 ? "slide-in-left" : "slide-in-right"}>
+                    <div className={`flex flex-col md:flex-row items-center gap-8 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
                       
-                      {/* Interactive Dot on Rail */}
-                      <div className="hidden lg:flex items-center justify-center w-full h-12 relative mb-6">
-                        <div className="w-3 h-3 rounded-full bg-white border-2 border-primary z-20 group-hover:scale-150 group-hover:bg-primary transition-all duration-300 shadow-sm" />
-                        <div className="absolute top-[-30px] text-[10px] font-black text-primary tracking-widest bg-primary/5 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          {milestone.year}
+                      {/* Central Point */}
+                      <div className="absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-primary z-10 hidden md:flex items-center justify-center shadow-md">
+                        <milestone.icon size={18} className="text-primary" />
+                      </div>
+
+                      {/* Side 1: Year/Icon */}
+                      <div className="w-full md:w-1/2 flex justify-center md:justify-end md:pr-16 text-center md:text-right">
+                        <div className={`md:flex flex-col ${index % 2 !== 0 ? "md:items-start" : "md:items-end"}`}>
+                           <span className="text-primary text-4xl font-black mb-2 block">{milestone.year}</span>
+                           <div className="w-12 h-1 px-1 bg-primary rounded-full hidden md:block" />
                         </div>
                       </div>
 
-                      {/* Compact Milestone Card */}
-                      <div className="bg-[#FBFBFB] p-8 rounded-2xl border border-border-color w-full h-full min-h-[260px] flex flex-col items-center text-center transition-all duration-500 hover:bg-white hover:shadow-xl hover:-translate-y-2 group-hover:border-primary/20">
-                        {/* Medium Icon */}
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 transition-colors group-hover:bg-primary group-hover:text-white">
-                          <milestone.icon size={22} strokeWidth={2.5} />
+                      {/* Side 2: Content Card */}
+                      <div className="w-full md:w-1/2 flex justify-center md:justify-start md:pl-16 text-center md:text-left">
+                        <div className="bg-[#FBFBFB] p-8 rounded-2xl border border-border-color shadow-sm max-w-md w-full transition-all duration-300 hover:shadow-xl hover:border-primary/20">
+                          <div className="md:hidden w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
+                            <milestone.icon size={22} />
+                          </div>
+                          <h3 className="text-xl font-bold mb-3 text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+                            {milestone.title}
+                          </h3>
+                          <p className="text-sm text-foreground/60 font-medium leading-relaxed">
+                            {milestone.description}
+                          </p>
                         </div>
-                        
-                        <span className="text-primary text-[10px] font-black uppercase tracking-widest mb-2 block lg:hidden">
-                          {milestone.year}
-                        </span>
-                        
-                        <h3 className="text-xl font-bold mb-3 text-foreground leading-tight" style={{ fontFamily: "var(--font-heading)" }}>
-                          {milestone.title}
-                        </h3>
-                        
-                        <p className="text-sm text-foreground/60 font-medium leading-relaxed">
-                          {milestone.description}
-                        </p>
                       </div>
+
                     </div>
                   </AnimatedSection>
                 </div>
