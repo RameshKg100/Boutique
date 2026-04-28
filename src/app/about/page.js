@@ -13,11 +13,8 @@ const values = [
 
 const milestones = [
   { year: "2010", title: "Founded", icon: Store, description: "Sashaa Boutiques opened its doors in the heart of Chennai's Gopalapuram, starting with a curated collection of artisanal sarees." },
-  { year: "2014", title: "Bridal Launch", icon: Gem, description: "Launched our signature bridal collection, becoming a premium destination for brides seeking unique, handcrafted elegance." },
-  { year: "2018", title: "Tailoring Studio", icon: Scissors, description: "Opened our dedicated custom tailoring studio with master artisans to provide a flawless, personalized fit for every client." },
   { year: "2022", title: "500+ Customers", icon: Users, description: "Reached a major milestone of serving over 500 loyal customers across India, building a community of fashion enthusiasts." },
   { year: "2024", title: "Online Expansion", icon: Globe, description: "Bringing our premium boutique experience to customers nationwide through our flagship digital store and worldwide shipping." },
-  { year: "2025", title: "Global Presence", icon: Star, description: "Expanding our reach to international fashion centers, showcasing the best of Indian craftsmanship to a global audience." },
 ];
 
 export default function AboutPage() {
