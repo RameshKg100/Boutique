@@ -6,12 +6,9 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { Heart, Eye, Target, Award, Users, Sparkles, Store, Gem, Scissors, Globe, Star } from "lucide-react";
 
 const values = [
-  { icon: Heart, title: "Passion", description: "Every stitch tells a story of our deep love for fashion and craftsmanship." },
-  { icon: Eye, title: "Attention to Detail", description: "We obsess over every detail, from fabric selection to the final fitting." },
-  { icon: Target, title: "Perfection", description: "We don't settle for anything less than perfect in every garment we create." },
-  { icon: Award, title: "Quality", description: "Only the finest materials and techniques go into our collections." },
-  { icon: Users, title: "Customer First", description: "Your satisfaction and confidence in our pieces is our ultimate reward." },
-  { icon: Sparkles, title: "Innovation", description: "We blend traditional techniques with contemporary design sensibilities." },
+  { icon: Heart, title: "Passion", description: "Every stitch tells a story of our deep love for fashion." },
+  { icon: Award, title: "Quality", description: "Only the finest materials go into our collections." },
+  { icon: Users, title: "Customer First", description: "Your satisfaction is our ultimate reward." },
 ];
 
 const milestones = [
@@ -100,43 +97,39 @@ export default function AboutPage() {
         <div className="container-boutique">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <AnimatedSection delay={0}>
-              <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 md:p-10 card-hover border border-white/20 h-full">
+              <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 md:p-8 card-hover border border-white/20 h-full">
                 <div
-                  className="w-12 h-12 rounded-xl mb-6 flex items-center justify-center bg-primary/10 border border-primary/20"
+                  className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20"
                 >
-                  <Target size={22} className="text-primary" />
+                  <Target size={20} className="text-primary" />
                 </div>
                 <h3
-                  className="text-2xl font-bold mb-4"
+                  className="text-xl font-bold mb-3"
                   style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
                 >
                   Our Mission
                 </h3>
-                <p className="text-foreground/70 font-medium leading-relaxed">
+                <p className="text-foreground/70 text-sm font-medium leading-relaxed">
                   To empower every woman with fashion that celebrates her individuality.
-                  We are committed to delivering exceptional quality, personalized service,
-                  and designs that make our customers feel confident, beautiful, and
-                  authentically themselves.
+                  We deliver exceptional quality and designs that make our customers feel confident.
                 </p>
               </div>
             </AnimatedSection>
             <AnimatedSection delay={150}>
-              <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 md:p-10 card-hover border border-white/20 h-full">
+              <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 md:p-8 card-hover border border-white/20 h-full">
                 <div
-                  className="w-12 h-12 rounded-xl mb-6 flex items-center justify-center bg-primary/10 border border-primary/20"
+                  className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20"
                 >
-                  <Eye size={22} className="text-primary" />
+                  <Eye size={20} className="text-primary" />
                 </div>
                 <h3
-                  className="text-2xl font-bold mb-4"
+                  className="text-xl font-bold mb-3"
                   style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
                 >
                   Our Vision
                 </h3>
-                <p className="text-foreground/70 font-medium leading-relaxed">
-                  To be India&apos;s most loved boutique brand — known for our unwavering
-                  commitment to quality, our celebration of Indian textile heritage,
-                  and our ability to blend timeless tradition with contemporary elegance.
+                <p className="text-foreground/70 text-sm font-medium leading-relaxed">
+                  To be India&apos;s most loved boutique brand — known for our celebration of Indian textile heritage and timeless elegance.
                 </p>
               </div>
             </AnimatedSection>
@@ -206,30 +199,30 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-8 lg:py-12 bg-secondary border-y border-white/10" id="our-values">
+      <section className="py-12 bg-white" id="our-values">
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
               title="Our Values"
-              subtitle="The principles that guide everything we do at Sashaa Boutiques."
+              subtitle="The core principles that define us."
             />
           </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {values.map((value, index) => (
               <AnimatedSection key={value.title} delay={index * 100}>
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 card-hover border border-white/20 text-center">
+                <div className="p-6 rounded-2xl border border-border-color text-center hover:shadow-lg transition-all duration-300 bg-secondary/30">
                   <div
-                    className="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center bg-primary/10 border border-primary/20"
+                    className="w-10 h-10 rounded-xl mx-auto mb-4 flex items-center justify-center bg-primary/10 border border-primary/20"
                   >
-                    <value.icon size={20} className="text-primary" />
+                    <value.icon size={18} className="text-primary" />
                   </div>
                   <h3
-                    className="text-lg font-bold mb-2 text-foreground"
+                    className="text-base font-bold mb-2 text-foreground"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     {value.title}
                   </h3>
-                  <p className="text-sm text-foreground/60 font-medium leading-relaxed">
+                  <p className="text-xs text-foreground/60 font-medium leading-relaxed">
                     {value.description}
                   </p>
                 </div>
