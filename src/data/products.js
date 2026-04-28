@@ -252,7 +252,7 @@ export const products = [
     sizes: ["Free Size"],
     colors: ["Burgundy & Gold", "Navy & Gold"],
     images: [
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
@@ -276,7 +276,7 @@ export const products = [
     colors: ["Pastel Pink", "Mint Green"],
     images: [
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
     ],
@@ -301,7 +301,7 @@ export const products = [
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
     ],
     rating: 4.9,
     reviews: 47,
@@ -323,7 +323,7 @@ export const products = [
     images: [
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
     ],
     rating: 4.6,
@@ -346,7 +346,7 @@ export const products = [
     images: [
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
     ],
     rating: 4.5,
@@ -369,7 +369,7 @@ export const products = [
     images: [
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
     ],
     rating: 4.7,
@@ -392,7 +392,7 @@ export const products = [
     images: [
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
     ],
     rating: 4.8,
@@ -416,7 +416,7 @@ export const products = [
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
     ],
     rating: 4.6,
     reviews: 22,
@@ -436,7 +436,7 @@ export const products = [
     sizes: ["Free Size"],
     colors: ["Teal & White", "Coral & Black"],
     images: [
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
@@ -459,7 +459,7 @@ export const products = [
     sizes: ["Free Size"],
     colors: ["Bridal Red & Gold"],
     images: [
-      "https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=600&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=600&h=800&fit=crop",
       "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop",
