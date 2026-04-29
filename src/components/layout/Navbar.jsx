@@ -42,6 +42,15 @@ export default function Navbar() {
     };
   }, [isMobileOpen]);
 
+  const [showAdminLink, setShowAdminLink] = useState(false);
+
+  // Easter egg: Double click logo to show admin login icon
+  const handleLogoClick = (e) => {
+    if (e.detail === 2) { // Double click
+      setShowAdminLink(!showAdminLink);
+    }
+  };
+
   return (
     <>
       {/* Main Navbar */}
@@ -62,33 +71,38 @@ export default function Navbar() {
 
             {/* Logo */}
             <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
-              <Link href="/" className="flex items-center gap-4" id="brand-logo">
-                <div className="relative w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1">
-                  <Image 
-                    src="/logo.png" 
-                    alt="Sathyas Boutique Logo" 
-                    fill 
-                    className="object-contain"
-                  />
-                </div>
-                <div className="flex flex-col items-start whitespace-nowrap">
-                  <span
-                    className="text-2xl md:text-4xl font-black tracking-tight leading-none"
-                    style={{
-                      fontFamily: "var(--font-heading)",
-                      color: "var(--color-primary)",
-                    }}
-                  >
-                    Sathyas
-                  </span>
-                  <span
-                    className="text-[11px] md:text-sm tracking-[0.4em] uppercase leading-none mt-1 font-bold"
-                    style={{ color: "var(--foreground)" }}
-                  >
-                    Boutique
-                  </span>
-                </div>
-              </Link>
+              <div 
+                onClick={handleLogoClick}
+                className="cursor-pointer select-none"
+              >
+                <Link href="/" className="flex items-center gap-4" id="brand-logo">
+                  <div className="relative w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1">
+                    <Image 
+                      src="/logo.png" 
+                      alt="Sathyas Boutique Logo" 
+                      fill 
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="flex flex-col items-start whitespace-nowrap">
+                    <span
+                      className="text-2xl md:text-4xl font-black tracking-tight leading-none"
+                      style={{
+                        fontFamily: "var(--font-heading)",
+                        color: "var(--color-primary)",
+                      }}
+                    >
+                      Sathyas
+                    </span>
+                    <span
+                      className="text-[11px] md:text-sm tracking-[0.4em] uppercase leading-none mt-1 font-bold"
+                      style={{ color: "var(--foreground)" }}
+                    >
+                      Boutique
+                    </span>
+                  </div>
+                </Link>
+              </div>
             </div>
 
             {/* Desktop Navigation */}
@@ -139,14 +153,16 @@ export default function Navbar() {
                 )}
               </Link>
 
-              <Link
-                href="/admin/login"
-                className="p-2 text-foreground hover:text-primary transition-colors border-l border-border/10 ml-1 pl-3"
-                id="admin-login-icon"
-                aria-label="Admin Login"
-              >
-                <User size={20} />
-              </Link>
+              {showAdminLink && (
+                <Link
+                  href="/admin/login"
+                  className="p-2 text-primary hover:bg-primary/5 rounded-full transition-all border border-primary/20 animate-pulse"
+                  id="admin-login-icon"
+                  aria-label="Admin Login"
+                >
+                  <User size={20} />
+                </Link>
+              )}
             </div>
           </div>
         </div>
