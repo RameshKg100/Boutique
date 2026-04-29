@@ -7,46 +7,44 @@ export const revalidate = 0;
 export async function GET() {
   try {
     if (supabase) {
-      const { data: categories, error } = await supabase
+      const { data, error } = await supabase
         .from('categories')
         .select('*')
-        .order('display_order', { ascending: true });
-      
-      if (error) {
-        console.error("Supabase categories GET error:", error);
-        return NextResponse.json([]);
-      }
-      return NextResponse.json(categories);
+        .order('order_index', { ascending: true });
+        
+      if (error) throw error;
+      return NextResponse.json(data);
     }
-    // Fallback to static if no supabase
+    // Fallback for local
     return NextResponse.json([
-      { id: 1, name: "Maxis", slug: "maxis", display_order: 1 },
-      { id: 2, name: "Sarees", slug: "sarees", display_order: 4 },
-      { id: 3, name: "Tops", slug: "tops", display_order: 3 },
-      { id: 4, name: "Kurtis", slug: "kurtis", display_order: 3 },
+      { name: "Maxis", slug: "maxis", order_index: 1 },
+      { name: "Feeding Maxis", slug: "feeding-maxis", order_index: 2 },
+      { name: "Tops", slug: "tops", order_index: 3 },
+      { name: "Kurtis", slug: "kurtis", order_index: 4 },
+      { name: "Sarees", slug: "sarees", order_index: 5 },
     ]);
   } catch (error) {
-    console.error("API categories GET Catch error:", error);
-    return NextResponse.json([]);
+    console.error("Categories GET error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
 export async function POST(request) {
   try {
-    const categoryData = await request.json();
-    
+    const { name, order_index } = await request.json();
+    const slug = name.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+
     if (supabaseAdmin) {
       const { data, error } = await supabaseAdmin
         .from('categories')
-        .upsert(categoryData, { onConflict: 'slug' })
+        .insert([{ name, slug, order_index }])
         .select();
-        
+      
       if (error) throw error;
       return NextResponse.json({ success: true, category: data[0] });
     }
-    return NextResponse.json({ success: false, error: "No Supabase Admin" });
+    return NextResponse.json({ error: "Service key missing" }, { status: 500 });
   } catch (error) {
-    console.error("Category POST error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -56,20 +54,17 @@ export async function DELETE(request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
-
-    if (supabaseAdmin) {
+    if (supabaseAdmin && id) {
       const { error } = await supabaseAdmin
         .from('categories')
         .delete()
         .eq('id', id);
-        
+      
       if (error) throw error;
       return NextResponse.json({ success: true });
     }
-    return NextResponse.json({ success: false, error: "No Supabase Admin" });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   } catch (error) {
-    console.error("Category DELETE error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

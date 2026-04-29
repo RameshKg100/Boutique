@@ -10,11 +10,13 @@ import { categories as staticCategories } from "@/data/products";
 function CollectionsContent() {
   const searchParams = useSearchParams();
   const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState(null);
   const [sortBy, setSortBy] = useState("default");
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const categoryParam = searchParams.get("category");
 
   useEffect(() => {
     async function fetchData() {
@@ -24,19 +26,17 @@ function CollectionsContent() {
           fetch("/api/products", { cache: "no-store" }),
           fetch("/api/categories", { cache: "no-store" })
         ]);
-        const [prodData, catData] = await Promise.all([
-          prodRes.json(),
-          catRes.json()
-        ]);
         
-        setProducts(prodData);
-        setCategories(catData);
+        const prods = await prodRes.json();
+        const cats = await catRes.json();
         
-        const categoryParam = searchParams.get("category");
+        setProducts(prods);
+        setCategories(cats);
+        
         if (categoryParam) {
           setActiveCategory(categoryParam);
-        } else if (catData.length > 0) {
-          setActiveCategory(catData[0].slug);
+        } else if (cats.length > 0) {
+          setActiveCategory(cats[0].slug);
         }
       } catch (error) {
         console.error("Failed to load data:", error);
@@ -45,7 +45,9 @@ function CollectionsContent() {
       }
     }
     fetchData();
-  }, [searchParams]);
+  }, [categoryParam]);
+
+
 
   useEffect(() => {
     let result = products;
@@ -101,7 +103,7 @@ function CollectionsContent() {
             <div className="flex flex-wrap gap-2" id="category-filters">
               {categories.map((cat) => (
                 <button
-                  key={cat.id}
+                  key={cat.id || cat.slug}
                   onClick={() => setActiveCategory(cat.slug)}
                   className={`px-6 py-2.5 rounded-lg text-sm font-black uppercase tracking-wider transition-all duration-300 ${
                     activeCategory === cat.slug
@@ -136,7 +138,7 @@ function CollectionsContent() {
           {/* Results Count */}
           <p className="text-sm font-bold text-text/70 mb-4 flex items-center gap-2">
             Showing <span className="bg-white border border-border text-text px-2.5 py-0.5 rounded-full">{filteredProducts.length}</span> pieces
-            in <span className="text-primary capitalize font-black">{staticCategories.find(c => c.slug === activeCategory)?.name || activeCategory}</span>
+            in <span className="text-primary capitalize font-black">{categories.find(c => c.slug === activeCategory)?.name || activeCategory}</span>
           </p>
 
           {/* Product Grid - Dynamic Density */}

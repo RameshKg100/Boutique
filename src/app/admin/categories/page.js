@@ -1,23 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Loader2, GripVertical, Save, ArrowLeft } from "lucide-react";
+import { 
+  Plus, 
+  Trash2, 
+  Loader2, 
+  GripVertical,
+  Save,
+  ArrowLeft,
+  Tag
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function CategoriesPage() {
-  const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [newCategory, setNewCategory] = useState({ name: "", slug: "", display_order: 0 });
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const router = useRouter();
 
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/categories", { cache: "no-store" });
+      const res = await fetch("/api/categories");
       const data = await res.json();
-      setCategories(data);
+      setCategories(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching categories:", error);
     } finally {
@@ -31,173 +39,135 @@ export default function CategoriesPage() {
 
   const handleAddCategory = async (e) => {
     e.preventDefault();
-    if (!newCategory.name) return;
+    if (!newCategoryName.trim()) return;
 
-    setIsSaving(true);
-    const slug = newCategory.slug || newCategory.name.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
-    
+    setSaving(true);
     try {
       const res = await fetch("/api/categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...newCategory, slug, display_order: categories.length + 1 }),
+        body: JSON.stringify({ 
+          name: newCategoryName, 
+          order_index: categories.length + 1 
+        }),
       });
-
       if (res.ok) {
-        setNewCategory({ name: "", slug: "", display_order: 0 });
+        setNewCategoryName("");
         fetchCategories();
+      } else {
+        alert("Failed to add category");
       }
     } catch (error) {
       console.error("Error adding category:", error);
     } finally {
-      setIsSaving(false);
+      setSaving(false);
     }
   };
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure? Products in this category might lose their link.")) return;
-
     try {
       const res = await fetch(`/api/categories?id=${id}`, { method: "DELETE" });
       if (res.ok) fetchCategories();
+      else alert("Failed to delete");
     } catch (error) {
-      console.error("Error deleting category:", error);
+      console.error("Error deleting:", error);
     }
   };
-
-  const updateOrder = async (id, newOrder) => {
-    const category = categories.find(c => c.id === id);
-    if (!category) return;
-
-    try {
-      await fetch("/api/categories", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...category, display_order: parseInt(newOrder) }),
-      });
-      fetchCategories();
-    } catch (error) {
-      console.error("Error updating order:", error);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-40 text-gray-500">
-        <Loader2 className="animate-spin text-primary mb-4" size={40} />
-        <p className="font-medium italic">Loading categories...</p>
-      </div>
-    );
-  }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20">
-      <div className="flex items-center justify-between">
-        <div>
-          <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-primary transition-colors text-sm mb-2">
-             <ArrowLeft size={16} /> Back to Dresses
-          </button>
-          <h2 className="text-3xl font-bold text-gray-900">Manage Categories</h2>
-          <p className="text-gray-500 mt-1 font-medium italic text-sm">Define how your dresses are grouped on the website.</p>
-        </div>
+    <div className="max-w-4xl mx-auto space-y-6 pb-12 animate-fade-in">
+      {/* Header */}
+      <div className="flex items-center justify-between bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-sm sticky top-20 z-40">
+        <button 
+          onClick={() => router.back()}
+          className="flex items-center gap-2 text-[#6B7280] hover:text-[#2563EB] transition-colors text-sm font-medium"
+        >
+          <ArrowLeft size={16} />
+          Back to Dresses
+        </button>
+        <h2 className="text-lg font-bold text-[#111827] flex items-center gap-2">
+          <Tag size={18} className="text-[#2563EB]" /> Manage Categories
+        </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Add Category Form */}
-        <div className="md:col-span-1">
-           <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 sticky top-24">
-              <h3 className="font-bold text-gray-900 text-sm uppercase tracking-wider mb-4">Add New Category</h3>
-              <form onSubmit={handleAddCategory} className="space-y-4">
-                 <div>
-                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Category Name</label>
-                    <input 
-                       type="text" 
-                       placeholder="e.g. Feeding Maxis"
-                       className="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-primary transition-colors"
-                       value={newCategory.name}
-                       onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
-                       required
-                    />
-                 </div>
-                 <div>
-                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">URL Slug (Optional)</label>
-                    <input 
-                       type="text" 
-                       placeholder="e.g. feeding-maxis"
-                       className="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-primary transition-colors"
-                       value={newCategory.slug}
-                       onChange={(e) => setNewCategory({...newCategory, slug: e.target.value})}
-                    />
-                 </div>
-                 <button 
-                    type="submit" 
-                    disabled={isSaving}
-                    className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white py-2.5 rounded-lg font-bold text-sm transition-all shadow-md disabled:opacity-50"
-                 >
-                    {isSaving ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} />}
-                    Create Category
-                 </button>
-              </form>
-           </div>
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        {/* Add New Category */}
+        <div className="md:col-span-4">
+          <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-sm p-6 sticky top-40">
+            <h3 className="text-sm font-bold text-[#111827] uppercase tracking-wider mb-4">Add Category</h3>
+            <form onSubmit={handleAddCategory} className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-[#6B7280] uppercase tracking-wider mb-1.5">Category Name</label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="e.g. Maxi Dresses"
+                  className="w-full border border-[#E5E7EB] rounded-md px-4 py-2 text-sm focus:outline-none focus:border-[#2563EB]"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                />
+              </div>
+              <button 
+                type="submit" 
+                disabled={saving}
+                className="w-full btn-primary justify-center py-2.5 text-sm shadow-md disabled:opacity-50"
+              >
+                {saving ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} />}
+                Add Category
+              </button>
+            </form>
+            <p className="mt-4 text-[10px] text-[#6B7280] leading-relaxed">
+              New categories will be added to the end of the list. You can reorder them in the database if needed.
+            </p>
+          </div>
         </div>
 
         {/* Categories List */}
-        <div className="md:col-span-2 space-y-4">
-           <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
-                 <h3 className="font-bold text-gray-900 uppercase tracking-wider text-sm">Active Categories</h3>
-                 <span className="text-[10px] font-black bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase tracking-widest">
-                    {categories.length} Total
-                 </span>
+        <div className="md:col-span-8">
+          <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-sm overflow-hidden">
+            <div className="px-4 py-3 border-b border-[#E5E7EB] bg-[#F9FAFB]">
+              <h3 className="text-sm font-bold text-[#111827] uppercase tracking-wider">Existing Categories</h3>
+            </div>
+            
+            {loading ? (
+              <div className="py-20 flex flex-col items-center justify-center">
+                <Loader2 className="animate-spin text-[#2563EB] mb-2" size={32} />
+                <p className="text-sm text-[#6B7280]">Loading categories...</p>
               </div>
-              <div className="divide-y divide-gray-100">
-                 {categories.map((cat, index) => (
-                    <div key={cat.id} className="p-4 flex items-center justify-between group hover:bg-gray-50/50 transition-colors">
-                       <div className="flex items-center gap-4">
-                          <div className="text-gray-300 group-hover:text-gray-400 cursor-grab active:cursor-grabbing transition-colors">
-                             <GripVertical size={20} />
-                          </div>
-                          <div>
-                             <p className="font-bold text-gray-900">{cat.name}</p>
-                             <p className="text-[10px] text-gray-400 font-mono">slug: {cat.slug}</p>
-                          </div>
-                       </div>
-                       <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-2">
-                             <label className="text-[10px] font-bold text-gray-400 uppercase">Order:</label>
-                             <input 
-                                type="number" 
-                                className="w-12 text-center text-xs p-1 border border-gray-200 rounded focus:outline-none focus:border-primary font-bold"
-                                value={cat.display_order}
-                                onChange={(e) => updateOrder(cat.id, e.target.value)}
-                             />
-                          </div>
-                          <button 
-                             onClick={() => handleDelete(cat.id)}
-                             className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                             title="Delete Category"
-                          >
-                             <Trash2 size={16} />
-                          </button>
-                       </div>
+            ) : categories.length === 0 ? (
+              <div className="py-20 text-center text-[#6B7280] text-sm">No categories found.</div>
+            ) : (
+              <div className="divide-y divide-[#E5E7EB]">
+                {categories.map((cat) => (
+                  <div key={cat.id || cat.slug} className="flex items-center justify-between p-4 hover:bg-[#F9FAFB] transition-colors group">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-gray-50 rounded-md text-[#6B7280]">
+                        <GripVertical size={14} />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-[#111827]">{cat.name}</p>
+                        <p className="text-[10px] text-[#6B7280]">Slug: {cat.slug}</p>
+                      </div>
                     </div>
-                 ))}
-                 {categories.length === 0 && (
-                    <div className="p-12 text-center text-gray-400 italic font-medium">
-                       No categories defined yet. Add your first one to get started!
-                    </div>
-                 )}
+                    <button 
+                      onClick={() => handleDelete(cat.id)}
+                      className="p-2 text-[#6B7280] hover:text-[#DC2626] hover:bg-red-50 rounded-md opacity-0 group-hover:opacity-100 transition-all"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ))}
               </div>
-           </div>
-
-           <div className="bg-primary/5 border border-primary/10 rounded-xl p-6">
-              <h4 className="font-bold text-primary text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
-                 💡 Quick Tip
-              </h4>
-              <p className="text-xs text-gray-600 leading-relaxed font-medium">
-                The **Order** number determines the sequence on the website. Use **1 for Maxis**, **2 for Feeding Maxis**, etc. Lower numbers appear first.
-              </p>
-           </div>
+            )}
+          </div>
+          
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-lg flex items-start gap-3">
+             <div className="p-1.5 bg-[#2563EB] text-white rounded text-[10px] font-bold">INFO</div>
+             <p className="text-xs text-[#1D4ED8] leading-relaxed">
+               Categories are automatically synced with the website collection page. The order is determined by the "Order Index" in the database.
+             </p>
+          </div>
         </div>
       </div>
     </div>

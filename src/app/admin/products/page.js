@@ -18,34 +18,23 @@ import { formatPrice } from "@/lib/utils";
 
 export default function ProductsListPage() {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("maxis");
   const [isDeleting, setIsDeleting] = useState(null);
 
-  const fetchData = async () => {
+  const fetchProducts = async () => {
     try {
       setLoading(true);
-      const [prodRes, catRes] = await Promise.all([
-        fetch("/api/products", { cache: "no-store" }),
-        fetch("/api/categories", { cache: "no-store" })
-      ]);
-      const [prodData, catData] = await Promise.all([
-        prodRes.json(),
-        catRes.json()
-      ]);
-      setProducts(prodData);
-      setCategories(catData);
-      if (catData.length > 0 && categoryFilter === "all") {
-        setCategoryFilter(catData[0].slug);
-      }
+      const res = await fetch("/api/products", { cache: "no-store" });
+      const data = await res.json();
+      setProducts(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching products:", error);
     } finally { setLoading(false); }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { fetchProducts(); }, []);
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
@@ -61,9 +50,24 @@ export default function ProductsListPage() {
 
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === "all" || p.category === categoryFilter;
+    const matchesCategory = p.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("/api/categories");
+        const data = await res.json();
+        setCategories(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   return (
     <div className="space-y-6 pb-12">
@@ -71,12 +75,12 @@ export default function ProductsListPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold text-[#111827]">Dresses</h2>
-          <p className="text-sm text-[#6B7280] mt-0.5">Manage your dress catalog and categories.</p>
+          <p className="text-sm text-[#6B7280] mt-0.5">Manage your dress catalog.</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
           <Link 
             href="/admin/categories" 
-            className="flex items-center gap-2 bg-white border border-[#E5E7EB] hover:bg-gray-50 text-[#111827] px-4 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm"
+            className="flex items-center gap-2 bg-white hover:bg-gray-50 text-[#6B7280] border border-[#E5E7EB] px-5 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm"
           >
             Manage Categories
           </Link>
@@ -103,22 +107,12 @@ export default function ProductsListPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex gap-1 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
-            <button
-              onClick={() => setCategoryFilter("all")}
-              className={`px-3 py-2 text-xs font-medium rounded-md transition-colors capitalize whitespace-nowrap
-                ${categoryFilter === "all" 
-                  ? "bg-[#2563EB] text-white" 
-                  : "text-[#6B7280] hover:bg-gray-100"
-                }`}
-            >
-              All
-            </button>
+          <div className="flex gap-1 overflow-x-auto pb-1 sm:pb-0">
             {categories.map((cat) => (
               <button
-                key={cat.slug}
+                key={cat.id || cat.slug}
                 onClick={() => setCategoryFilter(cat.slug)}
-                className={`px-3 py-2 text-xs font-medium rounded-md transition-colors capitalize whitespace-nowrap
+                className={`px-3 py-2 text-xs font-medium rounded-md transition-colors whitespace-nowrap
                   ${categoryFilter === cat.slug 
                     ? "bg-[#2563EB] text-white" 
                     : "text-[#6B7280] hover:bg-gray-100"
