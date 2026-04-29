@@ -65,11 +65,12 @@ export default function SettingsPage() {
         setSuccess(true);
         setTimeout(() => setSuccess(false), 3000);
       } else {
-        alert("Failed to save settings.");
+        const errorData = await res.json();
+        alert("Failed to save settings: " + (errorData.error || "Unknown error"));
       }
     } catch (error) {
       console.error("Save error:", error);
-      alert("An error occurred while saving.");
+      alert("An error occurred while saving: " + error.message);
     } finally {
       setSaving(false);
     }

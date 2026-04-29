@@ -2,18 +2,26 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const settingsPath = path.join(process.cwd(), "src/data/settings.json");
+const dataDir = path.join(process.cwd(), "src", "data");
+const settingsPath = path.join(dataDir, "settings.json");
 
 const getSettings = () => {
   try {
+    if (!fs.existsSync(settingsPath)) {
+      return { paymentQRCode: "" };
+    }
     const data = fs.readFileSync(settingsPath, "utf8");
     return JSON.parse(data);
   } catch (error) {
+    console.error("Read settings error:", error);
     return { paymentQRCode: "" };
   }
 };
 
 const saveSettings = (settings) => {
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
   fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2), "utf8");
 };
 
