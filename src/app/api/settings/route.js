@@ -26,12 +26,16 @@ export async function GET() {
     if (client) {
       const { data, error } = await client
         .from('store_settings')
-        .select('value')
-        .eq('key', 'payment_qr_code')
-        .maybeSingle();
+        .select('key, value')
+        .in('key', ['payment_qr_code', 'business_logo']);
       
-      if (data && data.value) {
-        return NextResponse.json({ paymentQRCode: data.value });
+      if (data) {
+        const settings = {};
+        data.forEach(item => {
+          if (item.key === 'payment_qr_code') settings.paymentQRCode = item.value;
+          if (item.key === 'business_logo') settings.businessLogo = item.value;
+        });
+        return NextResponse.json(settings);
       }
       if (error) console.error("Supabase settings fetch error:", error);
     }
@@ -47,21 +51,35 @@ export async function POST(request) {
   try {
     const newSettings = await request.json();
     const qrCodeUrl = newSettings.paymentQRCode;
-
-    if (!qrCodeUrl) {
-      return NextResponse.json({ error: "No image URL provided. Please upload an image first." }, { status: 400 });
-    }
+    const businessLogoUrl = newSettings.businessLogo;
 
     // 1. Try Supabase (for Production/Vercel)
     if (supabaseAdmin) {
       console.log("Attempting to save to Supabase...");
-      const { error } = await supabaseAdmin
-        .from('store_settings')
-        .upsert({ key: 'payment_qr_code', value: qrCodeUrl }, { onConflict: 'key' });
       
-      if (!error) {
-        console.log("Successfully saved to Supabase");
-        return NextResponse.json({ success: true, method: 'database' });
+      const upserts = [];
+      if (qrCodeUrl !== undefined) {
+        upserts.push({ key: 'payment_qr_code', value: qrCodeUrl });
+      }
+      if (businessLogoUrl !== undefined) {
+        upserts.push({ key: 'business_logo', value: businessLogoUrl });
+      }
+
+      if (upserts.length > 0) {
+        const { error } = await supabaseAdmin
+          .from('store_settings')
+          .upsert(upserts, { onConflict: 'key' });
+        
+        if (error) {
+           console.error("Supabase Save Error:", error);
+           return NextResponse.json({ 
+             error: `Database Save Failed: ${error.message}. \n\nThis usually means the 'store_settings' table doesn't exist yet. Did you run the SQL command in your Supabase dashboard?` 
+           }, { status: 500 });
+        }
+      }
+
+      console.log("Successfully saved to Supabase");
+      return NextResponse.json({ success: true, method: 'database' });
       }
 
       console.error("Supabase Save Error:", error);

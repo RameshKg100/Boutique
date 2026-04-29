@@ -25,6 +25,22 @@ export default function Navbar() {
   const pathname = usePathname();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
+  const [businessLogo, setBusinessLogo] = useState("/logo.png");
+
+  useEffect(() => {
+    async function fetchLogo() {
+      try {
+        const res = await fetch("/api/settings");
+        const data = await res.json();
+        if (data.businessLogo) {
+          setBusinessLogo(data.businessLogo);
+        }
+      } catch (error) {
+        console.error("Failed to fetch business logo:", error);
+      }
+    }
+    fetchLogo();
+  }, []);
 
   useEffect(() => {
     setIsMobileOpen(false);
@@ -78,7 +94,7 @@ export default function Navbar() {
                 <Link href="/" className="flex items-center gap-4" id="brand-logo">
                   <div className="relative w-14 h-14 md:w-20 md:h-20 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1 transition-transform hover:scale-105">
                     <Image 
-                      src="/logo.png" 
+                      src={businessLogo} 
                       alt="Sathyas Boutique Logo" 
                       fill 
                       className="object-contain"
@@ -189,7 +205,7 @@ export default function Navbar() {
             <div className="flex items-center gap-3">
               <div className="relative w-8 h-8 overflow-hidden rounded-md text-foreground">
                 <Image 
-                  src="/logo.png" 
+                  src={businessLogo} 
                   alt="Sathyas Boutique Logo" 
                   fill 
                   className="object-contain"

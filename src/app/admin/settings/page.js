@@ -8,7 +8,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [settings, setSettings] = useState({ paymentQRCode: "" });
+  const [settings, setSettings] = useState({ paymentQRCode: "", businessLogo: "" });
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -16,7 +16,10 @@ export default function SettingsPage() {
       try {
         const res = await fetch("/api/settings");
         const data = await res.json();
-        setSettings(data);
+        setSettings({
+          paymentQRCode: data.paymentQRCode || "",
+          businessLogo: data.businessLogo || ""
+        });
       } catch (error) {
         console.error("Failed to fetch settings:", error);
       } finally {
@@ -26,7 +29,7 @@ export default function SettingsPage() {
     fetchSettings();
   }, []);
 
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = async (e, key) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -41,7 +44,7 @@ export default function SettingsPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setSettings({ ...settings, paymentQRCode: data.url });
+        setSettings(prev => ({ ...prev, [key]: data.url }));
       } else {
         alert("Upload failed: " + data.error);
       }
@@ -103,6 +106,49 @@ export default function SettingsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Business Logo Section */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-3">
+            <Image src="/logo.png" width={20} height={20} alt="Logo Icon" className="opacity-50 grayscale" />
+            <h3 className="font-bold text-gray-900 uppercase tracking-wider text-sm">Business Logo</h3>
+          </div>
+          <div className="p-8 flex flex-col items-center text-center">
+            <div className="relative aspect-square w-64 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center overflow-hidden group">
+              {settings.businessLogo ? (
+                <>
+                  <Image
+                    src={settings.businessLogo}
+                    alt="Business Logo"
+                    fill
+                    className="object-contain p-4"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <label className="cursor-pointer bg-white text-gray-900 px-4 py-2 rounded-lg font-bold text-xs shadow-xl hover:scale-105 transition-transform">
+                      Change Logo
+                      <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'businessLogo')} accept="image/*" />
+                    </label>
+                  </div>
+                </>
+              ) : (
+                <label className="cursor-pointer flex flex-col items-center gap-3 text-gray-400 hover:text-primary transition-colors">
+                  {uploading ? (
+                    <Loader2 className="animate-spin text-primary" size={40} />
+                  ) : (
+                    <>
+                      <Upload size={40} />
+                      <span className="text-sm font-semibold">Upload Business Logo</span>
+                    </>
+                  )}
+                  <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'businessLogo')} accept="image/*" />
+                </label>
+              )}
+            </div>
+            <p className="mt-6 text-xs text-gray-500 font-medium leading-relaxed max-w-xs">
+              This logo will be displayed at the top of your website. Upload a square or wide logo for best results.
+            </p>
+          </div>
+        </div>
+
         {/* Payment QR Code Section */}
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-3">
@@ -122,7 +168,7 @@ export default function SettingsPage() {
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <label className="cursor-pointer bg-white text-gray-900 px-4 py-2 rounded-lg font-bold text-xs shadow-xl hover:scale-105 transition-transform">
                       Change QR Code
-                      <input type="file" className="hidden" onChange={handleFileUpload} accept="image/*" />
+                      <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'paymentQRCode')} accept="image/*" />
                     </label>
                   </div>
                 </>
@@ -136,7 +182,7 @@ export default function SettingsPage() {
                       <span className="text-sm font-semibold">Upload Business QR Code</span>
                     </>
                   )}
-                  <input type="file" className="hidden" onChange={handleFileUpload} accept="image/*" />
+                  <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'paymentQRCode')} accept="image/*" />
                 </label>
               )}
             </div>
