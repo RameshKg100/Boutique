@@ -6,28 +6,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/utils";
-import { Trash2, Minor, Plus, Minus, ArrowRight, ShoppingBag } from "lucide-react";
+import { Trash2, Minor, Plus, Minus, ArrowRight, ShoppingBag, QrCode } from "lucide-react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, cartTotal, clearCart } = useCart();
-  const shipping = 0;
+  const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
+  const shipping = totalQuantity === 1 ? 50 : 0;
   const total = cartTotal + shipping;
   
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState(1); // 1: Info, 2: Payment
+  const [paymentStatus, setPaymentStatus] = useState("Not Paid");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "", paymentMode: "" });
 
-  const handleWhatsAppCheckout = async (e) => {
+  const proceedToPayment = (e) => {
     e.preventDefault();
     if (!customerInfo.name || !customerInfo.phone || !customerInfo.location || !customerInfo.paymentMode) {
       alert("Please fill in all details including Payment Mode to proceed.");
       return;
     }
+    setCheckoutStep(2);
+  };
 
+  const handleWhatsAppCheckout = async (isPaid = false) => {
     setIsSubmitting(true);
+    const finalStatus = isPaid ? "Paid" : "Not Paid";
 
     try {
       // 1. Save the order to Supabase
@@ -39,21 +46,19 @@ export default function CartPage() {
           customerPhone: customerInfo.phone,
           customerLocation: customerInfo.location,
           paymentMode: customerInfo.paymentMode,
+          paymentStatus: finalStatus,
           items: items,
           totalAmount: total,
         }),
       });
 
-      if (!res.ok) {
-        console.error("Failed to save order to database");
-        // We still proceed to WhatsApp even if DB fails, to not lose the sale.
-      }
-
       // 2. Format WhatsApp Message
       const phoneNumber = siteConfig.contact.phone.replace(/[^0-9]/g, "");
       
-      let message = "*Order Request from Sashaa Boutiques*\n\n";
+      let message = "*Order Confirmation from Sashaa Boutiques*\n\n";
       
+      message += `*Payment Status: ${finalStatus === "Paid" ? "✅ Paid" : "❌ Not Paid"}*\n\n`;
+
       message += "*Customer Details:*\n";
       message += `Name: ${customerInfo.name}\n`;
       message += `Phone: ${customerInfo.phone}\n`;
@@ -73,9 +78,13 @@ export default function CartPage() {
       message += `\n*Summary:*\n`;
       message += `Subtotal: ${formatPrice(cartTotal)}\n`;
       message += `Shipping: ${shipping === 0 ? "Free" : formatPrice(shipping)}\n`;
-      message += `*Total: ${formatPrice(total)}*\n`;
-      message += `Payment via: *${customerInfo.paymentMode}*\n\n`;
-      message += "Please confirm my order. I will make the payment shortly!";
+      message += `*Total: ${formatPrice(total)}*\n\n`;
+      
+      if (finalStatus === "Paid") {
+        message += "Thank you! I have completed the payment via QR code. Please process my order.";
+      } else {
+        message += "I have placed my order. I will complete the payment shortly!";
+      }
       
       // 3. Redirect to WhatsApp and clear cart
       const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -191,17 +200,22 @@ export default function CartPage() {
             <div className="w-full lg:w-1/3">
               <AnimatedSection delay={200} className="sticky top-28 bg-cream border border-border/50 rounded-xl p-6 lg:p-8 shadow-sm">
                  <h2 className="text-lg font-bold text-text mb-6 uppercase tracking-wider" style={{ fontFamily: "var(--font-heading)" }}>Order Summary</h2>
-                 
-                 <div className="space-y-4 mb-6">
+                               <div className="space-y-4 mb-6">
                    <div className="flex items-center justify-between text-sm">
                      <span className="text-text/60">Subtotal</span>
                      <span className="font-medium text-text">{formatPrice(cartTotal)}</span>
                    </div>
                    <div className="flex items-center justify-between text-sm">
                      <span className="text-text/60">Shipping</span>
-                     <span className="font-medium text-green-600">Free</span>
+                     <span className={`font-medium ${shipping === 0 ? "text-green-600" : "text-text"}`}>
+                        {shipping === 0 ? "Free" : formatPrice(shipping)}
+                     </span>
                    </div>
-
+                   {shipping > 0 && (
+                     <p className="text-[10px] text-primary italic leading-tight">
+                       A mandatory shipping charge of ₹50 applies for single-item orders.
+                     </p>
+                   )}
                  </div>
 
                  <div className="border-t border-border/50 pt-4 mb-8">
@@ -219,9 +233,9 @@ export default function CartPage() {
                    >
                       PROCEED TO CHECKOUT [ VIA WHATSAPP]
                    </button>
-                 ) : (
-                   <form onSubmit={handleWhatsAppCheckout} className="space-y-3 mb-4 text-left border border-border/20 bg-white p-4 rounded-xl shadow-sm">
-                      <p className="text-sm font-bold text-dark mb-2" style={{ fontFamily: "var(--font-heading)" }}>Delivery &amp; Payment Details</p>
+                 ) : checkoutStep === 1 ? (
+                   <form onSubmit={proceedToPayment} className="space-y-3 mb-4 text-left border border-border/20 bg-white p-4 rounded-xl shadow-sm">
+                      <p className="text-sm font-bold text-dark mb-2" style={{ fontFamily: "var(--font-heading)" }}>Step 1: Delivery Details</p>
                       <input
                         type="text"
                         required
@@ -258,11 +272,63 @@ export default function CartPage() {
                       </select>
                       <div className="flex gap-2 pt-2">
                         <button type="button" onClick={() => setShowCheckoutForm(false)} className="px-4 py-2 text-xs font-bold text-text/60 hover:text-dark uppercase tracking-wider">Cancel</button>
-                        <button type="submit" disabled={isSubmitting} className="btn-primary flex-1 justify-center py-2 text-sm shadow-md disabled:opacity-70">
-                          {isSubmitting ? "Sending..." : "Send Order via WhatsApp"}
+                        <button type="submit" className="btn-primary flex-1 justify-center py-2 text-sm shadow-md">
+                          Continue to Payment
                         </button>
                       </div>
                     </form>
+                 ) : (
+                   <div className="space-y-4 mb-4 text-center border border-border/20 bg-white p-5 rounded-xl shadow-lg animate-fade-in">
+                      <div className="flex items-center justify-center gap-2 text-primary mb-2">
+                        <QrCode size={18} />
+                        <p className="text-sm font-bold uppercase tracking-wider" style={{ fontFamily: "var(--font-heading)" }}>Step 2: Scan &amp; Pay</p>
+                      </div>
+                      
+                      <div className="relative aspect-square w-48 mx-auto bg-gray-50 rounded-lg border-2 border-primary/20 p-2">
+                         {/* This would be the real QR code image */}
+                         <Image 
+                           src="/upi_qr_code_placeholder_1777448642832.png" 
+                           alt="Payment QR Code" 
+                           fill 
+                           className="object-contain"
+                         />
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <p className="text-[10px] text-text-light uppercase font-bold tracking-widest">Total Amount to Pay</p>
+                        <p className="text-xl font-black text-primary">{formatPrice(total)}</p>
+                      </div>
+
+                      <div className="elegant-divider" />
+
+                      <p className="text-xs text-text-light font-medium italic">
+                        Please scan the QR code above using {customerInfo.paymentMode} to complete your payment of {formatPrice(total)}.
+                      </p>
+
+                      <div className="flex flex-col gap-2 pt-2">
+                        <button 
+                          onClick={() => handleWhatsAppCheckout(true)} 
+                          disabled={isSubmitting}
+                          className="btn-primary w-full justify-center py-3 text-sm shadow-md bg-green-600 hover:bg-green-700 border-green-600"
+                        >
+                          {isSubmitting ? "Processing..." : "I have Completed Payment ✓"}
+                        </button>
+                        <button 
+                          onClick={() => handleWhatsAppCheckout(false)} 
+                          disabled={isSubmitting}
+                          className="text-[11px] font-bold text-text-light hover:text-primary uppercase tracking-widest transition-colors py-2"
+                        >
+                          I will pay later
+                        </button>
+                        <button 
+                          onClick={() => setCheckoutStep(1)} 
+                          disabled={isSubmitting}
+                          className="text-[10px] text-text/40 hover:text-dark transition-colors"
+                        >
+                          ← Back to details
+                        </button>
+                      </div>
+                   </div>
                  )}
                  
                  <Link href="/collections" className="btn-secondary w-full justify-center py-3.5 border-transparent hover:border-current bg-cream text-dark">
