@@ -22,6 +22,20 @@ export default function CartPage() {
   const [paymentStatus, setPaymentStatus] = useState("Not Paid");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "", paymentMode: "" });
+  const [settings, setSettings] = useState({ paymentQRCode: "" });
+
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const res = await fetch("/api/settings");
+        const data = await res.json();
+        setSettings(data);
+      } catch (error) {
+        console.error("Failed to fetch settings:", error);
+      }
+    }
+    fetchSettings();
+  }, []);
 
   const proceedToPayment = (e) => {
     e.preventDefault();
@@ -287,7 +301,7 @@ export default function CartPage() {
                       <div className="relative aspect-square w-48 mx-auto bg-gray-50 rounded-lg border-2 border-primary/20 p-2">
                          {/* This would be the real QR code image */}
                          <Image 
-                           src="/upi_qr_code_placeholder_1777448642832.png" 
+                           src={settings.paymentQRCode || "/upi_qr_code_placeholder_1777448642832.png"} 
                            alt="Payment QR Code" 
                            fill 
                            className="object-contain"
