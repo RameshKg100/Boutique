@@ -76,7 +76,7 @@ export default function Navbar() {
                 className="cursor-pointer select-none"
               >
                 <Link href="/" className="flex items-center gap-4" id="brand-logo">
-                  <div className="relative w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1">
+                  <div className="relative w-14 h-14 md:w-20 md:h-20 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1 transition-transform hover:scale-105">
                     <Image 
                       src="/logo.png" 
                       alt="Sathyas Boutique Logo" 
@@ -86,7 +86,7 @@ export default function Navbar() {
                   </div>
                   <div className="flex flex-col items-start whitespace-nowrap">
                     <span
-                      className="text-2xl md:text-4xl font-black tracking-tight leading-none"
+                      className="text-3xl md:text-5xl font-black tracking-tighter leading-none"
                       style={{
                         fontFamily: "var(--font-heading)",
                         color: "var(--color-primary)",
@@ -95,7 +95,7 @@ export default function Navbar() {
                       Sathyas
                     </span>
                     <span
-                      className="text-[11px] md:text-sm tracking-[0.4em] uppercase leading-none mt-1 font-bold"
+                      className="text-xs md:text-base tracking-[0.4em] uppercase leading-none mt-1 font-bold"
                       style={{ color: "var(--foreground)" }}
                     >
                       Boutique
