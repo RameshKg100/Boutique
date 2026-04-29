@@ -331,21 +331,7 @@ My Query: `;
                   Enquire on WhatsApp
                 </button>
 
-                {/* Trust Badges */}
-                <div className="grid grid-cols-3 gap-4 py-6 border-t border-b border-border">
-                  <div className="text-center">
-                    <Truck size={18} className="mx-auto mb-1.5 text-primary" />
-                    <p className="text-[11px] text-text-light">Free Shipping<br />Above ₹2,999</p>
-                  </div>
-                  <div className="text-center">
-                    <RotateCcw size={18} className="mx-auto mb-1.5 text-primary" />
-                    <p className="text-[11px] text-text-light">Easy Returns<br />7-Day Policy</p>
-                  </div>
-                  <div className="text-center">
-                    <Shield size={18} className="mx-auto mb-1.5 text-primary" />
-                    <p className="text-[11px] text-text-light">Secure<br />Payments</p>
-                  </div>
-                </div>
+
               </div>
             </AnimatedSection>
           </div>

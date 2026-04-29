@@ -24,7 +24,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     category: "maxis",
     description: "",
     shortDescription: "",
-    sizes: ["S", "M", "L", "XL"],
+    sizes: ["XS", "S", "M", "L", "XL"],
     colors: [],
     images: [],
     inStock: true,
@@ -231,6 +231,31 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
               <div className="space-y-1.5">
                 <label className={labelClass}>Short Description</label>
                 <input type="text" name="shortDescription" value={formData.shortDescription} onChange={handleInputChange} placeholder="Brief summary" className={inputClass} required />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className={labelClass}>Available Sizes</label>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {["XS", "S", "M", "L", "XL"].map((size) => (
+                  <button
+                    key={size}
+                    type="button"
+                    onClick={() => {
+                      const newSizes = formData.sizes.includes(size)
+                        ? formData.sizes.filter((s) => s !== size)
+                        : [...formData.sizes, size];
+                      setFormData({ ...formData, sizes: newSizes });
+                    }}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                      formData.sizes.includes(size)
+                        ? "bg-[#2563EB] text-white shadow-sm"
+                        : "bg-gray-100 text-[#6B7280] hover:bg-gray-200"
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
               </div>
             </div>
 
