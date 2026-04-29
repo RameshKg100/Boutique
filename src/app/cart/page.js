@@ -14,7 +14,16 @@ import { siteConfig } from "@/data/siteConfig";
 export default function CartPage() {
   const { items, updateQuantity, removeItem, cartTotal, clearCart } = useCart();
   const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
-  const shipping = totalQuantity === 0 ? 0 : (totalQuantity === 1 ? 70 : 140);
+  
+  // New Shipping Calculation Logic
+  const getShippingFee = (qty) => {
+    if (qty === 0) return 0;
+    if (qty === 1) return 70;
+    if (qty === 2) return 100;
+    return 140; // 3 or more items
+  };
+
+  const shipping = getShippingFee(totalQuantity);
   const total = cartTotal + shipping;
   
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
