@@ -9,32 +9,43 @@ import { categories as staticCategories } from "@/data/products";
 
 function CollectionsContent() {
   const searchParams = useSearchParams();
-  const categoryParam = searchParams.get("category") || staticCategories[0]?.slug;
-  const [activeCategory, setActiveCategory] = useState(categoryParam);
+  const [categories, setCategories] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadProducts() {
+    async function fetchData() {
       try {
         setLoading(true);
-        const res = await fetch("/api/products", { cache: "no-store" });
-        const data = await res.json();
-        setProducts(data);
+        const [prodRes, catRes] = await Promise.all([
+          fetch("/api/products", { cache: "no-store" }),
+          fetch("/api/categories", { cache: "no-store" })
+        ]);
+        const [prodData, catData] = await Promise.all([
+          prodRes.json(),
+          catRes.json()
+        ]);
+        
+        setProducts(prodData);
+        setCategories(catData);
+        
+        const categoryParam = searchParams.get("category");
+        if (categoryParam) {
+          setActiveCategory(categoryParam);
+        } else if (catData.length > 0) {
+          setActiveCategory(catData[0].slug);
+        }
       } catch (error) {
-        console.error("Failed to load products:", error);
+        console.error("Failed to load data:", error);
       } finally {
         setLoading(false);
       }
     }
-    loadProducts();
-  }, []);
-
-  useEffect(() => {
-    setActiveCategory(categoryParam);
-  }, [categoryParam]);
+    fetchData();
+  }, [searchParams]);
 
   useEffect(() => {
     let result = products;
@@ -88,7 +99,7 @@ function CollectionsContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
             {/* Category Tabs */}
             <div className="flex flex-wrap gap-2" id="category-filters">
-              {staticCategories.map((cat) => (
+              {categories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.slug)}

@@ -21,7 +21,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     name: "",
     price: "",
     originalPrice: "",
-    category: "maxis",
+    category: "",
     description: "",
     shortDescription: "",
     sizes: ["XS", "S", "M", "L", "XL"],
@@ -32,15 +32,34 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     isFeatured: false,
   });
 
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("/api/categories", { cache: "no-store" });
+        const data = await res.json();
+        setCategories(data);
+        if (data.length > 0 && !formData.category && mode === "create") {
+          setFormData(prev => ({ ...prev, category: data[0].slug }));
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    }
+    fetchCategories();
+  }, []);
+
   useEffect(() => {
     if (initialData) {
       setFormData({
         ...initialData,
         price: initialData.price || "",
         originalPrice: initialData.originalPrice || "",
+        category: initialData.category || (categories.length > 0 ? categories[0].slug : ""),
       });
     }
-  }, [initialData]);
+  }, [initialData, categories]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -103,7 +122,6 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     } finally { setLoading(false); }
   };
 
-  const categoryOptions = ["maxis", "sarees", "tops", "kurtis"];
 
   const inputClass = "w-full border border-[#E5E7EB] rounded-md px-4 py-2.5 text-sm text-[#111827] bg-white focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors";
   const labelClass = "block text-xs font-medium text-[#6B7280] uppercase tracking-wider mb-1.5";
@@ -225,7 +243,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
               <div className="space-y-1.5">
                 <label className={labelClass}>Category</label>
                 <select name="category" value={formData.category} onChange={handleInputChange} className={`${inputClass} capitalize cursor-pointer`}>
-                  {categoryOptions.map(cat => (<option key={cat} value={cat}>{cat}</option>))}
+                  {categories.map(cat => (<option key={cat.slug} value={cat.slug}>{cat.name}</option>))}
                 </select>
               </div>
               <div className="space-y-1.5">

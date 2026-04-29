@@ -18,23 +18,34 @@ import { formatPrice } from "@/lib/utils";
 
 export default function ProductsListPage() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("maxis");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const [isDeleting, setIsDeleting] = useState(null);
 
-  const fetchProducts = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/products", { cache: "no-store" });
-      const data = await res.json();
-      setProducts(data);
+      const [prodRes, catRes] = await Promise.all([
+        fetch("/api/products", { cache: "no-store" }),
+        fetch("/api/categories", { cache: "no-store" })
+      ]);
+      const [prodData, catData] = await Promise.all([
+        prodRes.json(),
+        catRes.json()
+      ]);
+      setProducts(prodData);
+      setCategories(catData);
+      if (catData.length > 0 && categoryFilter === "all") {
+        setCategoryFilter(catData[0].slug);
+      }
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching data:", error);
     } finally { setLoading(false); }
   };
 
-  useEffect(() => { fetchProducts(); }, []);
+  useEffect(() => { fetchData(); }, []);
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
@@ -50,11 +61,9 @@ export default function ProductsListPage() {
 
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = p.category === categoryFilter;
+    const matchesCategory = categoryFilter === "all" || p.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
-
-  const categories = ["maxis", "sarees", "tops", "kurtis"];
 
   return (
     <div className="space-y-6 pb-12">
@@ -62,15 +71,23 @@ export default function ProductsListPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold text-[#111827]">Dresses</h2>
-          <p className="text-sm text-[#6B7280] mt-0.5">Manage your dress catalog.</p>
+          <p className="text-sm text-[#6B7280] mt-0.5">Manage your dress catalog and categories.</p>
         </div>
-        <Link 
-          href="/admin/products/new" 
-          className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-5 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm"
-        >
-          <Plus size={16} />
-          Add Dress
-        </Link>
+        <div className="flex gap-3">
+          <Link 
+            href="/admin/categories" 
+            className="flex items-center gap-2 bg-white border border-[#E5E7EB] hover:bg-gray-50 text-[#111827] px-4 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm"
+          >
+            Manage Categories
+          </Link>
+          <Link 
+            href="/admin/products/new" 
+            className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-5 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm"
+          >
+            <Plus size={16} />
+            Add Dress
+          </Link>
+        </div>
       </div>
 
       {/* Search + Filters */}
@@ -86,18 +103,28 @@ export default function ProductsListPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
+            <button
+              onClick={() => setCategoryFilter("all")}
+              className={`px-3 py-2 text-xs font-medium rounded-md transition-colors capitalize whitespace-nowrap
+                ${categoryFilter === "all" 
+                  ? "bg-[#2563EB] text-white" 
+                  : "text-[#6B7280] hover:bg-gray-100"
+                }`}
+            >
+              All
+            </button>
             {categories.map((cat) => (
               <button
-                key={cat}
-                onClick={() => setCategoryFilter(cat)}
-                className={`px-3 py-2 text-xs font-medium rounded-md transition-colors capitalize
-                  ${categoryFilter === cat 
+                key={cat.slug}
+                onClick={() => setCategoryFilter(cat.slug)}
+                className={`px-3 py-2 text-xs font-medium rounded-md transition-colors capitalize whitespace-nowrap
+                  ${categoryFilter === cat.slug 
                     ? "bg-[#2563EB] text-white" 
                     : "text-[#6B7280] hover:bg-gray-100"
                   }`}
               >
-                {cat}
+                {cat.name}
               </button>
             ))}
           </div>
