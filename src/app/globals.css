@@ -7,15 +7,15 @@
   --font-inter: 'Inter', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
   
-  /* User Defined Theme: Monochrome */
+  /* User Defined Theme: Soft Pink & Blush */
   --bg: #FFFFFF;
-  --bg-soft: #F9FAFB;
-  --text: #111827;
-  --text-muted: #6B7280;
-  --primary: #000000;
-  --primary-hover: #374151;
-  --accent: #E5E7EB;
-  --border-color: #E5E7EB;
+  --bg-soft: #FFF5F7;
+  --text: #2B2B2B;
+  --text-muted: #6B6B6B;
+  --primary: #EFA2B4;
+  --primary-hover: #D98A9C;
+  --accent: #FADCD9;
+  --border-color: #F8E3E7;
 
   /* Mapping to project variables */
   --background: var(--bg);
