@@ -44,16 +44,16 @@ export default function ReviewsPage() {
             </p>
 
             {/* Statistics Banner */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 mt-12 pt-10 border-t border-border/30 max-w-4xl mx-auto">
-              <div className="text-center flex flex-col items-center justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-12 max-w-5xl mx-auto">
+              <div className="bg-white px-6 py-10 md:py-12 flex flex-col items-center justify-center border border-border/50 shadow-sm">
                 <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
                 <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Trusted Customers</span>
               </div>
-              <div className="text-center flex flex-col items-center justify-center">
+              <div className="bg-white px-6 py-10 md:py-12 flex flex-col items-center justify-center border border-border/50 shadow-sm">
                 <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>1000+</span>
                 <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Orders Delivered</span>
               </div>
-              <div className="text-center flex flex-col items-center justify-center">
+              <div className="bg-white px-6 py-10 md:py-12 flex flex-col items-center justify-center border border-border/50 shadow-sm">
                 <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>100%</span>
                 <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Quality Assured</span>
               </div>
