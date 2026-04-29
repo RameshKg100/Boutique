@@ -17,32 +17,6 @@ import HeroCarousel from "@/components/ui/HeroCarousel";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProductCard from "@/components/products/ProductCard";
 
-const collections = [
-  {
-    name: "Elegant Maxis",
-    slug: "maxis",
-    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&h=600&fit=crop",
-    description: "Flowing floor-length designs for every occasion",
-  },
-  {
-    name: "Kanchipuram Silks",
-    slug: "sarees",
-    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&h=600&fit=crop",
-    description: "Authentic handwoven sarees from the looms of Kanchi",
-  },
-  {
-    name: "Designer Tops",
-    slug: "tops",
-    image: "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=500&h=600&fit=crop",
-    description: "Elegant blouses and contemporary fusion tops",
-  },
-  {
-    name: "Festive Kurtis",
-    slug: "kurtis",
-    image: "https://images.unsplash.com/photo-1621012431610-8bbf4b7ab790?w=500&h=600&fit=crop",
-    description: "Beautifully embroidered kurtis for a graceful look",
-  },
-];
 
 const whyChooseUs = [
   {
@@ -198,55 +172,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== FEATURED COLLECTIONS ===== */}
-      <section className="py-8 lg:py-12 bg-secondary border-y border-white/10" id="featured-collections">
-        <div className="container-boutique">
-          <AnimatedSection>
-            <SectionHeading
-              title="Featured Collections"
-              subtitle="Explore our curated selection of breathtaking designs tailored for every occasion."
-            />
-          </AnimatedSection>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {collections.map((collection, index) => (
-                <AnimatedSection key={collection.slug} animation="window-reveal-up" delay={index * 150}>
-                <Link
-                  href={`/collections?category=${collection.slug}`}
-                  className="group block"
-                  id={`collection-${collection.slug}`}
-                >
-                  <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg">
-                    <Image
-                      src={collection.image}
-                      alt={collection.name}
-                      fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-                    <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 transition-all duration-500 rounded-xl m-2" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                      <h3
-                        className="text-white text-lg md:text-xl font-bold mb-1"
-                        style={{ fontFamily: "var(--font-heading)" }}
-                      >
-                        {collection.name}
-                      </h3>
-                      <p className="text-white/90 font-medium text-xs md:text-sm">
-                        {collection.description}
-                      </p>
-                      <span className="inline-flex items-center gap-1 text-secondary text-xs font-bold mt-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-[-10px] group-hover:translate-x-0">
-                        Explore <ArrowRight size={12} />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ===== FEATURED PRODUCTS ===== */}
       <section className="py-8 lg:py-12 bg-background" id="featured-products">
