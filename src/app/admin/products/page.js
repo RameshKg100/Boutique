@@ -131,15 +131,15 @@ export default function ProductsListPage() {
                 filteredProducts.map((p) => (
                   <tr key={p.id} className="hover:bg-[#F9FAFB] transition-colors group">
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-12 relative rounded-md overflow-hidden bg-gray-50 border border-[#E5E7EB] flex-shrink-0">
+                      <Link href={`/admin/products/edit?id=${p.id}`} className="flex items-center gap-3 group/item">
+                        <div className="w-10 h-12 relative rounded-md overflow-hidden bg-gray-50 border border-[#E5E7EB] flex-shrink-0 transition-transform group-hover/item:scale-105">
                           <Image src={p.images[0] || "/placeholder.jpg"} alt={p.name} fill className="object-cover" sizes="40px" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium text-[#111827] truncate">{p.name}</p>
+                          <p className="font-medium text-[#111827] truncate group-hover/item:text-[#2563EB] transition-colors">{p.name}</p>
                           <p className="text-[10px] text-[#6B7280] mt-0.5">ID: {p.id.slice(0, 8)}</p>
                         </div>
-                      </div>
+                      </Link>
                     </td>
                     <td className="px-4 py-3">
                       <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-[#6B7280] border border-[#E5E7EB] capitalize">{p.category}</span>
