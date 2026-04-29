@@ -75,31 +75,15 @@ export default function Navbar() {
                 onClick={handleLogoClick}
                 className="cursor-pointer select-none"
               >
-                <Link href="/" className="flex items-center gap-4" id="brand-logo">
-                  <div className="relative w-14 h-14 md:w-20 md:h-20 overflow-hidden rounded-xl bg-white shadow-sm border border-primary/5 p-1 transition-transform hover:scale-105">
+                <Link href="/" className="flex items-center justify-center" id="brand-logo">
+                  <div className="relative w-28 h-16 md:w-48 md:h-24 transition-transform hover:scale-105 duration-300">
                     <Image 
                       src="/logo.png" 
                       alt="Sathyas Boutique Logo" 
                       fill 
                       className="object-contain"
+                      priority
                     />
-                  </div>
-                  <div className="flex flex-col items-start whitespace-nowrap">
-                    <span
-                      className="text-3xl md:text-5xl font-black tracking-tighter leading-none"
-                      style={{
-                        fontFamily: "var(--font-heading)",
-                        color: "var(--color-primary)",
-                      }}
-                    >
-                      Sathyas
-                    </span>
-                    <span
-                      className="text-xs md:text-base tracking-[0.4em] uppercase leading-none mt-1 font-bold"
-                      style={{ color: "var(--foreground)" }}
-                    >
-                      Boutique
-                    </span>
                   </div>
                 </Link>
               </div>
