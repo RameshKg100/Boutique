@@ -13,7 +13,7 @@ import { siteConfig } from "@/data/siteConfig";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, cartTotal, clearCart } = useCart();
-  const shipping = cartTotal > 2999 ? 0 : 150;
+  const shipping = 0;
   const total = cartTotal + shipping;
   
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
@@ -199,15 +199,9 @@ export default function CartPage() {
                    </div>
                    <div className="flex items-center justify-between text-sm">
                      <span className="text-text/60">Shipping</span>
-                     <span className="font-medium text-text">
-                        {shipping === 0 ? <span className="text-green-600">Free</span> : formatPrice(shipping)}
-                     </span>
+                     <span className="font-medium text-green-600">Free</span>
                    </div>
-                   {shipping > 0 && (
-                     <p className="text-[10px] text-text/60 leading-snug italic">
-                        Add items worth {formatPrice(3000 - cartTotal)} more for free shipping!
-                     </p>
-                   )}
+
                  </div>
 
                  <div className="border-t border-border/50 pt-4 mb-8">
