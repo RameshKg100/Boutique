@@ -139,6 +139,14 @@ export default function Navbar() {
                 )}
               </Link>
 
+              <Link
+                href="/admin/login"
+                className="p-2 text-foreground hover:text-primary transition-colors border-l border-border/10 ml-1 pl-3"
+                id="admin-login-icon"
+                aria-label="Admin Login"
+              >
+                <User size={20} />
+              </Link>
             </div>
           </div>
         </div>
