@@ -258,12 +258,9 @@ export default function CartPage() {
                         value={customerInfo.paymentMode}
                         onChange={(e) => setCustomerInfo({...customerInfo, paymentMode: e.target.value})}
                       >
-                        <option value="" disabled>Select Payment Mode</option>
+                        <option value="" disabled>Select UPI Payment Mode</option>
                         <option value="GPay">📱 GPay (Google Pay)</option>
                         <option value="PhonePe">📱 PhonePe</option>
-                        <option value="Paytm">📱 Paytm</option>
-                        <option value="Bank Transfer">🏦 Bank Transfer (NEFT/IMPS)</option>
-                        <option value="Cash on Delivery">💵 Cash on Delivery</option>
                       </select>
                       <div className="flex gap-2 pt-2">
                         <button type="button" onClick={() => setShowCheckoutForm(false)} className="px-4 py-2 text-xs font-bold text-text/60 hover:text-dark uppercase tracking-wider">Cancel</button>
