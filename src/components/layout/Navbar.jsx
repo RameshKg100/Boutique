@@ -156,7 +156,7 @@ export default function Navbar() {
               {showAdminLink && (
                 <Link
                   href="/admin/login"
-                  className="p-2 text-primary hover:bg-primary/5 rounded-full transition-all border border-primary/20 animate-pulse"
+                  className="p-2 text-foreground hover:text-primary transition-colors border-l border-border/10 ml-1 pl-3"
                   id="admin-login-icon"
                   aria-label="Admin Login"
                 >
