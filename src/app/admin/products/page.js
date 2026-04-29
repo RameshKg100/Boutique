@@ -61,15 +61,15 @@ export default function ProductsListPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-[#111827]">Products</h2>
-          <p className="text-sm text-[#6B7280] mt-0.5">Manage your product catalog.</p>
+          <h2 className="text-xl font-semibold text-[#111827]">Dresses</h2>
+          <p className="text-sm text-[#6B7280] mt-0.5">Manage your dress catalog.</p>
         </div>
         <Link 
           href="/admin/products/new" 
           className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-5 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm"
         >
           <Plus size={16} />
-          Add Product
+          Add Dress
         </Link>
       </div>
 
@@ -80,7 +80,7 @@ export default function ProductsListPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]" size={16} />
             <input 
               type="text"
-              placeholder="Search products..."
+              placeholder="Search dresses..."
               className="w-full pl-9 pr-4 py-2 border border-[#E5E7EB] rounded-md text-sm text-[#111827] focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB]"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -108,7 +108,7 @@ export default function ProductsListPage() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-[#6B7280] uppercase tracking-wider border-b border-[#E5E7EB] bg-[#F9FAFB]">
               <tr>
-                <th className="px-4 py-3 font-medium">Product</th>
+                <th className="px-4 py-3 font-medium">Dress</th>
                 <th className="px-4 py-3 font-medium">Category</th>
                 <th className="px-4 py-3 font-medium">Price</th>
                 <th className="px-4 py-3 font-medium">Status</th>
@@ -120,12 +120,12 @@ export default function ProductsListPage() {
                 <tr>
                   <td colSpan="5" className="px-4 py-16 text-center">
                     <Loader2 className="animate-spin mx-auto text-[#2563EB] mb-2" size={28} />
-                    <p className="text-[#6B7280] text-sm">Loading products...</p>
+                    <p className="text-[#6B7280] text-sm">Loading dresses...</p>
                   </td>
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-4 py-16 text-center text-[#6B7280]">No products found.</td>
+                  <td colSpan="5" className="px-4 py-16 text-center text-[#6B7280]">No dresses found.</td>
                 </tr>
               ) : (
                 filteredProducts.map((p) => (

@@ -118,7 +118,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
           className="flex items-center gap-2 text-[#6B7280] hover:text-[#2563EB] transition-colors text-sm font-medium"
         >
           <ArrowLeft size={16} />
-          Back to Products
+          Back to Dresses
         </button>
         <button
           type="submit"
@@ -126,7 +126,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
           className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-6 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm disabled:opacity-50"
         >
           {loading ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
-          {mode === "create" ? "Publish Product" : "Update Product"}
+          {mode === "create" ? "Publish Dress" : "Update Dress"}
         </button>
       </div>
 
@@ -201,8 +201,8 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
         <div className="lg:col-span-8">
           <div className="bg-white border border-[#E5E7EB] rounded-lg p-6 space-y-6 shadow-sm">
             <div className="border-b border-[#E5E7EB] pb-4">
-               <h3 className="text-base font-semibold text-[#111827]">Product Details</h3>
-               <p className="text-xs text-[#6B7280] mt-0.5">Fill in the product information below.</p>
+               <h3 className="text-base font-semibold text-[#111827]">Dress Details</h3>
+               <p className="text-xs text-[#6B7280] mt-0.5">Fill in the dress information below.</p>
             </div>
             
             <div className="space-y-1.5">

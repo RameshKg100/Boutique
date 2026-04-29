@@ -42,7 +42,7 @@ function EditProductContent() {
     return (
       <div className="text-center py-40 bg-white rounded-xl border border-gray-200">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Item Not Located</h2>
-        <p className="text-gray-500 font-medium">The product you are attempting to modify could not be found.</p>
+        <p className="text-gray-500 font-medium">The dress you are attempting to modify could not be found.</p>
       </div>
     );
   }
