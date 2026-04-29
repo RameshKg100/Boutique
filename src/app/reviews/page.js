@@ -44,18 +44,18 @@ export default function ReviewsPage() {
             </p>
 
             {/* Statistics Banner */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-8 pt-6 border-t border-border/20 max-w-4xl mx-auto">
-              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white/40 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-primary/20">
-                <span className="block text-4xl md:text-5xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
-                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-foreground/50 font-semibold group-hover:text-foreground transition-colors duration-300">Trusted Customers</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 mt-12 pt-10 border-t border-border/30 max-w-4xl mx-auto">
+              <div className="text-center flex flex-col items-center justify-center">
+                <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Trusted Customers</span>
               </div>
-              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white/40 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-primary/20">
-                <span className="block text-4xl md:text-5xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform duration-300" style={{ fontFamily: "var(--font-heading)" }}>1000+</span>
-                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-foreground/50 font-semibold group-hover:text-foreground transition-colors duration-300">Orders Delivered</span>
+              <div className="text-center flex flex-col items-center justify-center">
+                <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>1000+</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Orders Delivered</span>
               </div>
-              <div className="text-center group p-4 rounded-2xl transition-all duration-500 hover:bg-white/40 hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-primary/20">
-                <span className="block text-4xl md:text-5xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300" style={{ fontFamily: "var(--font-heading)" }}>100%</span>
-                <span className="text-xs md:text-sm uppercase tracking-[0.15em] text-foreground/50 font-semibold group-hover:text-foreground transition-colors duration-300">Quality Assured</span>
+              <div className="text-center flex flex-col items-center justify-center">
+                <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>100%</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Quality Assured</span>
               </div>
             </div>
           </AnimatedSection>
