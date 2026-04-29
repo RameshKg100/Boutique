@@ -159,56 +159,42 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Database Status & Help */}
+        {/* Help & Preview */}
         <div className="space-y-6">
-          <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-             <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
-                <h3 className="font-bold text-gray-900 uppercase tracking-wider text-sm">System Status</h3>
-                <div className="flex items-center gap-1.5">
-                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                   <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Live</span>
-                </div>
-             </div>
-             <div className="p-6 space-y-4">
-                <div className="bg-primary/5 border border-primary/10 rounded-xl p-4">
-                  <h4 className="font-bold text-primary text-[11px] uppercase tracking-wider mb-2">Required Action for Vercel</h4>
-                  <p className="text-xs text-gray-700 leading-relaxed">
-                    Since you are hosted on Vercel, settings must be stored in your **Supabase Database**. If saving fails, ensure you have run this command in your Supabase SQL Editor:
-                  </p>
-                  <pre className="mt-3 p-3 bg-gray-900 text-gray-300 text-[9px] rounded-lg overflow-x-auto border border-gray-800 font-mono">
-{`create table if not exists store_settings (
-  id bigint primary key generated always as identity,
-  key text unique not null,
-  value text
-);
+          <div className="bg-primary/5 border border-primary/10 rounded-xl p-6">
+            <h4 className="font-bold text-primary text-[11px] uppercase tracking-wider mb-2">Checkout Preview</h4>
+            <p className="text-xs text-gray-600 leading-relaxed mb-4">
+              This is how your QR code appears to customers on the payment screen.
+            </p>
+            <div className="bg-white border border-gray-100 rounded-lg p-4 shadow-sm flex items-center gap-4">
+              <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center relative overflow-hidden border border-gray-100">
+                {settings.paymentQRCode ? (
+                  <Image src={settings.paymentQRCode} alt="Preview" fill className="object-contain p-1" />
+                ) : (
+                  <QrCode size={20} className="text-gray-300" />
+                )}
+              </div>
+              <div>
+                <p className="text-xs font-bold text-gray-900">QR Payment Ready</p>
+                <p className="text-[10px] text-gray-500">
+                  {settings.paymentQRCode ? "✅ Link active on live site" : "❌ Waiting for upload"}
+                </p>
+              </div>
+            </div>
+          </div>
 
-alter table store_settings disable row level security;
-
-insert into store_settings (key, value) 
-values ('payment_qr_code', '')
-on conflict (key) do nothing;`}
-                  </pre>
-                </div>
-                
-                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-                   <h4 className="font-bold text-gray-900 text-[11px] uppercase tracking-wider mb-2">Checkout Preview</h4>
-                   <div className="bg-white border border-gray-100 rounded-lg p-3 shadow-sm flex items-center gap-4">
-                      <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center relative overflow-hidden border border-gray-200">
-                         {settings.paymentQRCode ? (
-                           <Image src={settings.paymentQRCode} alt="Preview" fill className="object-contain p-1" />
-                         ) : (
-                           <QrCode size={16} className="text-gray-300" />
-                         )}
-                      </div>
-                      <div>
-                         <p className="text-[11px] font-bold text-gray-900">QR Payment Screen</p>
-                         <p className="text-[9px] text-gray-400">
-                           {settings.paymentQRCode ? "✅ Link ready" : "❌ No image linked"}
-                         </p>
-                      </div>
-                   </div>
-                </div>
-             </div>
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+            <h4 className="font-bold text-gray-900 text-[11px] uppercase tracking-wider mb-2">Payment Tips</h4>
+            <ul className="space-y-2">
+              <li className="text-[11px] text-gray-600 flex items-start gap-2">
+                <span className="text-primary">•</span>
+                Use a high-quality screenshot of your GPay/PhonePe business QR.
+              </li>
+              <li className="text-[11px] text-gray-600 flex items-start gap-2">
+                <span className="text-primary">•</span>
+                Ensure your UPI ID is clearly visible at the bottom of the QR.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
