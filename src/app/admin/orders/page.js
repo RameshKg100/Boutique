@@ -37,15 +37,17 @@ export default function OrdersPage() {
     } finally { setLoading(false); }
   };
 
-  const updateOrderStatus = async (id, newStatus) => {
+  const updateOrderStatus = async (id, newStatus, newDate = null) => {
     try {
       const res = await fetch("/api/orders", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, status: newStatus }),
+        body: JSON.stringify({ id, status: newStatus, status_updated_at: newDate }),
       });
       const data = await res.json();
-      if (data.success) setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o));
+      if (data.success) {
+        setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus, status_updated_at: newDate || new Date().toISOString() } : o));
+      }
     } catch (error) { alert("Failed to update order status."); }
   };
 
@@ -188,17 +190,25 @@ export default function OrdersPage() {
                         </span>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <select 
-                          value={order.status}
-                          onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                          className="border border-[#E5E7EB] rounded-md px-2 py-1.5 text-xs bg-white text-[#111827] font-medium cursor-pointer focus:outline-none focus:border-[#2563EB]"
-                        >
-                          <option value="Pending">Pending</option>
-                          <option value="Processing">Processing</option>
-                          <option value="Shipped">Shipped</option>
-                          <option value="Delivered">Delivered</option>
-                          <option value="Cancelled">Cancelled</option>
-                        </select>
+                        <div className="flex flex-col gap-1.5 items-center">
+                          <select 
+                            value={order.status}
+                            onChange={(e) => updateOrderStatus(order.id, e.target.value, order.status_updated_at)}
+                            className="w-full border border-[#E5E7EB] rounded-md px-2 py-1.5 text-xs bg-white text-[#111827] font-medium cursor-pointer focus:outline-none focus:border-[#2563EB]"
+                          >
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                          </select>
+                          <input 
+                            type="date"
+                            defaultValue={order.status_updated_at ? new Date(order.status_updated_at).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}
+                            onChange={(e) => updateOrderStatus(order.id, order.status, e.target.value)}
+                            className="w-full text-[10px] border border-[#E5E7EB] rounded px-1 py-1 text-[#6B7280] focus:outline-none focus:border-[#2563EB]"
+                          />
+                        </div>
                       </td>
                       <td className="px-4 py-3 text-center">
                         <button 
@@ -214,7 +224,17 @@ export default function OrdersPage() {
                     {expandedOrder === order.id && order.items && (
                       <tr key={`${order.id}-items`}>
                         <td colSpan="7" className="px-4 py-4 bg-[#F9FAFB] border-b border-[#E5E7EB]">
-                          <p className="text-xs font-medium text-[#6B7280] uppercase tracking-wider mb-3">Ordered Items ({order.items.length})</p>
+                          <div className="flex justify-between items-center mb-4 px-1">
+                            <p className="text-xs font-bold text-[#6B7280] uppercase tracking-wider">Ordered Items ({order.items.length})</p>
+                            {order.status_updated_at && (
+                              <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-full shadow-sm">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]"></span>
+                                <p className="text-[10px] font-bold text-[#111827]">
+                                  Last Status Update: <span className="text-[#6B7280] ml-1">{new Date(order.status_updated_at).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })}</span>
+                                </p>
+                              </div>
+                            )}
+                          </div>
                           <div className="flex flex-wrap gap-3">
                             {order.items.map((item, idx) => (
                               <div key={idx} className="flex items-start gap-3 bg-white border border-[#E5E7EB] rounded-lg p-3 shadow-sm w-[260px]">

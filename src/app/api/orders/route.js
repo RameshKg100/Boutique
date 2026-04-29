@@ -64,11 +64,18 @@ export async function PATCH(request) {
   }
 
   try {
-    const { id, status } = await request.json();
+    const { id, status, status_updated_at } = await request.json();
     
+    const updateData = { status };
+    if (status_updated_at) {
+      updateData.status_updated_at = status_updated_at;
+    } else {
+      updateData.status_updated_at = new Date().toISOString();
+    }
+
     const { data, error } = await supabaseAdmin
       .from("orders")
-      .update({ status })
+      .update(updateData)
       .eq("id", id)
       .select()
       .single();
