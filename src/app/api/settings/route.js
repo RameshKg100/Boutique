@@ -23,14 +23,16 @@ export async function GET() {
         .from('store_settings')
         .select('value')
         .eq('key', 'payment_qr_code')
-        .single();
+        .maybeSingle(); // maybeSingle doesn't throw error if not found
       
-      if (data) {
+      if (data && data.value) {
         return NextResponse.json({ paymentQRCode: data.value });
       }
+      if (error) console.error("Supabase settings fetch error:", error);
     }
     return NextResponse.json(getLocalSettings());
   } catch (error) {
+    console.error("GET Settings catch error:", error);
     return NextResponse.json(getLocalSettings());
   }
 }
@@ -40,28 +42,39 @@ export async function POST(request) {
     const newSettings = await request.json();
     const qrCodeUrl = newSettings.paymentQRCode;
 
+    if (!qrCodeUrl) {
+      return NextResponse.json({ error: "No QR Code URL provided" }, { status: 400 });
+    }
+
     if (supabaseAdmin) {
       const { error } = await supabaseAdmin
         .from('store_settings')
         .upsert({ key: 'payment_qr_code', value: qrCodeUrl }, { onConflict: 'key' });
       
       if (error) {
-        // If table doesn't exist, this will fail. We catch it in the catch block.
-        throw error;
+        console.error("Supabase Settings Update Error:", error);
+        return NextResponse.json({ 
+          error: `Database Error: ${error.message}. Please ensure the 'store_settings' table exists in your Supabase dashboard.` 
+        }, { status: 500 });
       }
       return NextResponse.json({ success: true });
     }
 
     // Local fallback for development only
-    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-    fs.writeFileSync(settingsPath, JSON.stringify(newSettings, null, 2), "utf8");
-    return NextResponse.json({ success: true });
+    try {
+      if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+      fs.writeFileSync(settingsPath, JSON.stringify(newSettings, null, 2), "utf8");
+      return NextResponse.json({ success: true });
+    } catch (fsError) {
+      return NextResponse.json({ 
+        error: "Vercel Read-only Filesystem: You must set up Supabase to save settings in production." 
+      }, { status: 500 });
+    }
 
   } catch (error) {
-    console.error("Settings POST error:", error);
-    return NextResponse.json({ 
-      error: "Vercel Error: Read-only filesystem. Please ensure the 'store_settings' table is created in Supabase. Details: " + error.message 
-    }, { status: 500 });
+    console.error("Settings POST catch error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
 
