@@ -298,14 +298,21 @@ export default function CartPage() {
                         <p className="text-sm font-bold uppercase tracking-wider" style={{ fontFamily: "var(--font-heading)" }}>Step 2: Scan &amp; Pay</p>
                       </div>
                       
-                      <div className="relative aspect-square w-48 mx-auto bg-gray-50 rounded-lg border-2 border-primary/20 p-2">
-                         {/* This would be the real QR code image */}
-                         <Image 
-                           src={settings.paymentQRCode || "/upi_qr_code_placeholder_1777448642832.png"} 
-                           alt="Payment QR Code" 
-                           fill 
-                           className="object-contain"
-                         />
+                      <div className="relative aspect-square w-48 mx-auto bg-gray-50 rounded-lg border-2 border-primary/20 p-2 flex items-center justify-center">
+                         {settings.paymentQRCode ? (
+                           <Image 
+                             src={settings.paymentQRCode} 
+                             alt="Payment QR Code" 
+                             fill 
+                             className="object-contain"
+                             unoptimized // Useful for external URLs like Supabase storage
+                           />
+                         ) : (
+                           <div className="flex flex-col items-center gap-2 text-gray-300">
+                             <QrCode size={48} />
+                             <p className="text-[10px] uppercase font-bold tracking-widest">QR Code Pending</p>
+                           </div>
+                         )}
                       </div>
                       
                       <div className="space-y-1">
