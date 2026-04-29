@@ -43,38 +43,44 @@ export async function POST(request) {
     const qrCodeUrl = newSettings.paymentQRCode;
 
     if (!qrCodeUrl) {
-      return NextResponse.json({ error: "No QR Code URL provided" }, { status: 400 });
+      return NextResponse.json({ error: "No image URL provided. Please upload an image first." }, { status: 400 });
     }
 
+    // 1. Try Supabase (for Production/Vercel)
     if (supabaseAdmin) {
+      console.log("Attempting to save to Supabase...");
       const { error } = await supabaseAdmin
         .from('store_settings')
         .upsert({ key: 'payment_qr_code', value: qrCodeUrl }, { onConflict: 'key' });
       
-      if (error) {
-        console.error("Supabase Settings Update Error:", error);
-        return NextResponse.json({ 
-          error: `Database Error: ${error.message}. Please ensure the 'store_settings' table exists in your Supabase dashboard.` 
-        }, { status: 500 });
+      if (!error) {
+        console.log("Successfully saved to Supabase");
+        return NextResponse.json({ success: true, method: 'database' });
       }
-      return NextResponse.json({ success: true });
+
+      console.error("Supabase Save Error:", error);
+      return NextResponse.json({ 
+        error: `Database Save Failed: ${error.message}. \n\nThis usually means the 'store_settings' table doesn't exist yet. Did you run the SQL command in your Supabase dashboard?` 
+      }, { status: 500 });
     }
 
-    // Local fallback for development only
+    // 2. Local Fallback (for Local Development ONLY)
     try {
       if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
       fs.writeFileSync(settingsPath, JSON.stringify(newSettings, null, 2), "utf8");
-      return NextResponse.json({ success: true });
+      return NextResponse.json({ success: true, method: 'local' });
     } catch (fsError) {
+      console.error("Local Save Error:", fsError);
       return NextResponse.json({ 
-        error: "Vercel Read-only Filesystem: You must set up Supabase to save settings in production." 
+        error: "Vercel Error: This environment is read-only. You MUST set up Supabase to save settings. Please ensure your Supabase environment variables are set in Vercel." 
       }, { status: 500 });
     }
 
   } catch (error) {
-    console.error("Settings POST catch error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Settings API Catch Error:", error);
+    return NextResponse.json({ error: "Critical Error: " + error.message }, { status: 500 });
   }
 }
+
 
 
