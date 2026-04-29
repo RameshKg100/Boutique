@@ -44,18 +44,18 @@ export default function ReviewsPage() {
             </p>
 
             {/* Statistics Banner */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-12 max-w-5xl mx-auto">
-              <div className="bg-white px-6 py-10 md:py-12 flex flex-col items-center justify-center border border-border/50 shadow-sm">
-                <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
-                <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Trusted Customers</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-12 max-w-4xl mx-auto">
+              <div className="bg-white px-4 py-6 md:py-8 rounded-2xl flex flex-col items-center justify-center border border-border/50 shadow-sm transition-transform duration-300 hover:scale-105">
+                <span className="block text-4xl md:text-5xl font-bold text-primary mb-2" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
+                <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-muted font-bold text-center">Trusted Customers</span>
               </div>
-              <div className="bg-white px-6 py-10 md:py-12 flex flex-col items-center justify-center border border-border/50 shadow-sm">
-                <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>1000+</span>
-                <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Orders Delivered</span>
+              <div className="bg-white px-4 py-6 md:py-8 rounded-2xl flex flex-col items-center justify-center border border-border/50 shadow-sm transition-transform duration-300 hover:scale-105">
+                <span className="block text-4xl md:text-5xl font-bold text-primary mb-2" style={{ fontFamily: "var(--font-heading)" }}>1000+</span>
+                <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-muted font-bold text-center">Orders Delivered</span>
               </div>
-              <div className="bg-white px-6 py-10 md:py-12 flex flex-col items-center justify-center border border-border/50 shadow-sm">
-                <span className="block text-5xl md:text-6xl font-bold text-primary mb-3" style={{ fontFamily: "var(--font-heading)" }}>100%</span>
-                <span className="text-xs uppercase tracking-[0.2em] text-text-muted font-bold">Quality Assured</span>
+              <div className="bg-white px-4 py-6 md:py-8 rounded-2xl flex flex-col items-center justify-center border border-border/50 shadow-sm transition-transform duration-300 hover:scale-105">
+                <span className="block text-4xl md:text-5xl font-bold text-primary mb-2" style={{ fontFamily: "var(--font-heading)" }}>100%</span>
+                <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-muted font-bold text-center">Quality Assured</span>
               </div>
             </div>
           </AnimatedSection>
