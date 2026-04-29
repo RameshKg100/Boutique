@@ -7,12 +7,23 @@ export const revalidate = 0;
 export async function GET() {
   try {
     if (supabase) {
-      const { data, error } = await supabase
+      // Try ordering by order_index, fallback to name if it fails
+      let { data, error } = await supabase
         .from('categories')
         .select('*')
         .order('order_index', { ascending: true });
         
-      if (error) throw error;
+      if (error) {
+        // Fallback to name if order_index doesn't exist yet
+        console.warn("order_index missing, falling back to name sorting");
+        const { data: fallbackData, error: fallbackError } = await supabase
+          .from('categories')
+          .select('*')
+          .order('name', { ascending: true });
+        
+        if (fallbackError) throw fallbackError;
+        data = fallbackData;
+      }
       return NextResponse.json(data);
     }
     // Fallback for local
