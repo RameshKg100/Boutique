@@ -11,22 +11,31 @@ export default function AdminLogin() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     
-    // Simulate slight delay for professional feel
-    setTimeout(() => {
-      const secureKey = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123";
-      if (password === secureKey) {
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok && data.success) {
         localStorage.setItem("isAdminAuthenticated", "true");
         router.push("/admin");
       } else {
-        setError("Invalid secret key. Please try again.");
-        setLoading(false);
+        setError(data.error || "Invalid secret key. Please try again.");
       }
-    }, 800);
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,7 +46,7 @@ export default function AdminLogin() {
           <div className="w-16 h-16 bg-[#2563EB] rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg shadow-blue-500/20">
             <span className="text-white font-bold text-3xl">S</span>
           </div>
-          <h1 className="text-2xl font-bold text-[#111827] tracking-tight">Admin Portal</h1>
+          <h1 className="text-2xl font-bold text-[#111827] tracking-tight">Sathyas Admin</h1>
           <p className="text-[#6B7280] text-sm mt-1.5 font-medium">Please enter your secure access key</p>
         </div>
 
@@ -97,8 +106,9 @@ export default function AdminLogin() {
       
       {/* Footer Note */}
       <p className="mt-20 text-[11px] text-[#9CA3AF] font-medium uppercase tracking-[0.2em]">
-        © 2026 Sashaa Boutiques
+        © 2026 Sathyas Boutique
       </p>
     </div>
   );
 }
+
