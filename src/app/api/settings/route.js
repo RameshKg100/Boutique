@@ -80,12 +80,6 @@ export async function POST(request) {
 
       console.log("Successfully saved to Supabase");
       return NextResponse.json({ success: true, method: 'database' });
-      }
-
-      console.error("Supabase Save Error:", error);
-      return NextResponse.json({ 
-        error: `Database Save Failed: ${error.message}. \n\nThis usually means the 'store_settings' table doesn't exist yet. Did you run the SQL command in your Supabase dashboard?` 
-      }, { status: 500 });
     }
 
     // 2. Local Fallback (for Local Development ONLY)
