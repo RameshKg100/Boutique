@@ -16,14 +16,19 @@ const getLocalSettings = () => {
   }
 };
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
-    if (supabase) {
-      const { data, error } = await supabase
+    // Use supabaseAdmin to ensure we can read settings even if RLS is on
+    const client = supabaseAdmin || supabase;
+    if (client) {
+      const { data, error } = await client
         .from('store_settings')
         .select('value')
         .eq('key', 'payment_qr_code')
-        .maybeSingle(); // maybeSingle doesn't throw error if not found
+        .maybeSingle();
       
       if (data && data.value) {
         return NextResponse.json({ paymentQRCode: data.value });
@@ -36,6 +41,7 @@ export async function GET() {
     return NextResponse.json(getLocalSettings());
   }
 }
+
 
 export async function POST(request) {
   try {
