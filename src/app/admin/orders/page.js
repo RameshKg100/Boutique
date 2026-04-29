@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import Image from "next/image";
 import { 
   ShoppingCart, 
@@ -161,7 +161,7 @@ export default function OrdersPage() {
                 </tr>
               ) : (
                 filteredOrders.map((order) => (
-                  <React.Fragment key={order.id}>
+                  <Fragment key={order.id}>
                     <tr className="hover:bg-[#F9FAFB] transition-colors">
                       <td className="px-4 py-3">
                         <p className="font-semibold text-[#111827]">{order.id}</p>
@@ -244,7 +244,7 @@ export default function OrdersPage() {
                         </td>
                       </tr>
                     )}
-                  </React.Fragment>
+                  </Fragment>
                 ))
               )}
             </tbody>
