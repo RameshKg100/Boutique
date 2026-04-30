@@ -36,26 +36,8 @@ export default function Footer() {
                 </div>
               </div>
               <p className="text-sm tracking-wide leading-relaxed text-foreground/80 font-medium">
-                A sanctuary of refined taste in Chennai. We craft more than just fashion; we craft the confidence that comes with artisanal care.
+              Our Sathyas Boutique offers elegant and easy-to-wear fashion. Our collections are carefully selected to bring you comfort, quality, and a touch of style in every outfit.
               </p>
-              <div className="flex gap-4">
-                {[
-                  { icon: Instagram, href: siteConfig.social.instagram, label: "Instagram" },
-                  { icon: Facebook, href: siteConfig.social.facebook, label: "Facebook" },
-                  { icon: Youtube, href: siteConfig.social.youtube, label: "YouTube" }
-                ].map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center hover:bg-primary text-foreground hover:text-white transition-all duration-300 shadow-sm"
-                    aria-label={social.label}
-                  >
-                    <social.icon size={18} />
-                  </a>
-                ))}
-              </div>
             </div>
 
             {/* Column 2: Discover */}
@@ -126,14 +108,6 @@ export default function Footer() {
                     <Mail size={18} className="text-primary" />
                     {siteConfig.contact.email}
                   </a>
-                </div>
-                <div className="pt-4 border-t border-border/20">
-                  <div className="flex items-start gap-3">
-                    <Clock size={18} className="text-primary flex-shrink-0 mt-0.5" />
-                    <p className="text-xs tracking-wide text-foreground/60 font-medium italic">
-                      {siteConfig.contact.hours}
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>

@@ -5,11 +5,6 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Heart, Eye, Target, Award, Users, Sparkles, Store, Gem, Scissors, Globe, Star } from "lucide-react";
 
-const values = [
-  { icon: Heart, title: "Passion", description: "Every stitch tells a story of our deep love for fashion." },
-  { icon: Award, title: "Quality", description: "Only the finest materials go into our collections." },
-  { icon: Users, title: "Customer First", description: "Your satisfaction is our ultimate reward." },
-];
 
 const milestones = [
   { year: "2010", title: "Founded", icon: Store, description: "Sashaa Boutiques opened its doors in the heart of Chennai's Gopalapuram, starting with a curated collection of artisanal sarees." },
@@ -134,95 +129,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ===== OUR JOURNEY: THE SINGLE RAIL (ONE SCREEN) ===== */}
-      <section className="py-10 lg:py-16 bg-white" id="our-journey">
+      {/* ===== OUR JOURNEY: ROW-WISE LAYOUT ===== */}
+      <section className="py-8 lg:py-12 bg-background" id="our-journey">
         <div className="container-boutique">
           <AnimatedSection>
-            <div className="text-center mb-8 lg:mb-12">
-              <span className="text-primary text-xs uppercase tracking-[0.4em] font-black mb-3 block">
-                The Heritage
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black mb-4 text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-black text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
                 Our <span className="text-primary italic">Journey</span>
               </h2>
             </div>
           </AnimatedSection>
           
-          <div className="relative max-w-4xl mx-auto py-10">
-            {/* The Vertical Central Line (Desktop) */}
-            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-0.5 bg-border-color hidden md:block" />
-            
-            {/* The Rows */}
-            <div className="space-y-16 md:space-y-24">
-              {milestones.map((milestone, index) => (
-                <div key={milestone.year} className="relative">
-                  <AnimatedSection animation={index % 2 === 0 ? "slide-in-left" : "slide-in-right"}>
-                    <div className={`flex flex-col md:flex-row items-center gap-8 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-                      
-                      {/* Central Point */}
-                      <div className="absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-primary z-10 hidden md:flex items-center justify-center shadow-md">
-                        <milestone.icon size={18} className="text-primary" />
-                      </div>
-
-                      {/* Side 1: Year/Icon */}
-                      <div className="w-full md:w-1/2 flex justify-center md:justify-end md:pr-16 text-center md:text-right">
-                        <div className={`md:flex flex-col ${index % 2 !== 0 ? "md:items-start" : "md:items-end"}`}>
-                           <span className="text-primary text-4xl font-black mb-2 block">{milestone.year}</span>
-                           <div className="w-12 h-1 px-1 bg-primary rounded-full hidden md:block" />
-                        </div>
-                      </div>
-
-                      {/* Side 2: Content Card */}
-                      <div className="w-full md:w-1/2 flex justify-center md:justify-start md:pl-16 text-center md:text-left">
-                        <div className="bg-[#FBFBFB] p-8 rounded-2xl border border-border-color shadow-sm max-w-md w-full transition-all duration-300 hover:shadow-xl hover:border-primary/20">
-                          <div className="md:hidden w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
-                            <milestone.icon size={22} />
-                          </div>
-                          <h3 className="text-xl font-bold mb-3 text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-                            {milestone.title}
-                          </h3>
-                          <p className="text-sm text-foreground/60 font-medium leading-relaxed">
-                            {milestone.description}
-                          </p>
-                        </div>
-                      </div>
-
-                    </div>
-                  </AnimatedSection>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-12 bg-white" id="our-values">
-        <div className="container-boutique">
-          <AnimatedSection>
-            <SectionHeading
-              title="Our Values"
-              subtitle="The core principles that define us."
-            />
-          </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {values.map((value, index) => (
-              <AnimatedSection key={value.title} delay={index * 100}>
-                <div className="p-6 rounded-2xl border border-border-color text-center hover:shadow-lg transition-all duration-300 bg-secondary/30">
-                  <div
-                    className="w-10 h-10 rounded-xl mx-auto mb-4 flex items-center justify-center bg-primary/10 border border-primary/20"
-                  >
-                    <value.icon size={18} className="text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 max-w-5xl mx-auto">
+            {milestones.map((milestone, index) => (
+              <AnimatedSection key={milestone.year} delay={index * 100}>
+                <div className="bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-sm h-full flex flex-col md:flex-row items-start gap-4 transition-all duration-300 hover:shadow-md hover:border-primary/30">
+                  <div className="w-12 h-12 shrink-0 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                    <milestone.icon size={22} />
                   </div>
-                  <h3
-                    className="text-base font-bold mb-2 text-foreground"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    {value.title}
-                  </h3>
-                  <p className="text-xs text-foreground/60 font-medium leading-relaxed">
-                    {value.description}
-                  </p>
+                  <div>
+                    <span className="text-primary text-xl font-black mb-1 block">{milestone.year}</span>
+                    <h3 className="text-base font-bold mb-2 text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+                      {milestone.title}
+                    </h3>
+                    <p className="text-sm text-foreground/70 font-medium leading-relaxed">
+                      {milestone.description}
+                    </p>
+                  </div>
                 </div>
               </AnimatedSection>
             ))}

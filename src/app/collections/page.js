@@ -141,8 +141,8 @@ function CollectionsContent() {
             in <span className="text-primary capitalize font-black">{categories.find(c => c.slug === activeCategory)?.name || activeCategory}</span>
           </p>
 
-          {/* Product Grid - Dynamic Density */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6">
+          {/* Product Grid - 2 col mobile, 4-5 col desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
             {loading ? (
               <div className="col-span-full py-20 text-center">
                 <Loader2 className="animate-spin mx-auto text-primary mb-4" size={40} />

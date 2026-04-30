@@ -6,8 +6,8 @@ export const siteConfig = {
   contact: {
     phone: "+91 9976474102",
     email: "hello@sathyasboutique.com",
-    address: "No. 42, Cathedral Road, Gopalapuram, Chennai - 600086, Tamil Nadu, India",
-    hours: "Mon - Sat: 10:00 AM - 8:00 PM | Sun: 11:00 AM - 6:00 PM",
+    address: "Kariyagoundanur, Vadakkalur(Post), Annur - 641653, CoimbatoreTamil Nadu",
+    hours: "Mon - Sat: 10:00 AM - 8:00 PM",
   },
   social: {
     instagram: "https://instagram.com/sashaaboutiques",

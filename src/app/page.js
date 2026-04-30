@@ -77,7 +77,7 @@ export default function HomePage() {
               <div className="max-w-lg">
                 <span className="inline-flex items-center gap-2 text-primary text-xs uppercase tracking-[0.2em] font-medium mb-4">
                   <Sparkles size={14} />
-                  Authentic Tamil Nadu Boutique
+                  Authentic Coimbatore Boutique
                 </span>
                 <h1
                   className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6"
@@ -171,7 +171,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
 
       {/* ===== FEATURED PRODUCTS ===== */}
       <section className="py-8 lg:py-12 bg-background" id="featured-products">
