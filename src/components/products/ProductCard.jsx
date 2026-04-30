@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Heart, ShoppingBag, Eye, Phone, Star } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { siteConfig } from "@/data/siteConfig";
 import { formatPrice, getDiscountPercentage } from "@/lib/utils";
 
 export default function ProductCard({ product }) {
@@ -22,7 +23,7 @@ export default function ProductCard({ product }) {
   const handleWhatsApp = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const message = `Hello! I have a query regarding keeping product from Sashaa Boutiques.
+    const message = `Hello! I have a query regarding a product from ${siteConfig.name}.
 
 Product: ${product.name}
 Category: ${product.category}
@@ -31,7 +32,7 @@ Price: ${formatPrice(product.price)}
 My Name: 
 Location: 
 My Query: `;
-    const url = `https://wa.me/919000000000?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/${siteConfig.contact.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
 

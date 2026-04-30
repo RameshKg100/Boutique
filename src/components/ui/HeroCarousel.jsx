@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 // Fallback static images (used if no images are in the database)
 const FALLBACK_IMAGES = [
-  "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=800&h=1000&fit=crop",
+  "/hero-red-dress.png",
   "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&h=1000&fit=crop",
   "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&h=1000&fit=crop",
   "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&h=1000&fit=crop",

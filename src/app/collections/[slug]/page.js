@@ -9,6 +9,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import ProductCard from "@/components/products/ProductCard";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { siteConfig } from "@/data/siteConfig";
 import { formatPrice, getDiscountPercentage } from "@/lib/utils";
 import {
   Heart,
@@ -121,7 +122,7 @@ export default function ProductDetailPage() {
   };
 
   const handleWhatsApp = () => {
-    const message = `Hello! I have a query regarding a dress.
+    const message = `Hello! I have a query regarding a dress from ${siteConfig.name}.
 
 Product: ${product.name}
 
@@ -129,7 +130,7 @@ My Name:
 Location: 
 Mobile Number: 
 My Query: `;
-    const url = `https://wa.me/919000000000?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/${siteConfig.contact.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
 
