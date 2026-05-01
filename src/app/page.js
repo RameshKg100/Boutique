@@ -13,6 +13,7 @@ import {
   Loader2,
 } from "lucide-react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import HeroCarousel from "@/components/ui/HeroCarousel";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProductCard from "@/components/products/ProductCard";
 
@@ -68,20 +69,23 @@ export default function HomePage() {
     <>
       {/* ===== HERO SECTION ===== */}
       <section
-        className="relative bg-secondary/30 overflow-hidden flex items-center py-16 lg:py-24"
+        className="relative bg-background overflow-hidden flex items-center"
         id="hero-section"
       >
         <div className="container-boutique w-full">
-          <div className="max-w-3xl mx-auto text-center">
-            {/* Content */}
-            <AnimatedSection animation="slide-in-bottom">
-              <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[50vh] lg:min-h-[60vh] py-8 lg:py-12">
+            {/* Left Content */}
+            <AnimatedSection
+              animation="slide-in-left"
+              className="order-2 lg:order-1"
+            >
+              <div className="max-w-lg">
                 <span className="inline-flex items-center gap-2 text-primary text-xs uppercase tracking-[0.2em] font-medium mb-4">
                   <Sparkles size={14} />
                   Our Boutique — Made for your everyday glow
                 </span>
                 <h1
-                  className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] mb-6"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6"
                   style={{
                     fontFamily: "var(--font-heading)",
                     color: "var(--foreground)",
@@ -92,29 +96,38 @@ export default function HomePage() {
                     Simple & Elegant Fashion
                   </span>
                 </h1>
-                <p className="text-text/70 text-base md:text-xl font-medium leading-relaxed mb-10">
+                <p className="text-text/70 text-base md:text-lg font-medium leading-relaxed mb-8">
                   Discover timeless elegance at our boutique, where tradition
                   meets everyday fashion. We offer a carefully selected range of
                   maxis, tops, kurtis, and sarees designed for comfort, style,
-                  and versatility.
+                  and versatility. Each piece is thoughtfully crafted to blend
+                  traditional charm with modern trends, making it perfect for
+                  daily wear, festive occasions, and special moments.
                 </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                  <Link href="/collections" className="btn-primary px-8 py-4">
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/collections" className="btn-primary">
                     Explore Collections
-                    <ArrowRight size={18} />
+                    <ArrowRight size={16} />
                   </Link>
-                  <Link href="/about" className="btn-secondary px-8 py-4">
+                  <Link href="/about" className="btn-secondary">
                     Our Story
                   </Link>
                 </div>
               </div>
             </AnimatedSection>
+
+            {/* Right Image */}
+            <AnimatedSection
+              animation="window-reveal"
+              className="order-1 lg:order-2 h-full min-h-[500px] lg:min-h-[600px]"
+            >
+              <div className="relative h-full w-full overflow-hidden shadow-2xl rounded-2xl">
+                {/* Auto Continuous Carousel Component */}
+                <HeroCarousel />
+              </div>
+            </AnimatedSection>
           </div>
         </div>
-        
-        {/* Artistic background elements */}
-        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       </section>
 
       {/* ===== ABOUT PREVIEW ===== */}
