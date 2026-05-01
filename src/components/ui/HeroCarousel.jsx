@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
-// Fallback static images (used if no images are in the database)
+// Fallback static images (Commented out as requested)
 const FALLBACK_IMAGES = [
+  /*
   "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&h=1000&fit=crop",
   "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&h=1000&fit=crop",
   "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&h=1000&fit=crop",
   "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&h=1000&fit=crop",
+  */
 ];
 
 export default function HeroCarousel() {
@@ -61,6 +63,10 @@ export default function HeroCarousel() {
       x: direction < 0 ? "100%" : "-100%",
     })
   };
+
+  if (heroImages.length === 0) {
+    return <div className="w-full h-full bg-cream flex items-center justify-center text-primary/30 font-serif italic text-xl">Sathyas Boutique</div>;
+  }
 
   return (
     <div className="relative overflow-hidden w-full h-full bg-cream group">
