@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ShoppingBag, Eye, Phone, Star } from "lucide-react";
+import { Heart, ShoppingBag, Eye, Star } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { siteConfig } from "@/data/siteConfig";
@@ -18,22 +18,6 @@ export default function ProductCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
     addItem(product, product.sizes[1] || product.sizes[0]);
-  };
-
-  const handleWhatsApp = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const message = `Hello! I have a query regarding a product from ${siteConfig.name}.
-
-Product: ${product.name}
-Category: ${product.category}
-Price: ${formatPrice(product.price)}
-
-My Name: 
-Location: 
-My Query: `;
-    const url = `https://wa.me/${siteConfig.contact.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
   };
 
   const handleToggleWishlist = (e) => {
@@ -83,15 +67,6 @@ My Query: `;
             aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
             <Heart size={14} fill={wishlisted ? "currentColor" : "none"} />
-          </button>
-
-          {/* WhatsApp Button */}
-          <button
-            onClick={handleWhatsApp}
-            className="absolute bottom-3 right-3 w-8 h-8 bg-[#25D366] text-white rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm hover:scale-110"
-            aria-label="Enquire on WhatsApp"
-          >
-            <Phone size={14} />
           </button>
 
           {/* Hover Overlay */}
