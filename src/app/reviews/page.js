@@ -3,13 +3,16 @@
 import { useState, useEffect } from "react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { Star, Quote, Loader2, X, ZoomIn, Maximize2 } from "lucide-react";
+import { Star, Quote, Loader2, X, ZoomIn, ZoomOut, RotateCcw, Maximize2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Lightbox States
   const [selectedImage, setSelectedImage] = useState(null);
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     async function fetchReviews() {
@@ -28,17 +31,34 @@ export default function ReviewsPage() {
 
   const openLightbox = (url) => {
     setSelectedImage(url);
+    setZoom(1);
     document.body.style.overflow = "hidden";
   };
 
   const closeLightbox = () => {
     setSelectedImage(null);
+    setZoom(1);
     document.body.style.overflow = "auto";
+  };
+
+  const handleZoomIn = (e) => {
+    e.stopPropagation();
+    setZoom(prev => Math.min(prev + 0.5, 3));
+  };
+
+  const handleZoomOut = (e) => {
+    e.stopPropagation();
+    setZoom(prev => Math.max(prev - 0.5, 1));
+  };
+
+  const resetZoom = (e) => {
+    e.stopPropagation();
+    setZoom(1);
   };
 
   return (
     <>
-      {/* Lightbox / Zoom Preview */}
+      {/* Lightbox / Zoom Preview with Controls */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div 
@@ -46,27 +66,74 @@ export default function ReviewsPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeLightbox}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 sm:p-12 cursor-zoom-out"
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center cursor-zoom-out"
           >
-            <motion.button 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors z-50"
-            >
-              <X size={24} />
-            </motion.button>
-            
+            {/* Top Bar Controls */}
+            <div className="absolute top-0 left-0 right-0 h-20 flex items-center justify-between px-6 z-50 bg-gradient-to-b from-black/50 to-transparent">
+               <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white/50">
+                    <Star size={16} fill="currentColor" className="text-yellow-400" />
+                  </div>
+                  <span className="text-white/80 text-sm font-bold tracking-wider hidden sm:inline-block">Customer Snapshot Zoom</span>
+               </div>
+               
+               <div className="flex items-center gap-2 sm:gap-4" onClick={(e) => e.stopPropagation()}>
+                  <button 
+                    onClick={handleZoomOut}
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all active:scale-90"
+                    title="Zoom Out"
+                  >
+                    <ZoomOut size={20} />
+                  </button>
+                  <div className="bg-white/10 px-4 py-2 rounded-full text-white text-xs font-black min-w-[60px] text-center border border-white/5">
+                    {Math.round(zoom * 100)}%
+                  </div>
+                  <button 
+                    onClick={handleZoomIn}
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all active:scale-90"
+                    title="Zoom In"
+                  >
+                    <ZoomIn size={20} />
+                  </button>
+                  <div className="w-px h-6 bg-white/10 mx-1 sm:mx-2" />
+                  <button 
+                    onClick={resetZoom}
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all active:scale-90"
+                    title="Reset"
+                  >
+                    <RotateCcw size={18} />
+                  </button>
+                  <button 
+                    onClick={closeLightbox}
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white hover:bg-rose-50 text-black rounded-full flex items-center justify-center transition-all active:scale-90 shadow-xl"
+                    title="Close"
+                  >
+                    <X size={20} />
+                  </button>
+               </div>
+            </div>
+
             <motion.div 
               initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
+              animate={{ 
+                scale: 1, 
+                y: 0,
+                transition: { type: "spring", damping: 25 } 
+              }}
               exit={{ scale: 0.9, y: 20 }}
-              className="relative max-w-5xl w-full h-full flex items-center justify-center"
+              className="relative w-full h-full flex items-center justify-center overflow-auto p-4 sm:p-12"
               onClick={(e) => e.stopPropagation()}
             >
-              <img 
+              <motion.img 
+                animate={{ scale: zoom }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
                 src={selectedImage} 
                 alt="Review Zoom" 
-                className="max-w-full max-h-full object-contain rounded-xl shadow-2xl cursor-default select-none border border-white/10"
+                className={`max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/10 transition-shadow duration-500 ${zoom > 1 ? 'shadow-white/5' : ''}`}
+                style={{ 
+                  cursor: zoom > 1 ? 'grab' : 'default',
+                  transformOrigin: 'center center'
+                }}
               />
             </motion.div>
           </motion.div>
