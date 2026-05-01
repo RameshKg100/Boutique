@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { Star, Quote, Loader2 } from "lucide-react";
+import { Star, Quote, Loader2, X, ZoomIn, Maximize2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     async function fetchReviews() {
@@ -24,8 +26,53 @@ export default function ReviewsPage() {
     fetchReviews();
   }, []);
 
+  const openLightbox = (url) => {
+    setSelectedImage(url);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeLightbox = () => {
+    setSelectedImage(null);
+    document.body.style.overflow = "auto";
+  };
+
   return (
     <>
+      {/* Lightbox / Zoom Preview */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeLightbox}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 sm:p-12 cursor-zoom-out"
+          >
+            <motion.button 
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors z-50"
+            >
+              <X size={24} />
+            </motion.button>
+            
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="relative max-w-5xl w-full h-full flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img 
+                src={selectedImage} 
+                alt="Review Zoom" 
+                className="max-w-full max-h-full object-contain rounded-xl shadow-2xl cursor-default select-none border border-white/10"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <section className="bg-secondary py-8 lg:py-12" id="reviews-hero">
         <div className="container-boutique text-center">
           <AnimatedSection>
@@ -71,40 +118,53 @@ export default function ReviewsPage() {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-7 gap-4 md:gap-5">
-              {reviews.map((review, index) => (
-                <AnimatedSection key={review.id} delay={(index % 3) * 100}>
-                  <div className="group bg-white rounded-2xl overflow-hidden border border-border/40 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full shadow-sm">
-                    {/* Review Photo / Screenshot - Standardized Aspect Ratio */}
-                    {((review.avatar && review.avatar.startsWith('http')) || (review.text && review.text.startsWith('http'))) && (
-                      <div className="relative aspect-[3/4] overflow-hidden bg-secondary/30">
-                        <img 
-                          src={review.avatar && review.avatar.startsWith('http') ? review.avatar : review.text} 
-                          alt="Customer Review" 
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                        />
-                        
-                        {/* Decorative Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                           <div className="flex items-center gap-1 text-white/90">
-                              <Star size={12} fill="currentColor" className="text-yellow-400" />
-                              <span className="text-[10px] font-black uppercase tracking-widest">Happy Client</span>
-                           </div>
+              {reviews.map((review, index) => {
+                const imageUrl = review.avatar && review.avatar.startsWith('http') ? review.avatar : review.text;
+                const hasImage = imageUrl && imageUrl.startsWith('http');
+
+                return (
+                  <AnimatedSection key={review.id} delay={(index % 6) * 50}>
+                    <div 
+                      className={`group bg-white rounded-2xl overflow-hidden border border-border/40 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full shadow-sm ${hasImage ? 'cursor-zoom-in' : ''}`}
+                      onClick={() => hasImage && openLightbox(imageUrl)}
+                    >
+                      {/* Review Photo / Screenshot - Standardized Aspect Ratio */}
+                      {hasImage && (
+                        <div className="relative aspect-[3/4] overflow-hidden bg-secondary/30">
+                          <img 
+                            src={imageUrl} 
+                            alt="Customer Review" 
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                          />
+                          
+                          {/* Decorative Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+                             <div className="flex items-center justify-between w-full">
+                               <div className="flex items-center gap-1 text-white/90">
+                                  <Star size={12} fill="currentColor" className="text-yellow-400" />
+                                  <span className="text-[10px] font-black uppercase tracking-widest">Client Love</span>
+                               </div>
+                               <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+                                  <Maximize2 size={14} />
+                               </div>
+                             </div>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    
-                    {/* Optional Feedback Text - Compact display if exists */}
-                    {review.text && review.text !== "Photo Review" && !review.text.startsWith('http') && (
-                      <div className="p-3 md:p-4 flex-grow">
-                         <Quote size={16} className="text-primary/20 mb-2" fill="currentColor" />
-                         <p className="text-xs md:text-sm text-text leading-relaxed font-medium italic">
-                           &ldquo;{review.text}&rdquo;
-                         </p>
-                      </div>
-                    )}
-                  </div>
-                </AnimatedSection>
-              ))}
+                      )}
+                      
+                      {/* Optional Feedback Text */}
+                      {review.text && review.text !== "Photo Review" && !review.text.startsWith('http') && (
+                        <div className="p-3 md:p-4 flex-grow">
+                           <Quote size={16} className="text-primary/20 mb-2" fill="currentColor" />
+                           <p className="text-xs md:text-[13px] text-text leading-relaxed font-medium italic">
+                             &ldquo;{review.text}&rdquo;
+                           </p>
+                        </div>
+                      )}
+                    </div>
+                  </AnimatedSection>
+                );
+              })}
             </div>
           )}
         </div>
