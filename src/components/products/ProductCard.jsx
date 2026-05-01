@@ -8,7 +8,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import { siteConfig } from "@/data/siteConfig";
 import { formatPrice, getDiscountPercentage } from "@/lib/utils";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onZoom }) {
   const { addItem } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const discount = getDiscountPercentage(product.originalPrice, product.price);
@@ -18,6 +18,12 @@ export default function ProductCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
     addItem(product, product.sizes[1] || product.sizes[0]);
+  };
+
+  const handleZoom = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onZoom) onZoom(product.images[0]);
   };
 
   const handleToggleWishlist = (e) => {
@@ -79,9 +85,12 @@ export default function ProductCard({ product }) {
                 <ShoppingBag size={13} />
                 Add to Cart
               </button>
-              <span className="bg-white text-text hover:bg-primary hover:text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center shadow-lg">
-                <Eye size={13} />
-              </span>
+              <button
+                onClick={handleZoom}
+                className="bg-white text-text hover:bg-primary hover:text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center shadow-lg group/zoom"
+              >
+                <Eye size={13} className="group-hover/zoom:scale-125 transition-transform" />
+              </button>
             </div>
           </div>
         </div>
