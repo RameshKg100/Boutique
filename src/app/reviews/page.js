@@ -70,10 +70,10 @@ export default function ReviewsPage() {
               <p className="text-text-light italic">Reading the love stories...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-7 gap-4 md:gap-5">
               {reviews.map((review, index) => (
                 <AnimatedSection key={review.id} delay={(index % 3) * 100}>
-                  <div className="group bg-white rounded-[2rem] overflow-hidden border border-border/40 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full shadow-sm">
+                  <div className="group bg-white rounded-2xl overflow-hidden border border-border/40 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full shadow-sm">
                     {/* Review Photo / Screenshot - Standardized Aspect Ratio */}
                     {((review.avatar && review.avatar.startsWith('http')) || (review.text && review.text.startsWith('http'))) && (
                       <div className="relative aspect-[3/4] overflow-hidden bg-secondary/30">
@@ -84,10 +84,10 @@ export default function ReviewsPage() {
                         />
                         
                         {/* Decorative Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                           <div className="flex items-center gap-1.5 text-white/90">
-                              <Star size={16} fill="currentColor" className="text-yellow-400" />
-                              <span className="text-sm font-bold uppercase tracking-widest">Happy Client</span>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+                           <div className="flex items-center gap-1 text-white/90">
+                              <Star size={12} fill="currentColor" className="text-yellow-400" />
+                              <span className="text-[10px] font-black uppercase tracking-widest">Happy Client</span>
                            </div>
                         </div>
                       </div>
@@ -95,9 +95,9 @@ export default function ReviewsPage() {
                     
                     {/* Optional Feedback Text - Compact display if exists */}
                     {review.text && review.text !== "Photo Review" && !review.text.startsWith('http') && (
-                      <div className="p-6 md:p-8 flex-grow">
-                         <Quote size={24} className="text-primary/20 mb-4" fill="currentColor" />
-                         <p className="text-sm md:text-base text-text leading-relaxed font-medium italic">
+                      <div className="p-3 md:p-4 flex-grow">
+                         <Quote size={16} className="text-primary/20 mb-2" fill="currentColor" />
+                         <p className="text-xs md:text-sm text-text leading-relaxed font-medium italic">
                            &ldquo;{review.text}&rdquo;
                          </p>
                       </div>
