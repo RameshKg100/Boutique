@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { 
   ChevronLeft, 
   Save, 
@@ -9,11 +9,15 @@ import {
   CheckCircle2, 
   AlertCircle,
   X,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Check,
+  Crop as CropIcon
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "@/lib/cropImage";
 
 export default function EditReviewPage() {
   const params = useParams();
@@ -29,6 +33,12 @@ export default function EditReviewPage() {
     text: "Photo Review",
     avatar: "",
   });
+
+  // Cropper states
+  const [imageToCrop, setImageToCrop] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   useEffect(() => {
     async function fetchReview() {
@@ -51,24 +61,43 @@ export default function EditReviewPage() {
     fetchReview();
   }, [params.id]);
 
-  const handleImageUpload = async (e) => {
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const handleFileSelect = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (file) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        setImageToCrop(reader.result);
+      });
+      reader.readAsDataURL(file);
+    }
+  };
 
-    setUploading(true);
-    setStatus({ type: "", message: "" });
-    const body = new FormData();
-    body.append("file", file);
-
+  const handleCropSave = async () => {
     try {
+      setUploading(true);
+      const croppedImageUrl = await getCroppedImg(imageToCrop, croppedAreaPixels);
+      
+      const response = await fetch(croppedImageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "cropped_review_edit.jpg", { type: "image/jpeg" });
+
+      const body = new FormData();
+      body.append("file", file);
+
       const res = await fetch("/api/upload", {
         method: "POST",
         body
       });
       const data = await res.json();
+      
       if (data.url) {
         setFormData({ ...formData, avatar: data.url });
-        setStatus({ type: "success", message: "Photo updated!" });
+        setImageToCrop(null);
+        setStatus({ type: "success", message: "Photo updated successfully!" });
         setTimeout(() => setStatus({ type: "", message: "" }), 2000);
       }
     } catch (error) {
@@ -91,7 +120,7 @@ export default function EditReviewPage() {
       });
       
       if (res.ok) {
-        setStatus({ type: "success", message: "Review updated successfully!" });
+        setStatus({ type: "success", message: "Changes saved successfully!" });
         setTimeout(() => router.push("/admin/reviews"), 1500);
       } else {
         const result = await res.json();
@@ -110,13 +139,88 @@ export default function EditReviewPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-[#6B7280]">
         <Loader2 className="w-8 h-8 animate-spin mb-3 text-[#2563EB]" />
-        <p className="text-sm font-medium">Loading review...</p>
+        <p className="text-sm font-medium">Loading review data...</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-6 pb-20">
+    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-6 pb-20">
+      {/* Cropper Modal */}
+      <AnimatePresence>
+        {imageToCrop && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-8"
+          >
+            <div className="bg-white rounded-[2rem] w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden relative shadow-2xl">
+              <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white z-10">
+                <div>
+                  <h3 className="text-xl font-black text-gray-900">Crop Review Image</h3>
+                  <p className="text-sm text-gray-500 font-medium">Adjust the image to fit perfectly</p>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => setImageToCrop(null)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X size={24} className="text-gray-400" />
+                </button>
+              </div>
+
+              <div className="relative flex-grow bg-gray-900">
+                <Cropper
+                  image={imageToCrop}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={3/4}
+                  onCropChange={setCrop}
+                  onCropComplete={onCropComplete}
+                  onZoomChange={setZoom}
+                />
+              </div>
+
+              <div className="p-8 bg-white border-t border-gray-100 space-y-6">
+                <div className="flex items-center gap-6">
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Zoom</span>
+                  <input
+                    type="range"
+                    value={zoom}
+                    min={1}
+                    max={3}
+                    step={0.1}
+                    onChange={(e) => setZoom(e.target.value)}
+                    className="flex-grow h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                  />
+                  <span className="text-sm font-bold text-gray-900 w-8">{Math.round(zoom * 100)}%</span>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setImageToCrop(null)}
+                    className="flex-grow py-4 rounded-2xl border-2 border-gray-100 font-bold text-gray-500 hover:bg-gray-50 transition-all active:scale-95"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCropSave}
+                    disabled={uploading}
+                    className="flex-grow py-4 rounded-2xl bg-[#2563EB] text-white font-bold hover:bg-[#1D4ED8] transition-all shadow-xl shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50"
+                  >
+                    {uploading ? <Loader2 className="animate-spin" size={20} /> : <Check size={20} />}
+                    Apply & Save Image
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-[#E5E7EB] shadow-sm sticky top-20 z-40">
         <Link 
           href="/admin/reviews" 
@@ -159,7 +263,7 @@ export default function EditReviewPage() {
               </div>
               <div>
                 <h3 className="text-2xl font-black text-[#111827]">Updated!</h3>
-                <p className="text-[#6B7280] text-sm mt-3 font-medium leading-relaxed">The review screenshot has been updated successfully.</p>
+                <p className="text-[#6B7280] text-sm mt-3 font-medium leading-relaxed">The review image has been updated successfully.</p>
               </div>
               <div className="pt-4">
                 <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -179,26 +283,28 @@ export default function EditReviewPage() {
 
       <div className="bg-white border border-[#E5E7EB] rounded-[2rem] p-8 md:p-12 space-y-8 shadow-sm">
         <div className="text-center space-y-2">
-           <h3 className="text-2xl font-black text-[#111827]">Edit Review Image</h3>
-           <p className="text-sm text-[#6B7280] font-medium">Update your customer's feedback screenshot.</p>
+           <h3 className="text-2xl font-black text-[#111827]">Update Review Image</h3>
+           <p className="text-sm text-[#6B7280] font-medium">Upload and crop the new screenshot.</p>
         </div>
         
         <div className="flex flex-col items-center">
-          {/* Photo Section */}
-          <div className="space-y-4 w-full">
+          <div className="space-y-4 w-full max-w-2xl">
             <div className={`relative border-2 border-dashed rounded-[2.5rem] p-8 transition-all min-h-[500px] flex flex-col items-center justify-center gap-6 ${
               isImageUrl(formData.avatar) ? 'border-blue-500/50 bg-blue-50/30' : 'border-gray-200 hover:border-blue-500/30 bg-gray-50'
             }`}>
               {isImageUrl(formData.avatar) ? (
                 <div className="relative group w-full flex justify-center">
                   <img src={formData.avatar} alt="Review" className="max-h-[600px] rounded-2xl shadow-2xl border-4 border-white object-contain" />
-                  <button 
-                    type="button"
-                    onClick={() => setFormData({...formData, avatar: ""})}
-                    className="absolute -top-4 -right-4 w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-red-600 transition-all hover:scale-110 z-10 border-4 border-white"
-                  >
-                    <X size={24} />
-                  </button>
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center gap-3">
+                     <button 
+                      type="button"
+                      onClick={() => setFormData({...formData, avatar: ""})}
+                      className="w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-red-600 transition-all hover:scale-110 border-2 border-white"
+                      title="Remove"
+                    >
+                      <X size={24} />
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -206,13 +312,13 @@ export default function EditReviewPage() {
                     {uploading ? <Loader2 className="animate-spin" size={40} /> : <ImageIcon size={40} />}
                   </div>
                   <div className="text-center space-y-2">
-                    <p className="text-lg font-black text-[#111827]">Click to Update Screenshot</p>
-                    <p className="text-sm text-[#6B7280] font-medium italic">Replace the current image with a new one</p>
+                    <p className="text-lg font-black text-[#111827]">Click to Change & Crop</p>
+                    <p className="text-sm text-[#6B7280] font-medium italic">Select a new screenshot image</p>
                   </div>
                   <input 
                     type="file" 
                     accept="image/*" 
-                    onChange={handleImageUpload} 
+                    onChange={handleFileSelect} 
                     className="absolute inset-0 opacity-0 cursor-pointer" 
                   />
                 </>

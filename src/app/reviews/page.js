@@ -70,32 +70,36 @@ export default function ReviewsPage() {
               <p className="text-text-light italic">Reading the love stories...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
               {reviews.map((review, index) => (
                 <AnimatedSection key={review.id} delay={(index % 3) * 100}>
-                  <div className="group relative bg-transparent p-6 md:p-8 rounded-2xl border-2 border-border/40 transition-all duration-300 hover:border-primary/50 hover:scale-105 hover:shadow-lg h-full flex flex-col">
-                    {/* Decorative Quote Icon */}
-                    <div className="absolute top-6 right-6 text-primary/5 group-hover:text-primary/10 transition-colors">
-                      <Quote size={50} fill="currentColor" />
-                    </div>
-                    
-                    {/* Star Rating Hidden per User Request */}
-                    
-                    {/* Feedback Text */}
-                    {review.text && review.text !== "Photo Review" && !review.text.startsWith('http') && (
-                      <p className="text-sm md:text-base text-text leading-relaxed mb-6 font-medium italic relative z-10">
-                        &ldquo;{review.text}&rdquo;
-                      </p>
-                    )}
-
-                    {/* Review Photo / Screenshot */}
+                  <div className="group bg-white rounded-[2rem] overflow-hidden border border-border/40 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:-translate-y-2 flex flex-col h-full shadow-sm">
+                    {/* Review Photo / Screenshot - Standardized Aspect Ratio */}
                     {((review.avatar && review.avatar.startsWith('http')) || (review.text && review.text.startsWith('http'))) && (
-                      <div className="relative mb-4 rounded-xl overflow-hidden border border-border/20 shadow-md group-hover:shadow-lg transition-all duration-500 flex-grow">
+                      <div className="relative aspect-[3/4] overflow-hidden bg-secondary/30">
                         <img 
                           src={review.avatar && review.avatar.startsWith('http') ? review.avatar : review.text} 
                           alt="Customer Review" 
-                          className="w-full h-full object-cover max-h-[600px] bg-white transition-transform duration-700 group-hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                         />
+                        
+                        {/* Decorative Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
+                           <div className="flex items-center gap-1.5 text-white/90">
+                              <Star size={16} fill="currentColor" className="text-yellow-400" />
+                              <span className="text-sm font-bold uppercase tracking-widest">Happy Client</span>
+                           </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Optional Feedback Text - Compact display if exists */}
+                    {review.text && review.text !== "Photo Review" && !review.text.startsWith('http') && (
+                      <div className="p-6 md:p-8 flex-grow">
+                         <Quote size={24} className="text-primary/20 mb-4" fill="currentColor" />
+                         <p className="text-sm md:text-base text-text leading-relaxed font-medium italic">
+                           &ldquo;{review.text}&rdquo;
+                         </p>
                       </div>
                     )}
                   </div>
