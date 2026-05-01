@@ -3,18 +3,12 @@
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
+import ShopImageCarousel from "@/components/ui/ShopImageCarousel";
 import {
-  Heart,
-  Eye,
-  Target,
-  Award,
   Users,
-  Sparkles,
   Store,
-  Gem,
-  Scissors,
   Globe,
-  Star,
+  Target,
 } from "lucide-react";
 
 const milestones = [
@@ -44,51 +38,50 @@ const milestones = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero Banner */}
-      <section className="relative bg-secondary py-8 lg:py-12" id="about-hero">
-        <div className="container-boutique text-center">
+      {/* Hero Section with Shop Image Carousel */}
+      <section className="relative pt-6 pb-10 lg:pt-10 lg:pb-14 bg-background overflow-hidden" id="about-hero">
+        <div className="container-boutique">
           <AnimatedSection>
-            <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
-              Our Story
-            </span>
-            <h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mt-3 mb-6"
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: "var(--foreground)",
-              }}
-            >
-              About Sathyas Boutiques
-            </h1>
-            <p className="text-foreground/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-medium">
-              A journey shaped by dedication, creativity, and a heartfelt
-              commitment to celebrating every woman’s individuality.
-            </p>
+            <div className="text-center mb-8">
+              <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
+                Our Story
+              </span>
+              <h1
+                className="text-3xl md:text-5xl lg:text-6xl font-bold mt-2 mb-4"
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  color: "var(--foreground)",
+                }}
+              >
+                About Sathyas Boutiques
+              </h1>
+              <p className="text-foreground/70 text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-medium mb-8">
+                A journey shaped by dedication, creativity, and a heartfelt
+                commitment to celebrating every woman’s individuality.
+              </p>
+            </div>
+            
+            {/* Auto-scrolling Shop Images with Manual Controls */}
+            <ShopImageCarousel />
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Brand Story */}
-      <section className="py-8 lg:py-12 bg-background" id="brand-story">
+      {/* Our Journey Section */}
+      <section className="py-12 lg:py-16 bg-secondary/30 border-y border-white/10" id="our-journey">
         <div className="container-boutique">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
-            <AnimatedSection animation="slide-in-left">
-              <div className="relative rounded-2xl overflow-hidden aspect-[9/16] shadow-xl">
-                <Image
-                  src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=750&fit=crop"
-                  alt="Sathyas Boutique Founder"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </AnimatedSection>
-            <AnimatedSection animation="slide-in-right">
+          <SectionHeading 
+            title="Our Journey" 
+            subtitle="How we grew from a small local boutique to a trusted name in premium fashion." 
+          />
+          
+          <div className="max-w-4xl mx-auto mb-12 text-center">
+            <AnimatedSection>
               <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
                 Our Beginning
               </span>
               <h2
-                className="text-3xl md:text-4xl font-black mt-2 mb-4"
+                className="text-2xl md:text-4xl font-bold mt-2 mb-6"
                 style={{
                   fontFamily: "var(--font-heading)",
                   color: "var(--foreground)",
@@ -96,7 +89,7 @@ export default function AboutPage() {
               >
                 Born from a Love of Fashion
               </h2>
-              <div className="space-y-4 text-text/80 leading-relaxed">
+              <div className="space-y-4 text-foreground/80 leading-relaxed text-base md:text-lg max-w-3xl mx-auto">
                 <p>
                   Sathyas Boutiques was founded in 2025 in the vibrant city of
                   Coimbatore. We had a simple vision: to create a space where
@@ -111,106 +104,63 @@ export default function AboutPage() {
                   collection we create.
                 </p>
                 <p>
-                  We now serve hundreds of valued customers. They appreciate our
-                  quality, elegance, and personal touch.
+                  We now serve hundreds of valued customers who appreciate our
+                  unwavering commitment to quality, elegance, and that personal touch
+                  that makes every shopping experience special.
                 </p>
               </div>
             </AnimatedSection>
           </div>
-        </div>
-      </section>
 
-      {/* Mission & Vision */}
-      <section
-        className="py-8 lg:py-12 bg-secondary border-y border-white/10"
-        id="mission-vision"
-      >
-        <div className="container-boutique">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <AnimatedSection delay={0}>
-              <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 md:p-8 card-hover border border-white/20 h-full">
-                <div className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20">
-                  <Target size={20} className="text-primary" />
-                </div>
-                <h3
-                  className="text-xl font-bold mb-3"
-                  style={{
-                    fontFamily: "var(--font-heading)",
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Our Mission
-                </h3>
-                <p className="text-foreground/70 text-sm font-medium leading-relaxed">
-                  To empower every woman with fashion that celebrates her
-                  individuality. We deliver exceptional quality and designs that
-                  make our customers feel confident.
-                </p>
-              </div>
-            </AnimatedSection>
-            <AnimatedSection delay={150}>
-              <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 md:p-8 card-hover border border-white/20 h-full">
-                <div className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20">
-                  <Eye size={20} className="text-primary" />
-                </div>
-                <h3
-                  className="text-xl font-bold mb-3"
-                  style={{
-                    fontFamily: "var(--font-heading)",
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Our Vision
-                </h3>
-                <p className="text-foreground/70 text-sm font-medium leading-relaxed">
-                  Our vision is to be the most loved dress boutique in our
-                  district. We offer elegant and affordable fashion for every
-                  occasion.
-                </p>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== OUR JOURNEY: ROW-WISE LAYOUT ===== */}
-      <section className="py-8 lg:py-12 bg-background" id="our-journey">
-        <div className="container-boutique">
-          <AnimatedSection>
-            <div className="text-center mb-8">
-              <h2
-                className="text-3xl md:text-4xl font-black text-foreground"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
-                Our <span className="text-primary italic">Journey</span>
-              </h2>
-            </div>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 max-w-5xl mx-auto">
+          {/* Milestones Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
             {milestones.map((milestone, index) => (
               <AnimatedSection key={milestone.year} delay={index * 100}>
-                <div className="bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-sm h-full flex flex-col md:flex-row items-start gap-4 transition-all duration-300 hover:shadow-md hover:border-primary/30">
-                  <div className="w-12 h-12 shrink-0 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                    <milestone.icon size={22} />
+                <div className="bg-white/60 backdrop-blur-md p-6 lg:p-8 rounded-2xl border border-white/40 shadow-sm h-full hover:shadow-lg transition-all duration-500 group">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                    <milestone.icon size={24} />
                   </div>
-                  <div>
-                    <span className="text-primary text-xl font-black mb-1 block">
-                      {milestone.year}
-                    </span>
-                    <h3
-                      className="text-base font-bold mb-2 text-foreground"
-                      style={{ fontFamily: "var(--font-heading)" }}
-                    >
-                      {milestone.title}
-                    </h3>
-                    <p className="text-sm text-foreground/70 font-medium leading-relaxed">
-                      {milestone.description}
-                    </p>
-                  </div>
+                  <span className="text-primary text-lg font-black mb-1 block">
+                    {milestone.year}
+                  </span>
+                  <h3
+                    className="text-lg font-bold mb-3 text-foreground"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {milestone.title}
+                  </h3>
+                  <p className="text-sm text-foreground/70 font-medium leading-relaxed">
+                    {milestone.description}
+                  </p>
                 </div>
               </AnimatedSection>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Mission Section */}
+      <section className="py-12 lg:py-20 bg-background relative overflow-hidden" id="our-mission">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[80px] -z-10" />
+        
+        <div className="container-boutique">
+          <div className="max-w-4xl mx-auto text-center">
+            <AnimatedSection>
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-primary/10 text-primary mb-8 shadow-inner">
+                <Target size={32} />
+              </div>
+              <h2 
+                className="text-3xl md:text-5xl font-bold mb-8" 
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Our Mission
+              </h2>
+              <p className="text-lg md:text-2xl text-foreground/80 leading-relaxed font-light italic">
+                &ldquo;To empower every woman with fashion that celebrates her
+                individuality. We deliver exceptional quality and designs that
+                make our customers feel confident.&rdquo;
+              </p>
+            </AnimatedSection>
           </div>
         </div>
       </section>

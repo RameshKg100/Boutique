@@ -33,14 +33,23 @@ export default function AdminLayout({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const auth = localStorage.getItem("isAdminAuthenticated");
-    if (!auth && pathname !== "/admin/login") {
-      router.push("/admin/login");
+    // Avoid running this logic if we're already on the login page
+    if (pathname === "/admin/login") {
+      setIsAuthenticated(true);
+      setIsLoading(false);
+      return;
+    }
+
+    const auth = typeof window !== 'undefined' ? localStorage.getItem("isAdminAuthenticated") : null;
+    
+    if (!auth) {
+      // Use window.location as a more stable fallback for initial redirects
+      window.location.href = "/admin/login";
     } else {
-      setIsAuthenticated(!!auth || pathname === "/admin/login");
+      setIsAuthenticated(true);
       setIsLoading(false);
     }
-  }, [pathname, router]);
+  }, [pathname]);
 
   if (isLoading && pathname !== "/admin/login") {
     return (

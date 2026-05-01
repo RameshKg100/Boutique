@@ -79,40 +79,25 @@ export default function ReviewsPage() {
                       <Quote size={50} fill="currentColor" />
                     </div>
                     
-                    <div className="mb-4 relative z-10 text-primary">
-                      <Quote size={20} fill="currentColor" />
-                    </div>
+                    {/* Star Rating Hidden per User Request */}
                     
-                    <p className="text-sm md:text-base text-text leading-relaxed mb-6 font-medium italic relative z-10">
-                      &ldquo;{review.text}&rdquo;
-                    </p>
-                    
-                    <div className="mt-auto pt-6 border-t border-border/50 flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-md flex-shrink-0 border-2 border-primary/20 bg-cream overflow-hidden">
-                        {review.avatar && review.avatar.startsWith("http") ? (
-                          <img 
-                            src={review.avatar} 
-                            alt={review.name} 
-                            className="w-full h-full object-cover"
-                            onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-                          />
-                        ) : (
-                          <span className="text-sm font-black text-primary tracking-tighter">
-                            {review.avatar}
-                          </span>
-                        )}
+                    {/* Feedback Text */}
+                    {review.text && review.text !== "Photo Review" && !review.text.startsWith('http') && (
+                      <p className="text-sm md:text-base text-text leading-relaxed mb-6 font-medium italic relative z-10">
+                        &ldquo;{review.text}&rdquo;
+                      </p>
+                    )}
+
+                    {/* Review Photo / Screenshot */}
+                    {((review.avatar && review.avatar.startsWith('http')) || (review.text && review.text.startsWith('http'))) && (
+                      <div className="relative mb-4 rounded-xl overflow-hidden border border-border/20 shadow-md group-hover:shadow-lg transition-all duration-500 flex-grow">
+                        <img 
+                          src={review.avatar && review.avatar.startsWith('http') ? review.avatar : review.text} 
+                          alt="Customer Review" 
+                          className="w-full h-full object-cover max-h-[600px] bg-white transition-transform duration-700 group-hover:scale-105"
+                        />
                       </div>
-                      <div>
-                        <p className="text-sm font-bold text-foreground tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
-                          {review.name}
-                        </p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] uppercase tracking-widest text-foreground/50 font-bold">
-                            {review.location}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </AnimatedSection>
               ))}

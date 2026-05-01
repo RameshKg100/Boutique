@@ -47,6 +47,13 @@ export default function AdminReviewsPage() {
           <h2 className="text-xl font-semibold text-[#111827]">Reviews</h2>
           <p className="text-sm text-[#6B7280] mt-0.5">Manage customer feedback and testimonials.</p>
         </div>
+        <Link 
+          href="/admin/reviews/new"
+          className="flex items-center justify-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-4 py-2 rounded-md font-medium text-sm transition-colors shadow-sm"
+        >
+          <Edit3 size={16} />
+          Add New Review
+        </Link>
       </div>
 
       {/* Stats */}
@@ -101,57 +108,43 @@ export default function AdminReviewsPage() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-[#6B7280] uppercase tracking-wider border-b border-[#E5E7EB] bg-[#F9FAFB]">
               <tr>
-                <th className="px-4 py-3 font-medium">Reviewer</th>
-                <th className="px-4 py-3 font-medium">Rating</th>
-                <th className="px-4 py-3 font-medium">Content</th>
-                <th className="px-4 py-3 font-medium">Date</th>
+                <th className="px-4 py-3 font-medium">Review Photo / Screenshot</th>
+                <th className="px-4 py-3 font-medium">Date Published</th>
                 <th className="px-4 py-3 font-medium text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E5E7EB]">
               {loading ? (
                 <tr>
-                  <td colSpan="5" className="px-4 py-16 text-center">
+                  <td colSpan="3" className="px-4 py-16 text-center">
                     <Loader2 className="animate-spin mx-auto text-[#2563EB] mb-2" size={28} />
                     <p className="text-sm text-[#6B7280]">Loading reviews...</p>
                   </td>
                 </tr>
               ) : filteredReviews.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-4 py-16 text-center text-[#6B7280]">No reviews match your search.</td>
+                  <td colSpan="3" className="px-4 py-16 text-center text-[#6B7280]">No reviews found.</td>
                 </tr>
               ) : (
                 filteredReviews.map((r) => (
                   <tr key={r.id} className="hover:bg-[#F9FAFB] transition-colors group">
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                         <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+                      <div className="flex items-center gap-4">
+                         <div className="w-16 h-16 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
                             {r.avatar && r.avatar.startsWith("http") ? (
-                               <img src={r.avatar} alt="" className="w-full h-full rounded-full object-cover" />
+                               <img src={r.avatar} alt="" className="w-full h-full object-cover" />
                             ) : (
-                               <span className="text-[#2563EB] font-semibold text-[10px] uppercase">{r.name.slice(0, 2)}</span>
+                               <ImageIcon size={20} className="text-gray-300" />
                             )}
                          </div>
                          <div className="min-w-0">
-                            <p className="font-medium text-[#111827] text-sm">{r.name}</p>
-                            <p className="text-[10px] text-[#6B7280] flex items-center gap-1 mt-0.5">
-                               <MapPin size={9} /> {r.location}
-                            </p>
+                            <p className="text-sm font-bold text-[#111827]">Snapshot Review</p>
+                            <p className="text-xs text-[#6B7280] mt-0.5 italic">Customer Screenshot</p>
                          </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3">
-                       <div className="flex items-center gap-1">
-                          {[1,2,3,4,5].map(s => (
-                            <Star key={s} size={12} className={s <= r.rating ? "text-[#D97706] fill-[#D97706]" : "text-gray-200"} />
-                          ))}
-                       </div>
-                    </td>
-                    <td className="px-4 py-3 max-w-sm">
-                       <p className="text-sm text-[#6B7280] line-clamp-2 leading-relaxed">"{r.text}"</p>
-                    </td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                       <span className="text-xs text-[#6B7280]">{r.date || "N/A"}</span>
+                       <span className="text-xs font-medium text-[#6B7280]">{r.date || "N/A"}</span>
                     </td>
                     <td className="px-4 py-3 text-right">
                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -165,7 +158,21 @@ export default function AdminReviewsPage() {
                           <button 
                             className="p-2 text-[#6B7280] hover:text-[#DC2626] hover:bg-red-50 rounded-md transition-colors"
                             title="Delete"
-                            onClick={() => alert("Deletion restricted in demo mode.")}
+                            onClick={async () => {
+                              if (window.confirm("Are you sure you want to permanently delete this review?")) {
+                                try {
+                                  const res = await fetch(`/api/reviews?id=${r.id}`, { method: "DELETE" });
+                                  if (res.ok) {
+                                    // Refresh the list
+                                    window.location.reload();
+                                  } else {
+                                    alert("Failed to delete review.");
+                                  }
+                                } catch (error) {
+                                  alert("An error occurred during deletion.");
+                                }
+                              }
+                            }}
                           >
                             <Trash2 size={14} />
                           </button>
