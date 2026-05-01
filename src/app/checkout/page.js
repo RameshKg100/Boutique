@@ -67,7 +67,7 @@ export default function CheckoutPage() {
       // await createOrder(orderDetails);
       
       // Store order details in session storage for confirmation page
-      sessionStorage.setItem("sashaa_last_order", JSON.stringify(orderDetails));
+      sessionStorage.setItem("sathyas_last_order", JSON.stringify(orderDetails));
       
       clearCart();
       router.push(`/order-confirmation?id=${orderId}`);

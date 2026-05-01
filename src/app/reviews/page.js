@@ -40,7 +40,7 @@ export default function ReviewsPage() {
             </h1>
             <p className="text-foreground/70 max-w-xl mx-auto">
               Read what our wonderful clients have to say about their experience
-              with Sashaa Boutiques and our premium fashion collections.
+              with Sathyas Boutique and our premium fashion collections.
             </p>
 
             {/* Statistics Banner */}

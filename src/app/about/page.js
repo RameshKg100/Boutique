@@ -3,13 +3,42 @@
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { Heart, Eye, Target, Award, Users, Sparkles, Store, Gem, Scissors, Globe, Star } from "lucide-react";
-
+import {
+  Heart,
+  Eye,
+  Target,
+  Award,
+  Users,
+  Sparkles,
+  Store,
+  Gem,
+  Scissors,
+  Globe,
+  Star,
+} from "lucide-react";
 
 const milestones = [
-  { year: "2010", title: "Founded", icon: Store, description: "Sashaa Boutiques opened its doors in the heart of Chennai's Gopalapuram, starting with a curated collection of artisanal sarees." },
-  { year: "2022", title: "500+ Customers", icon: Users, description: "Reached a major milestone of serving over 500 loyal customers across India, building a community of fashion enthusiasts." },
-  { year: "2024", title: "Online Expansion", icon: Globe, description: "Bringing our premium boutique experience to customers nationwide through our flagship digital store and worldwide shipping." },
+  {
+    year: "March - 2025",
+    title: "Founded",
+    icon: Store,
+    description:
+      "Sathaya Boutiques has opened in Kariyagoundanur, Annur. We launched with a curated collection of maxis, sarees, and kurtis.",
+  },
+  {
+    year: "December - 2025",
+    title: "250+ Customers",
+    icon: Users,
+    description:
+      "Reached a major milestone of serving over 250+ loyal customers across Tamilnadu, building a community of fashion enthusiasts.",
+  },
+  {
+    year: "May - 2026",
+    title: "Online Expansion",
+    icon: Globe,
+    description:
+      "Bringing our premium boutique experience to customers across all districts in Tamil Nadu through orders placed on our website (via WhatsApp platform).",
+  },
 ];
 
 export default function AboutPage() {
@@ -24,13 +53,16 @@ export default function AboutPage() {
             </span>
             <h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold mt-3 mb-6"
-              style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
+              style={{
+                fontFamily: "var(--font-heading)",
+                color: "var(--foreground)",
+              }}
             >
-              About Sashaa Boutiques
+              About Sathyas Boutiques
             </h1>
             <p className="text-foreground/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-medium">
-              A story of passion, craftsmanship, and an unwavering commitment to
-              making every woman feel extraordinary.
+              A journey shaped by dedication, creativity, and a heartfelt
+              commitment to celebrating every woman’s individuality.
             </p>
           </AnimatedSection>
         </div>
@@ -41,10 +73,10 @@ export default function AboutPage() {
         <div className="container-boutique">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
             <AnimatedSection animation="slide-in-left">
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+              <div className="relative rounded-2xl overflow-hidden aspect-[9/16] shadow-xl">
                 <Image
                   src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=750&fit=crop"
-                  alt="Sashaa Boutiques Founder"
+                  alt="Sathyas Boutique Founder"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -57,26 +89,30 @@ export default function AboutPage() {
               </span>
               <h2
                 className="text-3xl md:text-4xl font-black mt-2 mb-4"
-                style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  color: "var(--foreground)",
+                }}
               >
                 Born from a Love of Fashion
               </h2>
               <div className="space-y-4 text-text/80 leading-relaxed">
                 <p>
-                  Sashaa Boutiques was founded in 2010 in the vibrant city of Chennai,
-                  with a simple yet powerful vision: to create a space where every woman
-                  could discover clothing that truly reflects her unique personality and
-                  makes her feel extraordinary.
+                  Sathyas Boutiques was founded in 2025 in the vibrant city of
+                  Coimbatore. We had a simple vision: to create a space where
+                  every woman can find clothing that matches her unique
+                  personality and makes her feel extraordinary.
                 </p>
                 <p>
-                  What started as a small boutique in Gopalapuram has grown into one of
-                  Chennai&apos;s most trusted names in premium fashion. Our founder&apos;s passion
-                  for exquisite fabrics, impeccable tailoring, and personalized service
-                  has been the driving force behind every collection we create.
+                  It started as a small boutique in Kariyagoundanur. Today, it
+                  has grown into one of the most trusted names in premium
+                  fashion. Our founder&apos;s passion for exquisite fabrics,
+                  perfect tailoring, and personalized service shapes every
+                  collection we create.
                 </p>
                 <p>
-                  Today, we serve hundreds of discerning customers who value quality,
-                  elegance, and the personal touch that defines the Sashaa experience.
+                  We now serve hundreds of valued customers. They appreciate our
+                  quality, elegance, and personal touch.
                 </p>
               </div>
             </AnimatedSection>
@@ -85,43 +121,51 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-8 lg:py-12 bg-secondary border-y border-white/10" id="mission-vision">
+      <section
+        className="py-8 lg:py-12 bg-secondary border-y border-white/10"
+        id="mission-vision"
+      >
         <div className="container-boutique">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <AnimatedSection delay={0}>
               <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 md:p-8 card-hover border border-white/20 h-full">
-                <div
-                  className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20"
-                >
+                <div className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20">
                   <Target size={20} className="text-primary" />
                 </div>
                 <h3
                   className="text-xl font-bold mb-3"
-                  style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    color: "var(--foreground)",
+                  }}
                 >
                   Our Mission
                 </h3>
                 <p className="text-foreground/70 text-sm font-medium leading-relaxed">
-                  To empower every woman with fashion that celebrates her individuality.
-                  We deliver exceptional quality and designs that make our customers feel confident.
+                  To empower every woman with fashion that celebrates her
+                  individuality. We deliver exceptional quality and designs that
+                  make our customers feel confident.
                 </p>
               </div>
             </AnimatedSection>
             <AnimatedSection delay={150}>
               <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 md:p-8 card-hover border border-white/20 h-full">
-                <div
-                  className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20"
-                >
+                <div className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center bg-primary/10 border border-primary/20">
                   <Eye size={20} className="text-primary" />
                 </div>
                 <h3
                   className="text-xl font-bold mb-3"
-                  style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    color: "var(--foreground)",
+                  }}
                 >
                   Our Vision
                 </h3>
                 <p className="text-foreground/70 text-sm font-medium leading-relaxed">
-                  To be India&apos;s most loved boutique brand — known for our celebration of Indian textile heritage and timeless elegance.
+                  Our vision is to be the most loved dress boutique in our
+                  district. We offer elegant and affordable fashion for every
+                  occasion.
                 </p>
               </div>
             </AnimatedSection>
@@ -134,12 +178,15 @@ export default function AboutPage() {
         <div className="container-boutique">
           <AnimatedSection>
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-black text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+              <h2
+                className="text-3xl md:text-4xl font-black text-foreground"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
                 Our <span className="text-primary italic">Journey</span>
               </h2>
             </div>
           </AnimatedSection>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 max-w-5xl mx-auto">
             {milestones.map((milestone, index) => (
               <AnimatedSection key={milestone.year} delay={index * 100}>
@@ -148,8 +195,13 @@ export default function AboutPage() {
                     <milestone.icon size={22} />
                   </div>
                   <div>
-                    <span className="text-primary text-xl font-black mb-1 block">{milestone.year}</span>
-                    <h3 className="text-base font-bold mb-2 text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+                    <span className="text-primary text-xl font-black mb-1 block">
+                      {milestone.year}
+                    </span>
+                    <h3
+                      className="text-base font-bold mb-2 text-foreground"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
                       {milestone.title}
                     </h3>
                     <p className="text-sm text-foreground/70 font-medium leading-relaxed">

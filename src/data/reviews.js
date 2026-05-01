@@ -4,7 +4,7 @@ export const reviews = [
     name: "Priya Raghavan",
     location: "Chennai, Tamil Nadu",
     rating: 5,
-    text: "The custom dress they designed for my wedding was absolutely breathtaking. The attention to detail and fit was beyond perfect! Sashaa Boutiques understood my vision completely.",
+    text: "The custom dress they designed for my wedding was absolutely breathtaking. The attention to detail and fit was beyond perfect! Sathyas Boutique understood my vision completely.",
     avatar: "PR",
     date: "2024-12-15",
     product: "Bridal Silk Saree",

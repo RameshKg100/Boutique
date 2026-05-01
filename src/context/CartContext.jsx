@@ -4,7 +4,7 @@ import { createContext, useContext, useReducer, useEffect } from "react";
 
 const CartContext = createContext();
 
-const CART_STORAGE_KEY = "sashaa-cart";
+const CART_STORAGE_KEY = "sathyas-cart";
 
 const initialState = {
   items: [],

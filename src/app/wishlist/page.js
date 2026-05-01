@@ -48,7 +48,7 @@ export default function WishlistPage() {
               <AnimatedSection key={item.id} delay={(index % 4) * 80}>
                 <div className="group block relative">
                   <div className="card-hover bg-white rounded-lg overflow-hidden border border-border/50">
-                    <Link href={`/collections/${item.slug}`} className="relative aspect-[3/4] overflow-hidden bg-cream block">
+                    <Link href={`/collections/${item.slug}`} className="relative aspect-[9/16] overflow-hidden bg-cream block">
                       <Image
                         src={item.image}
                         alt={item.name}

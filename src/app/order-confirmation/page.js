@@ -16,7 +16,7 @@ function OrderConfirmationContent() {
 
   useEffect(() => {
     // In a real app, we would fetch this from Supabase using the orderId
-    const storedData = sessionStorage.getItem("sashaa_last_order");
+    const storedData = sessionStorage.getItem("sathyas_last_order");
     if (storedData) {
       const parsed = JSON.parse(storedData);
       if (parsed.id === orderId) {

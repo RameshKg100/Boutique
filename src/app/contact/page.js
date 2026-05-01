@@ -15,6 +15,7 @@ export default function ContactPage() {
     name: "",
     email: "",
     phone: "",
+    location: "",
     subject: "General Enquiry",
     message: "",
   });
@@ -29,19 +30,38 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus("submitting");
 
-    // Implement actual submission here if connected to backend.
-    // Simulating delay for now.
+    // Construct WhatsApp message
+    const message = `Hello Sathyas Boutique!
+    
+*New Enquiry from Website*
+--------------------------
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+*Phone:* ${formData.phone || "Not provided"}
+*Location:* ${formData.location}
+*Subject:* ${formData.subject}
+*Message:* ${formData.message}
+
+--------------------------
+Sent via Sathyas Boutique Website`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${siteConfig.contact.phone.replace(/\D/g, '')}?text=${encodedMessage}`;
+
+    // Small delay for better UX
     setTimeout(() => {
+      window.open(whatsappUrl, "_blank");
       setStatus("success");
       setFormData({
         name: "",
         email: "",
         phone: "",
+        location: "",
         subject: "General Enquiry",
         message: "",
       });
       setTimeout(() => setStatus("idle"), 5000);
-    }, 1500);
+    }, 1000);
   };
 
   return (
@@ -59,8 +79,7 @@ export default function ContactPage() {
               Contact Us
             </h1>
             <p className="text-text-light max-w-xl mx-auto">
-              We&apos;re here to help styling your dream outfit. Reach out to us for
-              consultations, appointments, or general enquiries.
+              We&apos;d love to hear from you! Reach out for orders, queries, or support. Our team is here to help with all your dress-related needs.
             </p>
           </AnimatedSection>
         </div>
@@ -165,8 +184,8 @@ export default function ContactPage() {
                 </p>
 
                 {status === "success" && (
-                  <div className="mb-6 bg-green-50 text-green-700 p-4 rounded-lg border border-green-200 text-sm flexitems-center gap-2">
-                    <span className="font-bold">✓ Success!</span> Your message has been sent successfully. We will contact you soon.
+                  <div className="mb-6 bg-green-50 text-green-700 p-4 rounded-lg border border-green-200 text-sm flex items-center gap-2">
+                    <span className="font-bold">✓ Success!</span> Opening WhatsApp to send your message...
                   </div>
                 )}
 
@@ -182,7 +201,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         className="w-full bg-cream border border-border/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="Jane Doe"
+                        placeholder="Enter your name"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -195,7 +214,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         className="w-full bg-cream border border-border/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="jane@example.com"
+                        placeholder="Enter your email"
                       />
                     </div>
                   </div>
@@ -210,22 +229,36 @@ export default function ContactPage() {
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full bg-cream border border-border/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="+91 9976474102"
+                        placeholder="Enter your phone number"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label htmlFor="subject" className="text-xs font-semibold text-dark uppercase tracking-wider">Subject</label>
-                      <select
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
+                      <label htmlFor="location" className="text-xs font-semibold text-dark uppercase tracking-wider">Location</label>
+                      <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        required
+                        value={formData.location}
                         onChange={handleChange}
                         className="w-full bg-cream border border-border/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                      >
-                        <option value="General Enquiry">General Enquiry</option>
-                        <option value="Order Status Follow up">Order Status Follow up</option>
-                      </select>
+                        placeholder="Enter your city/area"
+                      />
                     </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label htmlFor="subject" className="text-xs font-semibold text-dark uppercase tracking-wider">Subject</label>
+                    <select
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full bg-cream border border-border/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
+                    >
+                      <option value="General Enquiry">General Enquiry</option>
+                      <option value="Order Status Follow up">Order Status Follow up</option>
+                    </select>
                   </div>
 
                   <div className="space-y-1.5">
@@ -238,7 +271,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       rows={5}
                       className="w-full bg-cream border border-border/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors resize-none"
-                      placeholder="How can we help you?"
+                      placeholder="Let us know how we can help you (e.g., size inquiry, order status, or custom design request)..."
                     ></textarea>
                   </div>
 
@@ -248,9 +281,9 @@ export default function ContactPage() {
                     className="btn-primary w-full justify-center py-4"
                   >
                     {status === "submitting" ? (
-                      <span className="flex items-center gap-2">Processing...</span>
+                      <span className="flex items-center gap-2">Connecting to WhatsApp...</span>
                     ) : (
-                      <span className="flex items-center gap-2">Send Message <Send size={16} /></span>
+                      <span className="flex items-center gap-2">Send via WhatsApp <WhatsApp size={16} /></span>
                     )}
                   </button>
                 </form>

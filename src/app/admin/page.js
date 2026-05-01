@@ -168,7 +168,7 @@ export default function AdminDashboard() {
            <div className="bg-[#111827] p-5 rounded-lg text-white">
               <h3 className="text-sm font-semibold mb-1.5">Need Help?</h3>
               <p className="text-xs text-gray-400 mb-4">Contact support for any store configuration questions.</p>
-              <a href="mailto:support@sashaa.com" className="inline-flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-4 py-2 rounded-md text-xs font-medium transition-colors">
+              <a href="mailto:support@sathyasboutique.com" className="inline-flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-4 py-2 rounded-md text-xs font-medium transition-colors">
                 Contact Support
               </a>
            </div>

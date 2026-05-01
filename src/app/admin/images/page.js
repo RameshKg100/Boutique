@@ -267,7 +267,7 @@ export default function AdminImagesPage() {
                 }`}
               >
                 {/* Image */}
-                <div className="relative aspect-[3/4] bg-gray-100">
+                <div className="relative aspect-[9/16] bg-gray-100">
                   <img
                     src={img.url}
                     alt={`Hero image ${index + 1}`}

@@ -78,7 +78,7 @@ export default function CartPage() {
       // 2. Format WhatsApp Message
       const phoneNumber = siteConfig.contact.phone.replace(/[^0-9]/g, "");
       
-      let message = "*Order Confirmation from Sashaa Boutiques*\n\n";
+      let message = "*Order Confirmation from Sathyas Boutique*\n\n";
       
       message += `*Payment Status: ${finalStatus === "Paid" ? "✅ Paid" : "❌ Not Paid"}*\n\n`;
 
@@ -174,7 +174,7 @@ export default function CartPage() {
                       
                       {/* Product details */}
                       <div className="flex flex-1 items-start md:items-center gap-4">
-                         <Link href={`/collections/${item.slug}`} className="relative w-23 h-28 md:w-24 md:h-32 flex-shrink-0 rounded-lg overflow-hidden bg-white/50">
+                         <Link href={`/collections/${item.slug}`} className="relative aspect-[9/16] w-20 md:w-24 flex-shrink-0 rounded-lg overflow-hidden bg-white/50 border border-border/10 shadow-sm">
                            <Image src={item.image} alt={item.name} fill className="object-cover" sizes="100px" />
                          </Link>
                          <div>

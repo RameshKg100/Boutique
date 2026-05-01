@@ -20,27 +20,27 @@ import ProductCard from "@/components/products/ProductCard";
 const whyChooseUs = [
   {
     icon: Gem,
-    title: "Authentic Craftsmanship",
+    title: "Trendy & Elegant Collections",
     description:
-      "Showcasing the finest traditional weaving and hand-embroidery techniques of Tamil Nadu.",
+      "We offer carefully curated outfits that follow the latest fashion trends while maintaining elegance.",
   },
   {
     icon: ShieldCheck,
-    title: "Pure Zari & Silk",
+    title: "Perfect Fit & Quality Fabrics",
     description:
-      "Sourced directly from generational weavers to guarantee authenticity and heirloom quality.",
+      "Each piece is chosen for comfort, quality, and a flattering fit for all body types.",
   },
   {
     icon: Scissors,
-    title: "Bespoke Bridal Fits",
+    title: "Affordable Luxury",
     description:
-      "Impeccable custom tailoring ensuring you look radiant on your most auspicious days.",
+      "Enjoy stylish boutique wear at budget-friendly prices without compromising on quality.",
   },
   {
     icon: TrendingUp,
-    title: "Modern Tradition",
+    title: "Personalized Shopping Experience",
     description:
-      "Beautifully blending classic South Indian motifs with contemporary styling.",
+      "We help you select the perfect outfit for every occasion with friendly and personalized service.",
   },
 ];
 
@@ -136,10 +136,10 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Image */}
             <AnimatedSection animation="window-reveal">
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-xl">
+              <div className="relative rounded-2xl overflow-hidden aspect-[9/16] shadow-2xl group">
                 <Image
-                  src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=750&fit=crop"
-                  alt="Sashaa Boutiques - Crafting Elegance"
+                  src="/uploads/All Dress Home.jpeg"
+                  alt="Sathyas Boutique - Featured Collection"
                   fill
                   className="object-cover transition-transform duration-1000 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -254,33 +254,35 @@ export default function HomePage() {
 
       {/* ===== WHY CHOOSE US ===== */}
       <section
-        className="py-8 lg:py-12 bg-secondary border-y border-white/10"
+        className="py-8 lg:py-12 bg-background border-y border-border/10"
         id="why-choose-us"
       >
         <div className="container-boutique">
           <AnimatedSection>
             <SectionHeading
               title="Why Choose Us"
-              subtitle="We bring your fashion dreams to life with unparalleled craftsmanship, premium materials, and obsessive attention to detail."
+              subtitle="We create beautiful fashion with great care and attention to detail."
             />
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mt-8 max-w-3xl mx-auto">
             {whyChooseUs.map((item, index) => (
               <AnimatedSection key={item.title} delay={index * 100}>
-                <div className="text-center p-6 md:p-8 bg-white/40 backdrop-blur-sm rounded-xl card-hover border border-white/20 shadow-sm">
-                  <div className="w-14 h-14 rounded-xl mx-auto mb-5 flex items-center justify-center bg-primary/10 border border-primary/20">
-                    <item.icon size={24} className="text-primary" />
+                <div className="flex items-start gap-4 p-5 bg-cream rounded-xl border border-border/40 shadow-sm card-hover">
+                  <div className="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center bg-primary/10 border border-primary/20">
+                    <item.icon size={22} className="text-primary" />
                   </div>
-                  <h3
-                    className="text-lg font-bold mb-3 text-foreground"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-foreground/70 font-medium leading-relaxed">
-                    {item.description}
-                  </p>
+                  <div>
+                    <h3
+                      className="text-base font-bold mb-1.5 text-foreground"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-foreground/70 font-medium leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
               </AnimatedSection>
             ))}

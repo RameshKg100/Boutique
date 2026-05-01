@@ -4,7 +4,7 @@ import { createContext, useContext, useReducer, useEffect } from "react";
 
 const WishlistContext = createContext();
 
-const WISHLIST_STORAGE_KEY = "sashaa-wishlist";
+const WISHLIST_STORAGE_KEY = "sathyas-wishlist";
 
 const initialState = {
   items: [],
