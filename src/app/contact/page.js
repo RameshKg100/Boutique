@@ -143,13 +143,13 @@ Sent via Sathyas Boutique Website`;
                <div className="mb-10">
                   <h3 className="text-sm font-bold text-dark mb-4 uppercase tracking-wider">Follow Us</h3>
                   <div className="flex gap-4">
-                    <a href={siteConfig.social.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-none bg-primary text-white flex items-center justify-center hover:bg-primary/80 transition-all">
+                    <a href={siteConfig.social.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition-all shadow-sm">
                       <Instagram size={20} />
                     </a>
-                    <a href={siteConfig.social.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-none bg-primary text-white flex items-center justify-center hover:bg-primary/80 transition-all">
+                    <a href={siteConfig.social.facebook} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition-all shadow-sm">
                       <Facebook size={20} />
                     </a>
-                    <a href={`https://wa.me/${siteConfig.contact.phone?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-none bg-primary text-white flex items-center justify-center hover:bg-primary/80 transition-all">
+                    <a href={`https://wa.me/${siteConfig.contact.phone?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition-all shadow-sm">
                       <WhatsApp size={20} />
                     </a>
                   </div>
