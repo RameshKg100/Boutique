@@ -334,7 +334,7 @@ export default function CartPage() {
 
                       <div className="flex flex-col gap-3 pt-4">
                         <a 
-                          href={`upi://pay?pa=sathyasiva.sura@okicici&pn=Sathyas%20Boutique&am=${total}&cu=INR`}
+                          href={`upi://pay?pa=sathyasiva.susi@oksbi&pn=Sathyas%20Boutique&am=${total}&cu=INR`}
                           className="btn-primary w-full justify-center py-3.5 text-sm shadow-md bg-blue-600 hover:bg-blue-700 border-blue-600 flex items-center gap-2"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
