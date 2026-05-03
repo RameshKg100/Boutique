@@ -30,7 +30,7 @@ export default function CartPage() {
   const [checkoutStep, setCheckoutStep] = useState(1); // 1: Info, 2: Payment
   const [paymentStatus, setPaymentStatus] = useState("Not Paid");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "", paymentMode: "" });
+  const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", addressLine1: "", addressLine2: "", landmark: "", city: "", state: "", pincode: "", paymentMode: "" });
   const [settings, setSettings] = useState({ paymentQRCode: "" });
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
 
@@ -49,8 +49,8 @@ export default function CartPage() {
 
   const proceedToPayment = (e) => {
     e.preventDefault();
-    if (!customerInfo.name || !customerInfo.phone || !customerInfo.location || !customerInfo.paymentMode) {
-      alert("Please fill in all details including Payment Mode to proceed.");
+    if (!customerInfo.name || !customerInfo.phone || !customerInfo.addressLine1 || !customerInfo.city || !customerInfo.state || !customerInfo.pincode || !customerInfo.paymentMode) {
+      alert("Please fill in all required details including Payment Mode to proceed.");
       return;
     }
     setCheckoutStep(2);
@@ -61,6 +61,8 @@ export default function CartPage() {
     const finalStatus = "Paid";
 
     try {
+      const fullAddress = `${customerInfo.addressLine1}${customerInfo.addressLine2 ? ', ' + customerInfo.addressLine2 : ''}${customerInfo.landmark ? ', ' + customerInfo.landmark : ''}, ${customerInfo.city}, ${customerInfo.state} - ${customerInfo.pincode}`;
+      
       // 1. Save the order to Supabase
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -68,7 +70,7 @@ export default function CartPage() {
         body: JSON.stringify({
           customerName: customerInfo.name,
           customerPhone: customerInfo.phone,
-          customerLocation: customerInfo.location,
+          customerLocation: fullAddress,
           paymentMode: customerInfo.paymentMode,
           paymentStatus: finalStatus,
           items: items,
@@ -86,7 +88,7 @@ export default function CartPage() {
       message += "*Customer Details:*\n";
       message += `Name: ${customerInfo.name}\n`;
       message += `Phone: ${customerInfo.phone}\n`;
-      message += `Location: ${customerInfo.location}\n`;
+      message += `Location: ${fullAddress}\n`;
       message += `Payment Mode: ${customerInfo.paymentMode}\n\n`;
 
       message += "*Items:*\n";
@@ -272,14 +274,56 @@ export default function CartPage() {
                         value={customerInfo.phone}
                         onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
                       />
-                      <textarea
-                        required
-                        placeholder="Complete Delivery Address"
-                        rows="2"
-                        className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white resize-none focus:outline-none focus:border-primary"
-                        value={customerInfo.location}
-                        onChange={(e) => setCustomerInfo({...customerInfo, location: e.target.value})}
-                      />
+                      <div className="space-y-3">
+                        <input
+                          type="text"
+                          required
+                          placeholder="Address Line 1 (House/Flat no, Building)"
+                          className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                          value={customerInfo.addressLine1}
+                          onChange={(e) => setCustomerInfo({...customerInfo, addressLine1: e.target.value})}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Address Line 2 (Street name, Area) - Optional"
+                          className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                          value={customerInfo.addressLine2}
+                          onChange={(e) => setCustomerInfo({...customerInfo, addressLine2: e.target.value})}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Landmark (Near temple, etc.) - Optional"
+                          className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                          value={customerInfo.landmark}
+                          onChange={(e) => setCustomerInfo({...customerInfo, landmark: e.target.value})}
+                        />
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            required
+                            placeholder="City / Town"
+                            className="w-1/2 text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                            value={customerInfo.city}
+                            onChange={(e) => setCustomerInfo({...customerInfo, city: e.target.value})}
+                          />
+                          <input
+                            type="text"
+                            required
+                            placeholder="State"
+                            className="w-1/2 text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                            value={customerInfo.state}
+                            onChange={(e) => setCustomerInfo({...customerInfo, state: e.target.value})}
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Pincode"
+                          className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary"
+                          value={customerInfo.pincode}
+                          onChange={(e) => setCustomerInfo({...customerInfo, pincode: e.target.value})}
+                        />
+                      </div>
                       <select
                         required
                         className="w-full text-sm p-2.5 rounded-lg border border-border/50 bg-white focus:outline-none focus:border-primary cursor-pointer text-text"
