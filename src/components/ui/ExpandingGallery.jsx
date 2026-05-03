@@ -32,26 +32,11 @@ export default function ExpandingGallery() {
             <img
               src={image.src}
               alt={image.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
             />
             
-            {/* Overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 ${expandedIndex === index ? 'opacity-100' : 'opacity-40 group-hover:opacity-60'}`} />
-            
-            {/* Title - Rotated when collapsed, horizontal when expanded */}
-            <div className={`absolute bottom-0 left-0 w-full p-6 transition-all duration-500 ${expandedIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <span className="text-primary text-xs uppercase tracking-widest font-bold mb-2 block">Premium Collection</span>
-              <h3 className="text-white text-2xl font-bold font-heading">{image.title}</h3>
-            </div>
-
-            {/* Vertical title for collapsed state (optional but nice) */}
-            {expandedIndex !== index && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                 <span className="text-white/60 font-bold uppercase tracking-[0.3em] text-xs rotate-[-90deg] whitespace-nowrap opacity-0 md:opacity-100 transition-opacity">
-                   {image.title}
-                 </span>
-              </div>
-            )}
+            {/* Minimal Overlay for depth */}
+            <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent transition-opacity duration-500 ${expandedIndex === index ? 'opacity-100' : 'opacity-40'}`} />
           </motion.div>
         ))}
       </div>
