@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/utils";
-import { Trash2, Minor, Plus, Minus, ArrowRight, ShoppingBag, QrCode } from "lucide-react";
+import { Trash2, Minor, Plus, Minus, ArrowRight, ShoppingBag, QrCode, X } from "lucide-react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/data/siteConfig";
@@ -30,6 +30,7 @@ export default function CartPage() {
   const [checkoutStep, setCheckoutStep] = useState(1); // 1: Info, 2: Payment
   const [paymentStatus, setPaymentStatus] = useState("Not Paid");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showUPIPicker, setShowUPIPicker] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", addressLine1: "", addressLine2: "", landmark: "", city: "", state: "", pincode: "", paymentMode: "" });
   const [settings, setSettings] = useState({ paymentQRCode: "" });
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
@@ -377,13 +378,13 @@ export default function CartPage() {
                       </p>
 
                       <div className="flex flex-col gap-3 pt-4">
-                        <a 
-                          href={`upi://pay?pa=sathyasiva.susi@oksbi&pn=Sathyas%20Boutique&am=${total}&cu=INR`}
+                        <button 
+                          onClick={() => setShowUPIPicker(true)}
                           className="btn-primary w-full justify-center py-3.5 text-sm shadow-md bg-blue-600 hover:bg-blue-700 border-blue-600 flex items-center gap-2"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                           Proceed to UPI Payment
-                        </a>
+                        </button>
 
                         <div className="relative flex items-center py-2">
                             <div className="flex-grow border-t border-border/40"></div>
@@ -432,6 +433,49 @@ export default function CartPage() {
           </div>
         </div>
       </section>
+
+      {/* UPI App Picker Modal */}
+      {showUPIPicker && (
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white w-full max-w-md rounded-t-2xl sm:rounded-2xl overflow-hidden shadow-2xl animate-slide-up">
+            <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+              <h3 className="text-base font-bold text-dark uppercase tracking-wider" style={{ fontFamily: "var(--font-heading)" }}>Open with</h3>
+              <button onClick={() => setShowUPIPicker(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <X size={20} className="text-text/60" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <div className="grid grid-cols-3 gap-6">
+                {[
+                  { name: "PhonePe", scheme: "phonepe://pay", color: "bg-[#5f259f]", icon: "PP" },
+                  { name: "GPay", scheme: "tez://upi/pay", color: "bg-[#4285F4]", icon: "GP" },
+                  { name: "Paytm", scheme: "paytmmp://pay", color: "bg-[#00baf2]", icon: "PT" },
+                  { name: "BHIM", scheme: "bhim://pay", color: "bg-[#e47911]", icon: "BH" },
+                  { name: "Other UPI", scheme: "upi://pay", color: "bg-gray-800", icon: "UPI" }
+                ].map((app) => (
+                  <a
+                    key={app.name}
+                    href={`${app.scheme}?pa=sathyasiva.susi@oksbi&pn=Sathyas%20Boutique&am=${total}&cu=INR`}
+                    onClick={() => setShowUPIPicker(false)}
+                    className="flex flex-col items-center gap-2 group"
+                  >
+                    <div className={`w-14 h-14 ${app.color} rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-md group-hover:scale-105 transition-transform`}>
+                      {app.icon}
+                    </div>
+                    <span className="text-[11px] font-bold text-text/80 uppercase tracking-tighter">{app.name}</span>
+                  </a>
+                ))}
+              </div>
+              
+              <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between text-[10px] font-bold uppercase tracking-widest text-text/40">
+                <button onClick={() => setShowUPIPicker(false)} className="hover:text-primary transition-colors">Just once</button>
+                <button onClick={() => setShowUPIPicker(false)} className="hover:text-primary transition-colors">Always</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
