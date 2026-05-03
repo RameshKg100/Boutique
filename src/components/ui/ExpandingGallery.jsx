@@ -16,7 +16,7 @@ export default function ExpandingGallery() {
 
   return (
     <div className="w-full max-w-6xl mx-auto py-10 px-4">
-      <div className="flex flex-col md:flex-row h-[500px] md:h-[600px] gap-2 md:gap-3 overflow-hidden">
+      <div className="flex flex-row h-[600px] gap-2 md:gap-3 overflow-hidden">
         {images.map((image, index) => (
           <motion.div
             key={image.id}
