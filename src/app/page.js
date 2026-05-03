@@ -15,6 +15,7 @@ import {
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import SectionHeading from "@/components/ui/SectionHeading";
+import OverlappingGallery from "@/components/ui/OverlappingGallery";
 import ProductCard from "@/components/products/ProductCard";
 
 const whyChooseUs = [
@@ -136,16 +137,10 @@ export default function HomePage() {
       <section className="py-12 lg:py-20 bg-background" id="about-preview">
         <div className="container-boutique">
           <div className="flex flex-col gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
-            {/* Image */}
-            <AnimatedSection animation="window-reveal" className="w-full">
-              <div className="shadow-xl rounded-2xl overflow-hidden">
-                <img
-                  src="/uploads/All Dress Home.jpeg"
-                  alt="Sathyas Boutique Collection"
-                  className="w-full h-auto block transition-transform duration-1000 hover:scale-[1.02]"
-                />
-              </div>
-            </AnimatedSection>
+            {/* Interactive Gallery */}
+            <div className="w-full">
+              <OverlappingGallery />
+            </div>
 
             {/* Content */}
             <AnimatedSection animation="slide-in-bottom" className="text-center">
