@@ -115,9 +115,9 @@ export async function POST(request) {
         images: newProduct.images || [],
         sizes: newProduct.sizes || [],
         colors: newProduct.colors || [],
-        is_featured: newProduct.isFeatured || false,
-        is_new: newProduct.isNew || false,
-        in_stock: newProduct.inStock || true,
+        is_featured: newProduct.isFeatured ?? false,
+        is_new: newProduct.isNew ?? false,
+        in_stock: newProduct.inStock ?? true,
     };
 
     if (supabaseAdmin) {
