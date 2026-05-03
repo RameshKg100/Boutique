@@ -326,6 +326,59 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
             </div>
 
             <div className="space-y-1.5">
+              <label className={labelClass}>Available Colors</label>
+              <div className="flex gap-2 mb-3">
+                <input 
+                  type="text" 
+                  id="new-color-input"
+                  placeholder="Type color and press Enter (e.g. Midnight Blue, Burgundy)" 
+                  className={inputClass}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      const val = e.currentTarget.value.trim();
+                      if (val && !formData.colors.includes(val)) {
+                        setFormData({...formData, colors: [...formData.colors, val]});
+                        e.currentTarget.value = "";
+                      }
+                    }
+                  }}
+                />
+                <button 
+                  type="button"
+                  onClick={() => {
+                    const input = document.getElementById('new-color-input');
+                    const val = input.value.trim();
+                    if (val && !formData.colors.includes(val)) {
+                      setFormData({...formData, colors: [...formData.colors, val]});
+                      input.value = "";
+                    }
+                  }}
+                  className="px-4 py-2 bg-gray-100 text-[#111827] border border-[#E5E7EB] rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
+                >
+                  Add
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {formData.colors.map((color, idx) => (
+                  <div key={idx} className="flex items-center gap-2 bg-blue-50 text-[#2563EB] px-3 py-1.5 rounded-lg text-xs font-bold border border-blue-100 shadow-sm animate-scale-in">
+                    {color}
+                    <button 
+                      type="button" 
+                      onClick={() => setFormData({...formData, colors: formData.colors.filter((_, i) => i !== idx)})}
+                      className="hover:text-red-500 transition-colors"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                ))}
+                {formData.colors.length === 0 && (
+                  <p className="text-[10px] text-[#9CA3AF] italic">No colors added yet.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
               <label className={labelClass}>Full Description</label>
               <textarea name="description" value={formData.description} onChange={handleInputChange} rows={5} placeholder="Detailed product description..." className={`${inputClass} resize-none`} required></textarea>
             </div>
