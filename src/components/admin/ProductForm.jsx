@@ -17,6 +17,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -105,8 +106,14 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
           originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
         }),
       });
-      if (res.ok) router.push("/admin/products");
-      else alert("Failed to save product.");
+      if (res.ok) {
+        setShowSuccess(true);
+        setTimeout(() => {
+          router.push("/admin/products");
+        }, 2000);
+      } else {
+        alert("Failed to save product.");
+      }
     } catch (error) {
       console.error("Error saving product:", error);
       alert("An error occurred while saving.");
@@ -132,7 +139,30 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
   const labelClass = "block text-xs font-medium text-[#6B7280] uppercase tracking-wider mb-1.5";
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-5xl mx-auto space-y-6 pb-16">
+    <div className="relative">
+      {/* Success Message Overlay */}
+      {showSuccess && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-white/80 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white border border-green-100 p-8 rounded-2xl shadow-2xl flex flex-col items-center gap-4 animate-scale-in">
+            <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center shadow-inner">
+              <Check size={32} strokeWidth={3} />
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-dark mb-1" style={{ fontFamily: "var(--font-heading)" }}>
+                Update Successful!
+              </h3>
+              <p className="text-text/60 text-sm">
+                The dress details have been saved successfully.
+              </p>
+            </div>
+            <div className="w-48 h-1.5 bg-gray-100 rounded-full overflow-hidden mt-2">
+              <div className="h-full bg-green-500 animate-progress"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="max-w-5xl mx-auto space-y-6 pb-16">
       {/* Top Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-sm sticky top-20 z-40">
         <button 
@@ -291,6 +321,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
           </div>
         </div>
       </div>
-    </form>
+      </form>
+    </div>
   );
 }
