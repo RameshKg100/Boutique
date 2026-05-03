@@ -146,18 +146,18 @@ My Query: `;
   return (
     <>
       {/* Breadcrumb */}
-      <div className="bg-cream/50 py-3">
+      <div className="bg-cream/50 py-4 border-b border-border/40">
         <div className="container-boutique">
-          <nav className="flex items-center gap-2 text-xs text-text-light">
+          <nav className="flex items-center gap-2 text-sm text-dark font-medium">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-            <ChevronRight size={12} />
+            <ChevronRight size={14} className="text-text-light" />
             <Link href="/collections" className="hover:text-primary transition-colors">Collections</Link>
-            <ChevronRight size={12} />
+            <ChevronRight size={14} className="text-text-light" />
             <Link href={`/collections?category=${product.category}`} className="hover:text-primary transition-colors capitalize">
               {product.category}
             </Link>
-            <ChevronRight size={12} />
-            <span className="text-dark font-medium truncate">{product.name}</span>
+            <ChevronRight size={14} className="text-text-light" />
+            <span className="text-primary font-bold truncate">{product.name}</span>
           </nav>
         </div>
       </div>
