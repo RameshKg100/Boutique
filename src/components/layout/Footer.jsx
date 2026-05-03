@@ -39,7 +39,13 @@ export default function Footer() {
                 Our Sathyas Boutique offers elegant and easy-to-wear fashion. Our collections are carefully selected to bring you comfort, quality, and a touch of style in every outfit.
               </p>
               <div className="flex gap-3 pt-2">
-                <a href={siteConfig.social.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition-all shadow-sm">
+                <a 
+                  href={siteConfig.social.instagram} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="w-10 h-10 rounded-lg text-white flex items-center justify-center hover:opacity-80 transition-all shadow-sm"
+                  style={{ background: 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)' }}
+                >
                   <Instagram size={18} />
                 </a>
                 <a href={`https://wa.me/${siteConfig.contact.phone?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-lg bg-[#25D366] text-white flex items-center justify-center hover:bg-[#128C7E] transition-all shadow-sm">

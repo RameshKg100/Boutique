@@ -143,7 +143,13 @@ Sent via Sathyas Boutique Website`;
                <div className="mb-10">
                   <h3 className="text-sm font-bold text-dark mb-4 uppercase tracking-wider">Follow Us</h3>
                   <div className="flex gap-4">
-                    <a href={siteConfig.social.instagram} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition-all shadow-sm">
+                    <a 
+                      href={siteConfig.social.instagram} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="w-12 h-12 rounded-lg text-white flex items-center justify-center hover:opacity-80 transition-all shadow-sm"
+                      style={{ background: 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)' }}
+                    >
                       <Instagram size={20} />
                     </a>
                     <a href={`https://wa.me/${siteConfig.contact.phone?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-lg bg-[#25D366] text-white flex items-center justify-center hover:bg-[#128C7E] transition-all shadow-sm">
