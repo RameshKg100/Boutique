@@ -133,30 +133,30 @@ export default function HomePage() {
       </section>
 
       {/* ===== ABOUT PREVIEW ===== */}
-      <section className="py-8 lg:py-12 bg-background" id="about-preview">
+      <section className="py-12 lg:py-20 bg-background" id="about-preview">
         <div className="container-boutique">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="flex flex-col gap-10 lg:gap-16 items-center max-w-4xl mx-auto">
             {/* Image */}
-            <AnimatedSection animation="window-reveal">
-              <div className="relative rounded-2xl overflow-hidden aspect-[9/16] shadow-2xl group">
+            <AnimatedSection animation="window-reveal" className="w-full">
+              <div className="relative rounded-2xl overflow-hidden aspect-[21/9] shadow-xl group">
                 <Image
-                  src="/uploads/All Dress Home.jpeg"
-                  alt="Sathyas Boutique - Featured Collection"
+                  src="/uploads/Stich.Jpeg"
+                  alt="Sathyas Boutique Stitching"
                   fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  sizes="100vw"
                 />
               </div>
             </AnimatedSection>
 
             {/* Content */}
-            <AnimatedSection animation="slide-in-right">
-              <div>
-                <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">
+            <AnimatedSection animation="slide-in-bottom" className="text-center">
+              <div className="flex flex-col items-center">
+                <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium mb-3">
                   Our Design
                 </span>
                 <h2
-                  className="text-3xl md:text-4xl lg:text-5xl font-bold mt-2 mb-4"
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6"
                   style={{
                     fontFamily: "var(--font-heading)",
                     color: "var(--foreground)",
@@ -164,7 +164,7 @@ export default function HomePage() {
                 >
                   Crafted from tradition, designed for today’s wardrobe
                 </h2>
-                <p className="text-text/80 leading-relaxed mb-8">
+                <p className="text-text/80 leading-relaxed mb-10 max-w-2xl">
                   Our collection of maxi dresses, tops, and kurtis combines
                   effortless elegance with cultural heritage. Each piece
                   features flowing silhouettes, versatile everyday styles, and
@@ -173,16 +173,17 @@ export default function HomePage() {
                   together comfort, modern style, and the pride of South Indian
                   craftsmanship.
                 </p>
-                <div className="space-y-4 mb-8">
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 w-full">
                   {[
                     "Elegant Flowing Maxi Dresses",
                     "Stylish Ethnic & Casual Kurtis",
                     "Simple & Elegant Dresses for Any Occasion",
                   ].map((item) => (
-                    <div key={item} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <div key={item} className="flex flex-col items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                         <svg
-                          className="w-3 h-3 text-primary"
+                          className="w-5 h-5 text-primary"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -195,12 +196,13 @@ export default function HomePage() {
                           />
                         </svg>
                       </div>
-                      <span className="text-dark text-sm font-medium">
+                      <span className="text-dark text-sm font-bold tracking-tight">
                         {item}
                       </span>
                     </div>
                   ))}
                 </div>
+
                 <Link href="/about" className="btn-secondary">
                   Read Our Story
                   <ArrowRight size={16} />
