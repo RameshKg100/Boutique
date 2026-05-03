@@ -295,8 +295,8 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
                 </select>
               </div>
               <div className="space-y-1.5">
-                <label className={labelClass}>Short Description</label>
-                <input type="text" name="shortDescription" value={formData.shortDescription} onChange={handleInputChange} placeholder="Brief summary" className={inputClass} required />
+                <label className={labelClass}>Short Description (Optional)</label>
+                <input type="text" name="shortDescription" value={formData.shortDescription} onChange={handleInputChange} placeholder="Brief summary" className={inputClass} />
               </div>
             </div>
 
@@ -379,8 +379,8 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
             </div>
 
             <div className="space-y-1.5">
-              <label className={labelClass}>Full Description</label>
-              <textarea name="description" value={formData.description} onChange={handleInputChange} rows={5} placeholder="Detailed product description..." className={`${inputClass} resize-none`} required></textarea>
+              <label className={labelClass}>Full Description (Optional)</label>
+              <textarea name="description" value={formData.description} onChange={handleInputChange} rows={5} placeholder="Detailed product description..." className={`${inputClass} resize-none`}></textarea>
             </div>
           </div>
         </div>
