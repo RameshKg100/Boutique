@@ -4,7 +4,7 @@ export const siteConfig = {
   description: "Premium Chennai boutique offering exquisite collections of Maxis, Sarees, Tops, and Kurtis with custom tailoring and personal styling services.",
   url: "https://sathyasboutique.vercel.app",
   contact: {
-    phone: "+91 9976474102",
+    phone: "+91 96290 98067",
     email: "hello@sathyasboutique.com",
     address: "Kariyagoundanur, Vadakkalur(Post), Annur - 641653, CoimbatoreTamil Nadu",
     hours: "Mon - Sat: 10:00 AM - 8:00 PM",
