@@ -24,7 +24,9 @@ import {
   X,
   Ruler,
   Loader2,
-  ZoomIn
+  ZoomIn,
+  ZoomOut,
+  Maximize
 } from "lucide-react";
 
 const sizeChart = {
@@ -176,21 +178,36 @@ My Query: `;
                     wheel={{ wheelDisabled: true }} // Prevent page scrolling from zooming
                     doubleClick={{ disabled: false }}
                   >
-                    <TransformComponent 
-                      wrapperStyle={{ width: "100%", height: "100%" }} 
-                      contentStyle={{ width: "100%", height: "100%" }}
-                    >
-                      <div className="relative w-full h-full cursor-zoom-in">
-                        <Image
-                          src={product.images[selectedImage]}
-                          alt={`${product.name} - View ${selectedImage + 1}`}
-                          fill
-                          className="object-cover"
-                          priority
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                      </div>
-                    </TransformComponent>
+                    {({ zoomIn, zoomOut, resetTransform }) => (
+                      <>
+                        <div className="absolute bottom-4 right-4 flex items-center gap-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => zoomIn()} className="bg-white/90 hover:bg-white text-dark p-2 rounded-full shadow-md transition-colors" title="Zoom In">
+                            <ZoomIn size={16} />
+                          </button>
+                          <button onClick={() => zoomOut()} className="bg-white/90 hover:bg-white text-dark p-2 rounded-full shadow-md transition-colors" title="Zoom Out">
+                            <ZoomOut size={16} />
+                          </button>
+                          <button onClick={() => resetTransform()} className="bg-white/90 hover:bg-white text-dark p-2 rounded-full shadow-md transition-colors" title="Reset Zoom">
+                            <Maximize size={16} />
+                          </button>
+                        </div>
+                        <TransformComponent 
+                          wrapperStyle={{ width: "100%", height: "100%" }} 
+                          contentStyle={{ width: "100%", height: "100%" }}
+                        >
+                          <div className="relative w-full h-full cursor-zoom-in">
+                            <Image
+                              src={product.images[selectedImage]}
+                              alt={`${product.name} - View ${selectedImage + 1}`}
+                              fill
+                              className="object-cover"
+                              priority
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                            />
+                          </div>
+                        </TransformComponent>
+                      </>
+                    )}
                   </TransformWrapper>
                   <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium text-dark flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-sm z-10">
                     <ZoomIn size={14} /> <span>Double-click to zoom & drag</span>
