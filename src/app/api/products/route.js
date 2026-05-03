@@ -72,6 +72,7 @@ export async function GET(request) {
           originalPrice: p.original_price || p.originalPrice,
           isFeatured: p.is_featured ?? p.isFeatured,
           isNew: p.is_new ?? p.isNew,
+          isBestSeller: p.is_best_seller ?? p.isBestSeller,
           inStock: p.in_stock ?? p.inStock,
         };
       };
@@ -117,6 +118,7 @@ export async function POST(request) {
         colors: newProduct.colors || [],
         is_featured: newProduct.isFeatured ?? false,
         is_new: newProduct.isNew ?? false,
+        is_best_seller: newProduct.isBestSeller ?? false,
         in_stock: newProduct.inStock ?? true,
     };
 

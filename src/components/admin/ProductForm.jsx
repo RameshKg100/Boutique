@@ -31,6 +31,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     inStock: true,
     isNew: false,
     isFeatured: false,
+    isBestSeller: false,
   });
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
         inStock: initialData.inStock ?? true,
         isNew: initialData.isNew ?? false,
         isFeatured: initialData.isFeatured ?? false,
+        isBestSeller: initialData.isBestSeller ?? false,
       });
     }
   }, [initialData]);
@@ -234,7 +236,8 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
               {[
                 { label: "In Stock", name: "inStock" },
                 { label: "New Arrival Badge", name: "isNew" },
-                { label: "Featured Product", name: "isFeatured" }
+                { label: "Featured Product", name: "isFeatured" },
+                { label: "Best Seller", name: "isBestSeller" }
               ].map((item) => (
                 <label key={item.name} className={`flex items-center justify-between p-3 rounded-md cursor-pointer border transition-all 
                   ${formData[item.name] ? "bg-green-50 border-green-200" : "bg-gray-50 border-[#E5E7EB] hover:border-gray-300"}`}>

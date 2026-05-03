@@ -46,6 +46,7 @@ const whyChooseUs = [
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchData() {
@@ -55,6 +56,7 @@ export default function HomePage() {
 
         if (Array.isArray(prodData)) {
           setFeaturedProducts(prodData.filter((p) => p.isFeatured).slice(0, 5));
+          setBestSellers(prodData.filter((p) => p.isBestSeller).slice(0, 5));
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -230,12 +232,12 @@ export default function HomePage() {
                   Bringing out the best...
                 </p>
               </div>
-            ) : featuredProducts.length === 0 ? (
+            ) : bestSellers.length === 0 ? (
               <div className="col-span-full text-center py-10">
                 <p className="text-text/40">Exclusive pieces coming soon.</p>
               </div>
             ) : (
-              featuredProducts.map((product, index) => (
+              bestSellers.map((product, index) => (
                 <AnimatedSection key={product.id} delay={index * 100}>
                   <ProductCard product={product} />
                 </AnimatedSection>
