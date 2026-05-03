@@ -180,7 +180,7 @@ My Query: `;
                   >
                     {({ zoomIn, zoomOut, resetTransform }) => (
                       <>
-                        <div className="absolute bottom-4 right-4 flex items-center gap-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-4 right-4 flex items-center gap-2 z-20 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                           <button onClick={() => zoomIn()} className="bg-white/90 hover:bg-white text-dark p-2 rounded-full shadow-md transition-colors" title="Zoom In">
                             <ZoomIn size={16} />
                           </button>
@@ -209,8 +209,8 @@ My Query: `;
                       </>
                     )}
                   </TransformWrapper>
-                  <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium text-dark flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-sm z-10">
-                    <ZoomIn size={14} /> <span>Double-click to zoom & drag</span>
+                  <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium text-dark flex items-center gap-1.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity pointer-events-none shadow-sm z-10">
+                    <ZoomIn size={14} /> <span>Double-tap to zoom & pan</span>
                   </div>
                 </div>
 
