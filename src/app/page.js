@@ -140,7 +140,7 @@ export default function HomePage() {
             <AnimatedSection animation="window-reveal" className="w-full">
               <div className="relative rounded-2xl overflow-hidden aspect-[21/9] shadow-xl group">
                 <Image
-                  src="/uploads/Stich.Jpeg"
+                  src="/uploads/Stich.jpeg"
                   alt="Sathyas Boutique Stitching"
                   fill
                   className="object-cover transition-transform duration-1000 group-hover:scale-105"
