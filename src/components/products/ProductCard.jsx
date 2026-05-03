@@ -60,6 +60,11 @@ export default function ProductCard({ product, onZoom }) {
                 New
               </span>
             )}
+            {product.inStock === false && (
+              <span className="bg-red-500 text-white text-[10px] px-2.5 py-1 rounded-md font-medium uppercase tracking-wider shadow-sm">
+                Out of Stock
+              </span>
+            )}
           </div>
 
           {/* Wishlist Button */}
@@ -78,13 +83,19 @@ export default function ProductCard({ product, onZoom }) {
           {/* Hover Overlay */}
           <div className="absolute inset-0 bg-white/40 group-hover:bg-white/60 transition-all duration-500 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100">
             <div className="flex gap-2">
-              <button
-                onClick={handleAddToCart}
-                className="bg-white text-text hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1.5 shadow-lg"
-              >
-                <ShoppingBag size={13} />
-                Add to Cart
-              </button>
+              {product.inStock === false ? (
+                <div className="bg-white text-red-500 px-4 py-2 rounded-lg text-xs font-bold flex items-center shadow-lg">
+                  Out of Stock
+                </div>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-white text-text hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1.5 shadow-lg"
+                >
+                  <ShoppingBag size={13} />
+                  Add to Cart
+                </button>
+              )}
               <button
                 onClick={handleZoom}
                 className="bg-white text-text hover:bg-primary hover:text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center shadow-lg group/zoom"

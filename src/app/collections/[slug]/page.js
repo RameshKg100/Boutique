@@ -245,12 +245,19 @@ My Query: `;
                 <p className="text-primary text-xs uppercase tracking-[0.2em] font-medium mb-2">
                   {product.category}
                 </p>
-                <h1
-                  className="text-2xl md:text-3xl lg:text-4xl font-black text-text mb-4"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  {product.name}
-                </h1>
+                <div className="flex flex-col items-start gap-2 mb-4">
+                  <h1
+                    className="text-2xl md:text-3xl lg:text-4xl font-black text-text"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {product.name}
+                  </h1>
+                  {product.inStock === false && (
+                    <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-red-200">
+                      Out of Stock
+                    </span>
+                  )}
+                </div>
 
 
                 {/* Price */}
@@ -337,18 +344,27 @@ My Query: `;
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 mb-3">
-                  <button
-                    onClick={handleAddToCart}
-                    className={`flex-1 py-3.5 px-6 rounded-lg text-sm font-medium uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
-                      addedToCart
-                        ? "bg-green-600 text-white"
-                        : "bg-primary text-white hover:bg-primary-dark hover:shadow-lg"
-                    }`}
-                    id="add-to-cart-btn"
-                  >
-                    <ShoppingBag size={16} />
-                    {addedToCart ? "Added to Cart ✓" : "Add to Cart"}
-                  </button>
+                  {product.inStock === false ? (
+                    <button
+                      disabled
+                      className="flex-1 py-3.5 px-6 rounded-lg text-sm font-medium uppercase tracking-wider bg-gray-200 text-gray-500 cursor-not-allowed flex items-center justify-center border border-gray-300"
+                    >
+                      Out of Stock
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleAddToCart}
+                      className={`flex-1 py-3.5 px-6 rounded-lg text-sm font-medium uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
+                        addedToCart
+                          ? "bg-green-600 text-white"
+                          : "bg-primary text-white hover:bg-primary-dark hover:shadow-lg"
+                      }`}
+                      id="add-to-cart-btn"
+                    >
+                      <ShoppingBag size={16} />
+                      {addedToCart ? "Added to Cart ✓" : "Add to Cart"}
+                    </button>
+                  )}
                   <button
                     onClick={handleToggleWishlist}
                     className={`w-14 h-14 rounded-lg flex items-center justify-center transition-all duration-300 border ${
