@@ -42,6 +42,8 @@ const sizeChart = {
   ],
 };
 
+const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
+
 export default function ProductDetailPage() {
   const params = useParams();
   const [product, setProduct] = useState(null);
@@ -307,7 +309,11 @@ My Query: `;
                     </button>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {product.sizes.map((size) => (
+                    {[...product.sizes].sort((a, b) => {
+                      const indexA = SIZE_ORDER.indexOf(a);
+                      const indexB = SIZE_ORDER.indexOf(b);
+                      return (indexA === -1 ? 99 : indexA) - (indexB === -1 ? 99 : indexB);
+                    }).map((size) => (
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
