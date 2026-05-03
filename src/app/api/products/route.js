@@ -70,9 +70,9 @@ export async function GET(request) {
           categoryName: p.category?.name || 'Uncategorized',
           shortDescription: p.short_description || p.shortDescription,
           originalPrice: p.original_price || p.originalPrice,
-          isFeatured: p.is_featured || p.isFeatured,
-          isNew: p.is_new || p.isNew,
-          inStock: p.in_stock || p.inStock,
+          isFeatured: p.is_featured ?? p.isFeatured ?? false,
+          isNew: p.is_new ?? p.isNew ?? false,
+          inStock: p.in_stock ?? p.inStock ?? true,
         };
       };
 
