@@ -138,12 +138,12 @@ export default function HomePage() {
           <div className="flex flex-col gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
             {/* Image */}
             <AnimatedSection animation="window-reveal" className="w-full">
-              <div className="relative rounded-2xl overflow-hidden aspect-[16/6] shadow-xl group">
+              <div className="relative rounded-2xl overflow-hidden aspect-[16/7] shadow-xl group bg-white">
                 <Image
                   src="/uploads/All Dress Home.jpeg"
                   alt="Sathyas Boutique Collection"
                   fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  className="object-contain transition-transform duration-1000 group-hover:scale-102"
                   sizes="100vw"
                 />
               </div>
