@@ -114,7 +114,8 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
           router.push("/admin/products");
         }, 2000);
       } else {
-        alert("Failed to save product.");
+        const errorData = await res.json().catch(() => ({}));
+        alert(`Failed to save product: ${errorData.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Error saving product:", error);
