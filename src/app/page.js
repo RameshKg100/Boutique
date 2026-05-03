@@ -15,7 +15,7 @@ import {
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import SectionHeading from "@/components/ui/SectionHeading";
-import OverlappingGallery from "@/components/ui/OverlappingGallery";
+import ExpandingGallery from "@/components/ui/ExpandingGallery";
 import ProductCard from "@/components/products/ProductCard";
 
 const whyChooseUs = [
@@ -139,7 +139,7 @@ export default function HomePage() {
           <div className="flex flex-col gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
             {/* Interactive Gallery */}
             <div className="w-full">
-              <OverlappingGallery />
+              <ExpandingGallery />
             </div>
 
             {/* Content */}
