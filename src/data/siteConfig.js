@@ -10,7 +10,7 @@ export const siteConfig = {
     hours: "Mon - Sat: 10:00 AM - 8:00 PM",
   },
   social: {
-    instagram: "https://instagram.com/sathyasboutique",
+    instagram: "https://www.instagram.com/sathyas__boutique?igsh=Mjg3YXZqd2hpNGlp",
     facebook: "https://facebook.com/sathyasboutique",
     youtube: "https://youtube.com/@sathyasboutique",
   },
