@@ -135,10 +135,10 @@ export default function HomePage() {
       {/* ===== ABOUT PREVIEW ===== */}
       <section className="py-12 lg:py-20 bg-background" id="about-preview">
         <div className="container-boutique">
-          <div className="flex flex-col gap-10 lg:gap-16 items-center max-w-4xl mx-auto">
+          <div className="flex flex-col gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
             {/* Image */}
             <AnimatedSection animation="window-reveal" className="w-full">
-              <div className="relative rounded-2xl overflow-hidden aspect-[21/9] shadow-xl group">
+              <div className="relative rounded-2xl overflow-hidden aspect-[16/6] shadow-xl group">
                 <Image
                   src="/uploads/All Dress Home.jpeg"
                   alt="Sathyas Boutique Collection"
