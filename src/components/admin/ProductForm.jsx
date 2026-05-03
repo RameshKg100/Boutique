@@ -24,7 +24,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     category: "maxis",
     description: "",
     shortDescription: "",
-    sizes: ["XS", "S", "M", "L", "XL"],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
     colors: [],
     images: [],
     inStock: true,
@@ -36,8 +36,18 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     if (initialData) {
       setFormData({
         ...initialData,
+        name: initialData.name || "",
         price: initialData.price || "",
         originalPrice: initialData.originalPrice || "",
+        category: initialData.category || "maxis",
+        description: initialData.description || "",
+        shortDescription: initialData.shortDescription || initialData.short_description || "",
+        sizes: initialData.sizes || ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
+        colors: initialData.colors || [],
+        images: initialData.images || [],
+        inStock: initialData.inStock ?? true,
+        isNew: initialData.isNew ?? false,
+        isFeatured: initialData.isFeatured ?? false,
       });
     }
   }, [initialData]);
@@ -252,7 +262,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
             <div className="space-y-1.5">
               <label className={labelClass}>Available Sizes</label>
               <div className="flex flex-wrap gap-2 pt-1">
-                {["XS", "S", "M", "L", "XL"].map((size) => (
+                {["XS", "S", "M", "L", "XL", "XXL", "3XL"].map((size) => (
                   <button
                     key={size}
                     type="button"

@@ -26,41 +26,73 @@ const writeLocalProducts = (products) => {
   }
 };
 
-export async function GET() {
+export async function GET(request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug');
+    const category = searchParams.get('category');
+
     if (supabase) {
-      const { data: products, error } = await supabase
+      let query = supabase
         .from('products')
         .select(`
           *,
           category:categories(name, slug)
-        `)
-        .order('created_at', { ascending: false });
+        `);
+        
+      if (slug) {
+        query = query.eq('slug', slug).single();
+      } else if (category) {
+        // Need to join with categories to filter by slug
+        // Actually, the category filter should probably be on category_id
+        // But for simplicity, let's just fetch all and filter in JS if category join is complex
+        // Or better: filter by category.slug
+        query = query.eq('categories.slug', category).order('created_at', { ascending: false });
+      } else {
+        query = query.order('created_at', { ascending: false });
+      }
+
+      const { data, error } = await query;
         
       if (error) {
         console.error("Supabase GET error:", error);
-        return NextResponse.json(readLocalProducts());
+        const localData = readLocalProducts();
+        if (slug) return NextResponse.json(localData.find(p => p.slug === slug) || null);
+        if (category) return NextResponse.json(localData.filter(p => p.category === category));
+        return NextResponse.json(localData);
       }
 
-      // Map snake_case to camelCase and extract category name
-      const mappedProducts = products.map(p => ({
-        ...p,
-        category: p.category?.slug || 'all',
-        categoryName: p.category?.name || 'Uncategorized',
-        shortDescription: p.short_description,
-        originalPrice: p.original_price,
-        isFeatured: p.is_featured,
-        isNew: p.is_new,
-        inStock: p.in_stock,
-        // Keep the original fields just in case
-      }));
+      const mapProduct = (p) => {
+        if (!p) return null;
+        return {
+          ...p,
+          category: p.category?.slug || p.category || 'all',
+          categoryName: p.category?.name || 'Uncategorized',
+          shortDescription: p.short_description || p.shortDescription,
+          originalPrice: p.original_price || p.originalPrice,
+          isFeatured: p.is_featured || p.isFeatured,
+          isNew: p.is_new || p.isNew,
+          inStock: p.in_stock || p.inStock,
+        };
+      };
 
-      return NextResponse.json(mappedProducts);
+      if (slug) {
+        if (!data) return NextResponse.json(null);
+        return NextResponse.json(mapProduct(data));
+      }
+      
+      // Handle the case where data might be filtered by category but still needs mapping
+      const dataArray = Array.isArray(data) ? data : (data ? [data] : []);
+      return NextResponse.json(dataArray.map(mapProduct));
     }
-    return NextResponse.json(readLocalProducts());
+
+    const localData = readLocalProducts();
+    if (slug) return NextResponse.json(localData.find(p => p.slug === slug) || null);
+    if (category) return NextResponse.json(localData.filter(p => p.category === category));
+    return NextResponse.json(localData);
   } catch (error) {
     console.error("API GET Catch error:", error);
-    return NextResponse.json(readLocalProducts());
+    return NextResponse.json([]);
   }
 }
 

@@ -8,7 +8,7 @@
     "category": "maxis",
     "description": "A flowing floor-length maxi dress adorned with delicate celestial floral prints. Crafted from premium georgette fabric with a flattering A-line silhouette that drapes beautifully.",
     "shortDescription": "Flowing georgette maxi with celestial floral prints",
-    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
     "colors": ["Dusty Rose", "Ivory"],
     "images": [
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop",
@@ -31,7 +31,7 @@
     "category": "maxis",
     "description": "Luxurious velvet maxi dress in deep midnight blue. Features a sweetheart neckline, fitted bodice, and flowing skirt. Perfect for evening events and special occasions.",
     "shortDescription": "Luxurious velvet maxi in deep midnight blue",
-    "sizes": ["XS", "S", "M", "L", "XL"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
     "colors": ["Midnight Blue", "Burgundy"],
     "images": [
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop",
@@ -77,7 +77,7 @@
     "category": "tops",
     "description": "An elegant silk blouse featuring a statement bow neckline and relaxed fit. The lustrous fabric and refined design make it perfect for both office and evening wear.",
     "shortDescription": "Elegant silk blouse with statement bow neckline",
-    "sizes": ["XS", "S", "M", "L", "XL"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
     "colors": ["Ivory", "Blush Pink", "Black"],
     "images": [
       "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&h=800&fit=crop",
@@ -100,7 +100,7 @@
     "category": "kurtis",
     "description": "A graceful Anarkali-style kurti with traditional hand block prints from Jaipur. The flared silhouette, 3/4 sleeves, and mandarin collar create an effortlessly elegant Indian look.",
     "shortDescription": "Hand block printed Anarkali kurti from Jaipur",
-    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
     "colors": ["Indigo Blue", "Brick Red"],
     "images": [
       "https://images.unsplash.com/photo-1621012431610-8bbf4b7ab790?w=600&h=800&fit=crop",

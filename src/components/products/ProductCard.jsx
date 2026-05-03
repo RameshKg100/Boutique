@@ -44,7 +44,7 @@ export default function ProductCard({ product, onZoom }) {
     >
       <div className="card-hover bg-background rounded-lg overflow-hidden border border-border/10">
         {/* Image Container */}
-        <div className="relative aspect-[9/16] overflow-hidden bg-background">
+        <div className="relative aspect-[3/4] overflow-hidden bg-background">
           <Image
             src={product.images[0]}
             alt={product.name}

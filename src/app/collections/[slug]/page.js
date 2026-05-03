@@ -11,6 +11,7 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/data/siteConfig";
 import { formatPrice, getDiscountPercentage } from "@/lib/utils";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {
   Heart,
   ShoppingBag,
@@ -22,7 +23,8 @@ import {
   ChevronRight,
   X,
   Ruler,
-  Loader2
+  Loader2,
+  ZoomIn
 } from "lucide-react";
 
 const sizeChart = {
@@ -34,6 +36,7 @@ const sizeChart = {
     ["L", "38", "32", "40", "55"],
     ["XL", "40", "34", "42", "56"],
     ["XXL", "42", "36", "44", "57"],
+    ["3XL", "44", "38", "46", "58"],
   ],
 };
 
@@ -55,14 +58,18 @@ export default function ProductDetailPage() {
     async function fetchProduct() {
       try {
         setLoading(true);
-        const res = await fetch("/api/products", { cache: "no-store" });
-        const data = await res.json();
-        const found = data.find(p => p.slug === params.slug);
+        // Fetch specific product by slug
+        const res = await fetch(`/api/products?slug=${params.slug}`, { cache: "no-store" });
+        const found = await res.json();
         
         if (found) {
           setProduct(found);
-          const related = data
-            .filter(p => p.id !== found.id && p.category === found.category)
+          
+          // Fetch related products from the same category only
+          const allRes = await fetch(`/api/products?category=${found.category}`, { cache: "no-store" });
+          const allData = await allRes.json();
+          const related = allData
+            .filter(p => p.id !== found.id)
             .slice(0, 4);
           setRelatedProducts(related);
         }
@@ -158,18 +165,33 @@ My Query: `;
         <div className="container-boutique">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Image Gallery */}
-            <AnimatedSection animation="slide-in-left">
-              <div className="space-y-4">
+            <AnimatedSection animation="slide-in-left" className="flex justify-center lg:justify-end">
+              <div className="space-y-4 w-full max-w-[500px]">
                 {/* Main Image */}
-                <div className="relative aspect-[9/16] rounded-xl overflow-hidden bg-cream shadow-lg">
-                  <Image
-                    src={product.images[selectedImage]}
-                    alt={`${product.name} - View ${selectedImage + 1}`}
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-cream shadow-lg group">
+                  <TransformWrapper
+                    initialScale={1}
+                    minScale={1}
+                    maxScale={4}
+                    wheel={{ wheelDisabled: true }} // Prevent page scrolling from zooming
+                    doubleClick={{ disabled: false }}
+                  >
+                    <TransformComponent wrapperClass="w-full h-full" contentClass="w-full h-full">
+                      <div className="relative w-full h-full cursor-zoom-in">
+                        <Image
+                          src={product.images[selectedImage]}
+                          alt={`${product.name} - View ${selectedImage + 1}`}
+                          fill
+                          className="object-cover"
+                          priority
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
+                    </TransformComponent>
+                  </TransformWrapper>
+                  <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium text-dark flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-sm z-10">
+                    <ZoomIn size={14} /> <span>Double-click to zoom & drag</span>
+                  </div>
                 </div>
 
                 {/* Thumbnails */}
