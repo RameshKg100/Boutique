@@ -24,7 +24,7 @@ export default function OverlappingGallery() {
   };
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto py-12 px-4">
+    <div className="relative w-full max-w-6xl mx-auto pt-0 pb-8 px-4">
       <div className="relative h-[400px] md:h-[550px] flex items-center justify-center perspective-1000 overflow-hidden md:overflow-visible">
         {images.map((image, index) => {
           // Calculate distance from current index

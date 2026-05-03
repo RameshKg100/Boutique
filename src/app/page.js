@@ -134,7 +134,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== ABOUT PREVIEW ===== */}
-      <section className="py-12 lg:py-20 bg-background" id="about-preview">
+      <section className="pb-12 lg:pb-20 bg-background" id="about-preview">
         <div className="container-boutique">
           <div className="flex flex-col gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
             {/* Interactive Gallery */}
