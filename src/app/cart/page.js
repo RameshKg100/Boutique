@@ -32,6 +32,7 @@ export default function CartPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({ name: "", phone: "", location: "", paymentMode: "" });
   const [settings, setSettings] = useState({ paymentQRCode: "" });
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
 
   useEffect(() => {
     async function fetchSettings() {
@@ -346,10 +347,23 @@ export default function CartPage() {
                             <div className="flex-grow border-t border-border/40"></div>
                         </div>
 
+                        <div className="flex items-start gap-3 text-left mt-2 mb-2 bg-gray-50/50 p-3 rounded-lg border border-border/40">
+                          <input 
+                            type="checkbox" 
+                            id="confirmPayment" 
+                            className="mt-0.5 w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer"
+                            checked={paymentConfirmed}
+                            onChange={(e) => setPaymentConfirmed(e.target.checked)}
+                          />
+                          <label htmlFor="confirmPayment" className="text-xs text-text/80 leading-tight cursor-pointer">
+                            I confirm that I have successfully transferred <strong>{formatPrice(total)}</strong> using {customerInfo.paymentMode}.
+                          </label>
+                        </div>
+
                         <button 
                           onClick={() => handleWhatsAppCheckout()} 
-                          disabled={isSubmitting}
-                          className="btn-primary w-full justify-center py-3.5 text-sm shadow-md bg-green-600 hover:bg-green-700 border-green-600"
+                          disabled={isSubmitting || !paymentConfirmed}
+                          className={`btn-primary w-full justify-center py-3.5 text-sm shadow-md transition-all ${!paymentConfirmed ? 'opacity-50 cursor-not-allowed bg-gray-400 border-gray-400 hover:bg-gray-400 text-white' : 'bg-green-600 hover:bg-green-700 border-green-600'}`}
                         >
                           {isSubmitting ? "Processing..." : "I have Completed Payment ✓"}
                         </button>
