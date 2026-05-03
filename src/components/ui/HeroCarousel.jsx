@@ -79,7 +79,7 @@ export default function HeroCarousel() {
           animate="center"
           exit="exit"
           transition={{
-            x: { 
+            x: {
               duration: 1.5, // Slower, smoother transition
               ease: [0.45, 0, 0.55, 1] // Custom cubic-bezier for a very smooth "gliding" effect
             }
@@ -108,11 +108,10 @@ export default function HeroCarousel() {
               setDirection(index > currentIndex ? 1 : -1);
               setCurrentIndex(index);
             }}
-            className={`transition-all duration-500 rounded-sm shadow-sm ${
-              index === currentIndex
+            className={`transition-all duration-500 rounded-sm shadow-sm ${index === currentIndex
                 ? "w-8 h-1.5 bg-white scale-110"
                 : "w-2 h-1.5 bg-white/40 hover:bg-white/60"
-            }`}
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
