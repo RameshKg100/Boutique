@@ -32,6 +32,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
     isNew: false,
     isFeatured: false,
     isBestSeller: false,
+    offerPercentage: "",
   });
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
         isNew: initialData.isNew ?? false,
         isFeatured: initialData.isFeatured ?? false,
         isBestSeller: initialData.isBestSeller ?? false,
+        offerPercentage: initialData.offerPercentage || "",
       });
     }
   }, [initialData]);
@@ -106,6 +108,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
           ...formData,
           price: parseFloat(formData.price),
           originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
+          offerPercentage: formData.offerPercentage ? parseFloat(formData.offerPercentage) : null,
         }),
       });
       if (res.ok) {
@@ -267,7 +270,7 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
               <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="e.g. Sapphire Evening Gown" className={inputClass} required />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-1.5">
                 <label className={labelClass}>Selling Price (₹)</label>
                 <input type="number" name="price" value={formData.price} onChange={handleInputChange} placeholder="0" className={inputClass} required />
@@ -275,6 +278,10 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
               <div className="space-y-1.5">
                 <label className={labelClass}>Original Price (₹)</label>
                 <input type="number" name="originalPrice" value={formData.originalPrice} onChange={handleInputChange} placeholder="0" className={inputClass} />
+              </div>
+              <div className="space-y-1.5">
+                <label className={labelClass}>Offer Percentage (%)</label>
+                <input type="number" name="offerPercentage" value={formData.offerPercentage} onChange={handleInputChange} placeholder="e.g. 20" className={inputClass} />
               </div>
             </div>
 

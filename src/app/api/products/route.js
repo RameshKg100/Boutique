@@ -74,6 +74,7 @@ export async function GET(request) {
           isNew: p.is_new ?? p.isNew,
           isBestSeller: p.is_best_seller ?? p.isBestSeller,
           inStock: p.in_stock ?? p.inStock,
+          offerPercentage: p.offer_percentage ?? p.offerPercentage,
         };
       };
 
@@ -120,6 +121,7 @@ export async function POST(request) {
         is_new: newProduct.isNew ?? false,
         is_best_seller: newProduct.isBestSeller ?? false,
         in_stock: newProduct.inStock ?? true,
+        offer_percentage: newProduct.offerPercentage || null,
     };
 
     if (supabaseAdmin) {

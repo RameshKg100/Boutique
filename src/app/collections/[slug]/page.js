@@ -266,11 +266,14 @@ My Query: `;
                     {formatPrice(product.price)}
                   </span>
                   {product.originalPrice && (
-                    <>
-                      <span className="text-lg text-text/50 font-bold line-through">
-                        {formatPrice(product.originalPrice)}
-                      </span>
-                    </>
+                    <span className="text-lg text-text/50 font-bold line-through">
+                      {formatPrice(product.originalPrice)}
+                    </span>
+                  )}
+                  {product.offerPercentage && (
+                    <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-orange-200">
+                      {product.offerPercentage}% OFF
+                    </span>
                   )}
                 </div>
 

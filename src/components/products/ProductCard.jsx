@@ -65,6 +65,11 @@ export default function ProductCard({ product, onZoom }) {
                 Out of Stock
               </span>
             )}
+            {(product.offerPercentage || discount > 0) && (
+              <span className="bg-orange-500 text-white text-[10px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider shadow-sm">
+                {product.offerPercentage ? `${product.offerPercentage}% OFF` : `${discount}% OFF`}
+              </span>
+            )}
           </div>
 
           {/* Wishlist Button */}
