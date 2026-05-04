@@ -21,7 +21,7 @@ function cartReducer(state, action) {
         (item) =>
           item.id === action.payload.id && 
           item.size === action.payload.size &&
-          item.color === action.payload.color
+          (item.color || "") === (action.payload.color || "")
       );
 
       if (existingIndex > -1) {
@@ -46,7 +46,7 @@ function cartReducer(state, action) {
           (item) =>
             !(item.id === action.payload.id && 
               item.size === action.payload.size &&
-              item.color === action.payload.color)
+              (item.color || "") === (action.payload.color || ""))
         ),
       };
 
@@ -58,7 +58,8 @@ function cartReducer(state, action) {
             (item) =>
               !(
                 item.id === action.payload.id &&
-                item.size === action.payload.size
+                item.size === action.payload.size &&
+                (item.color || "") === (action.payload.color || "")
               )
           ),
         };
@@ -69,7 +70,7 @@ function cartReducer(state, action) {
         items: state.items.map((item) =>
           item.id === action.payload.id && 
           item.size === action.payload.size &&
-          item.color === action.payload.color
+          (item.color || "") === (action.payload.color || "")
             ? { ...item, quantity: action.payload.quantity }
             : item
         ),

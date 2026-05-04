@@ -19,7 +19,7 @@ export default function ProductCard({ product, onZoom }) {
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(product, product.sizes[1] || product.sizes[0]);
+    addItem(product, product.sizes[1] || product.sizes[0], "");
     setAddedToCart(true);
   };
 

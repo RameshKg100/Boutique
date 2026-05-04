@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { 
-  Upload, 
-  X, 
-  Save, 
+import {
+  Upload,
+  X,
+  Save,
   ArrowLeft,
   Loader2,
   Image as ImageIcon,
@@ -169,222 +169,221 @@ export default function ProductForm({ initialData = null, mode = "create" }) {
       )}
 
       <form onSubmit={handleSubmit} className="max-w-5xl mx-auto space-y-6 pb-16">
-      {/* Top Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-sm sticky top-20 z-40">
-        <button 
-          type="button" 
-          onClick={() => router.back()}
-          className="flex items-center gap-2 text-[#6B7280] hover:text-[#2563EB] transition-colors text-sm font-medium"
-        >
-          <ArrowLeft size={16} />
-          Back to Dresses
-        </button>
-        <button
-          type="submit"
-          disabled={loading || uploading}
-          className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-6 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm disabled:opacity-50"
-        >
-          {loading ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
-          {mode === "create" ? "Publish Dress" : "Update Dress"}
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left: Media & Settings */}
-        <div className="lg:col-span-4 space-y-6">
-          {/* Media */}
-          <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E7EB] flex items-center justify-between">
-               <h3 className="text-sm font-semibold text-[#111827] flex items-center gap-2">
-                  <ImageIcon size={14} className="text-[#2563EB]" /> Images
-               </h3>
-               <span className="text-xs font-medium text-[#6B7280]">{formData.images.length}/6</span>
-            </div>
-            <div className="p-4">
-              <div className="grid grid-cols-2 gap-3">
-                {formData.images.map((url, index) => (
-                  <div key={index} className="aspect-[3/4] relative rounded-md overflow-hidden group bg-gray-50 border border-[#E5E7EB]">
-                    <Image src={url} alt={`Upload ${index}`} fill className="object-cover" />
-                    <button 
-                      type="button"
-                      onClick={() => removeImage(index)}
-                      className="absolute top-1.5 right-1.5 p-1 bg-[#DC2626] text-white rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                ))}
-                {formData.images.length < 6 && (
-                  <label className="aspect-[3/4] border-2 border-dashed border-[#E5E7EB] rounded-md flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-[#2563EB] hover:bg-blue-50/30 transition-all text-[#6B7280] hover:text-[#2563EB] group">
-                    {uploading ? (
-                      <Loader2 className="animate-spin" size={20} />
-                    ) : (
-                      <>
-                        <Upload size={20} className="group-hover:scale-110 transition-transform" />
-                        <span className="text-[10px] uppercase font-medium tracking-wider text-center px-2">Upload</span>
-                      </>
-                    )}
-                    <input type="file" multiple className="hidden" onChange={handleFileUpload} accept="image/*" />
-                  </label>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Settings */}
-          <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E7EB]">
-               <h3 className="text-sm font-semibold text-[#111827]">Settings</h3>
-            </div>
-            <div className="p-3 space-y-2">
-              {[
-                { label: "In Stock", name: "inStock" },
-                { label: "New Arrival Badge", name: "isNew" },
-                { label: "Featured Product", name: "isFeatured" },
-                { label: "Best Seller", name: "isBestSeller" }
-              ].map((item) => (
-                <label key={item.name} className={`flex items-center justify-between p-3 rounded-md cursor-pointer border transition-all 
-                  ${formData[item.name] ? "bg-green-50 border-green-200" : "bg-gray-50 border-[#E5E7EB] hover:border-gray-300"}`}>
-                  <span className={`text-xs font-medium ${formData[item.name] ? "text-[#16A34A]" : "text-[#6B7280]"}`}>{item.label}</span>
-                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all 
-                    ${formData[item.name] ? "bg-[#16A34A] border-[#16A34A] text-white" : "bg-white border-gray-300"}`}>
-                    <input type="checkbox" name={item.name} checked={formData[item.name]} onChange={handleInputChange} className="hidden" />
-                    {formData[item.name] && <Check size={12} strokeWidth={3} />}
-                  </div>
-                </label>
-              ))}
-            </div>
-          </div>
+        {/* Top Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-sm sticky top-20 z-40">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="flex items-center gap-2 text-[#6B7280] hover:text-[#2563EB] transition-colors text-sm font-medium"
+          >
+            <ArrowLeft size={16} />
+            Back to Dresses
+          </button>
+          <button
+            type="submit"
+            disabled={loading || uploading}
+            className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-6 py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm disabled:opacity-50"
+          >
+            {loading ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
+            {mode === "create" ? "Publish Dress" : "Update Dress"}
+          </button>
         </div>
 
-        {/* Right: Core Data */}
-        <div className="lg:col-span-8">
-          <div className="bg-white border border-[#E5E7EB] rounded-lg p-6 space-y-6 shadow-sm">
-            <div className="border-b border-[#E5E7EB] pb-4">
-               <h3 className="text-base font-semibold text-[#111827]">Dress Details</h3>
-               <p className="text-xs text-[#6B7280] mt-0.5">Fill in the dress information below.</p>
-            </div>
-            
-            <div className="space-y-1.5">
-              <label className={labelClass}>Product Name</label>
-              <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="e.g. Sapphire Evening Gown" className={inputClass} required />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-1.5">
-                <label className={labelClass}>Selling Price (₹)</label>
-                <input type="number" name="price" value={formData.price} onChange={handleInputChange} placeholder="0" className={inputClass} required />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left: Media & Settings */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Media */}
+            <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-sm">
+              <div className="px-4 py-3 border-b border-[#E5E7EB] flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-[#111827] flex items-center gap-2">
+                  <ImageIcon size={14} className="text-[#2563EB]" /> Images
+                </h3>
+                <span className="text-xs font-medium text-[#6B7280]">{formData.images.length}/6</span>
               </div>
-              <div className="space-y-1.5">
-                <label className={labelClass}>Original Price (₹)</label>
-                <input type="number" name="originalPrice" value={formData.originalPrice} onChange={handleInputChange} placeholder="0" className={inputClass} />
-              </div>
-              <div className="space-y-1.5">
-                <label className={labelClass}>Offer Percentage (%)</label>
-                <input type="number" name="offerPercentage" value={formData.offerPercentage} onChange={handleInputChange} placeholder="e.g. 20" className={inputClass} />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-1.5">
-                <label className={labelClass}>Category</label>
-                <select name="category" value={formData.category} onChange={handleInputChange} className={`${inputClass} capitalize cursor-pointer`}>
-                  {categories.map(cat => (
-                    <option key={cat.id || cat.slug} value={cat.slug}>{cat.name}</option>
+              <div className="p-4">
+                <div className="grid grid-cols-2 gap-3">
+                  {formData.images.map((url, index) => (
+                    <div key={index} className="aspect-[3/4] relative rounded-md overflow-hidden group bg-gray-50 border border-[#E5E7EB]">
+                      <Image src={url} alt={`Upload ${index}`} fill className="object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-1.5 right-1.5 p-1 bg-[#DC2626] text-white rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
                   ))}
-                </select>
-              </div>
-              <div className="space-y-1.5">
-                <label className={labelClass}>Short Description (Optional)</label>
-                <input type="text" name="shortDescription" value={formData.shortDescription} onChange={handleInputChange} placeholder="Brief summary" className={inputClass} />
+                  {formData.images.length < 6 && (
+                    <label className="aspect-[3/4] border-2 border-dashed border-[#E5E7EB] rounded-md flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-[#2563EB] hover:bg-blue-50/30 transition-all text-[#6B7280] hover:text-[#2563EB] group">
+                      {uploading ? (
+                        <Loader2 className="animate-spin" size={20} />
+                      ) : (
+                        <>
+                          <Upload size={20} className="group-hover:scale-110 transition-transform" />
+                          <span className="text-[10px] uppercase font-medium tracking-wider text-center px-2">Upload</span>
+                        </>
+                      )}
+                      <input type="file" multiple className="hidden" onChange={handleFileUpload} accept="image/*" />
+                    </label>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className={labelClass}>Available Sizes</label>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {["XS", "S", "M", "L", "XL", "XXL", "3XL"].map((size) => (
+            {/* Settings */}
+            <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-sm">
+              <div className="px-4 py-3 border-b border-[#E5E7EB]">
+                <h3 className="text-sm font-semibold text-[#111827]">Settings</h3>
+              </div>
+              <div className="p-3 space-y-2">
+                {[
+                  { label: "In Stock", name: "inStock" },
+                  { label: "New Arrival Badge", name: "isNew" },
+                  { label: "Featured Product", name: "isFeatured" },
+                  { label: "Best Seller", name: "isBestSeller" }
+                ].map((item) => (
+                  <label key={item.name} className={`flex items-center justify-between p-3 rounded-md cursor-pointer border transition-all 
+                  ${formData[item.name] ? "bg-green-50 border-green-200" : "bg-gray-50 border-[#E5E7EB] hover:border-gray-300"}`}>
+                    <span className={`text-xs font-medium ${formData[item.name] ? "text-[#16A34A]" : "text-[#6B7280]"}`}>{item.label}</span>
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all 
+                    ${formData[item.name] ? "bg-[#16A34A] border-[#16A34A] text-white" : "bg-white border-gray-300"}`}>
+                      <input type="checkbox" name={item.name} checked={formData[item.name]} onChange={handleInputChange} className="hidden" />
+                      {formData[item.name] && <Check size={12} strokeWidth={3} />}
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Core Data */}
+          <div className="lg:col-span-8">
+            <div className="bg-white border border-[#E5E7EB] rounded-lg p-6 space-y-6 shadow-sm">
+              <div className="border-b border-[#E5E7EB] pb-4">
+                <h3 className="text-base font-semibold text-[#111827]">Dress Details</h3>
+                <p className="text-xs text-[#6B7280] mt-0.5">Fill in the dress information below.</p>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className={labelClass}>Product Name</label>
+                <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="e.g. Sapphire Evening Gown" className={inputClass} required />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-1.5">
+                  <label className={labelClass}>Selling Price (₹)</label>
+                  <input type="number" name="price" value={formData.price} onChange={handleInputChange} placeholder="0" className={inputClass} required />
+                </div>
+                <div className="space-y-1.5">
+                  <label className={labelClass}>Original Price (₹)</label>
+                  <input type="number" name="originalPrice" value={formData.originalPrice} onChange={handleInputChange} placeholder="0" className={inputClass} />
+                </div>
+                <div className="space-y-1.5">
+                  <label className={labelClass}>Offer Percentage (%)</label>
+                  <input type="number" name="offerPercentage" value={formData.offerPercentage} onChange={handleInputChange} placeholder="e.g. 20" className={inputClass} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-1.5">
+                  <label className={labelClass}>Category</label>
+                  <select name="category" value={formData.category} onChange={handleInputChange} className={`${inputClass} capitalize cursor-pointer`}>
+                    {categories.map(cat => (
+                      <option key={cat.id || cat.slug} value={cat.slug}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-1.5">
+                  <label className={labelClass}>Short Description (Optional)</label>
+                  <input type="text" name="shortDescription" value={formData.shortDescription} onChange={handleInputChange} placeholder="Brief summary" className={inputClass} />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className={labelClass}>Available Sizes</label>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {["XS", "S", "M", "L", "XL", "XXL", "3XL"].map((size) => (
+                    <button
+                      key={size}
+                      type="button"
+                      onClick={() => {
+                        const newSizes = formData.sizes.includes(size)
+                          ? formData.sizes.filter((s) => s !== size)
+                          : [...formData.sizes, size];
+                        setFormData({ ...formData, sizes: newSizes });
+                      }}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${formData.sizes.includes(size)
+                          ? "bg-[#2563EB] text-white shadow-sm"
+                          : "bg-gray-100 text-[#6B7280] hover:bg-gray-200"
+                        }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className={labelClass}>Available Colors</label>
+                <div className="flex gap-2 mb-3">
+                  <input
+                    type="text"
+                    id="new-color-input"
+                    placeholder="Type color and press Enter (e.g. Midnight Blue, Burgundy)"
+                    className={inputClass}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const val = e.currentTarget.value.trim();
+                        if (val && !formData.colors.includes(val)) {
+                          setFormData({ ...formData, colors: [...formData.colors, val] });
+                          e.currentTarget.value = "";
+                        }
+                      }
+                    }}
+                  />
                   <button
-                    key={size}
                     type="button"
                     onClick={() => {
-                      const newSizes = formData.sizes.includes(size)
-                        ? formData.sizes.filter((s) => s !== size)
-                        : [...formData.sizes, size];
-                      setFormData({ ...formData, sizes: newSizes });
-                    }}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                      formData.sizes.includes(size)
-                        ? "bg-[#2563EB] text-white shadow-sm"
-                        : "bg-gray-100 text-[#6B7280] hover:bg-gray-200"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className={labelClass}>Available Colors</label>
-              <div className="flex gap-2 mb-3">
-                <input 
-                  type="text" 
-                  id="new-color-input"
-                  placeholder="Type color and press Enter (e.g. Midnight Blue, Burgundy)" 
-                  className={inputClass}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      const val = e.currentTarget.value.trim();
+                      const input = document.getElementById('new-color-input');
+                      const val = input.value.trim();
                       if (val && !formData.colors.includes(val)) {
-                        setFormData({...formData, colors: [...formData.colors, val]});
-                        e.currentTarget.value = "";
+                        setFormData({ ...formData, colors: [...formData.colors, val] });
+                        input.value = "";
                       }
-                    }
-                  }}
-                />
-                <button 
-                  type="button"
-                  onClick={() => {
-                    const input = document.getElementById('new-color-input');
-                    const val = input.value.trim();
-                    if (val && !formData.colors.includes(val)) {
-                      setFormData({...formData, colors: [...formData.colors, val]});
-                      input.value = "";
-                    }
-                  }}
-                  className="px-4 py-2 bg-gray-100 text-[#111827] border border-[#E5E7EB] rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
-                >
-                  Add
-                </button>
+                    }}
+                    className="px-4 py-2 bg-gray-100 text-[#111827] border border-[#E5E7EB] rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
+                  >
+                    Add
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {formData.colors.map((color, idx) => (
+                    <div key={idx} className="flex items-center gap-2 bg-blue-50 text-[#2563EB] px-3 py-1.5 rounded-lg text-xs font-bold border border-blue-100 shadow-sm animate-scale-in">
+                      {color}
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, colors: formData.colors.filter((_, i) => i !== idx) })}
+                        className="hover:text-red-500 transition-colors"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  {formData.colors.length === 0 && (
+                    <p className="text-[10px] text-[#9CA3AF] italic">No colors added yet.</p>
+                  )}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {formData.colors.map((color, idx) => (
-                  <div key={idx} className="flex items-center gap-2 bg-blue-50 text-[#2563EB] px-3 py-1.5 rounded-lg text-xs font-bold border border-blue-100 shadow-sm animate-scale-in">
-                    {color}
-                    <button 
-                      type="button" 
-                      onClick={() => setFormData({...formData, colors: formData.colors.filter((_, i) => i !== idx)})}
-                      className="hover:text-red-500 transition-colors"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                ))}
-                {formData.colors.length === 0 && (
-                  <p className="text-[10px] text-[#9CA3AF] italic">No colors added yet.</p>
-                )}
-              </div>
-            </div>
 
-            <div className="space-y-1.5">
-              <label className={labelClass}>Full Description (Optional)</label>
-              <textarea name="description" value={formData.description} onChange={handleInputChange} rows={5} placeholder="Detailed product description..." className={`${inputClass} resize-none`}></textarea>
+              <div className="space-y-1.5">
+                <label className={labelClass}>Full Description (Optional)</label>
+                <textarea name="description" value={formData.description} onChange={handleInputChange} rows={5} placeholder="Detailed product description..." className={`${inputClass} resize-none`}></textarea>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </form>
     </div>
   );

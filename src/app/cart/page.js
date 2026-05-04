@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/utils";
-import { Trash2, Minor, Plus, Minus, ArrowRight, ShoppingBag, QrCode, X } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, QrCode, X } from "lucide-react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/data/siteConfig";
@@ -193,11 +193,11 @@ export default function CartPage() {
                            
                           <div className="w-32 flex justify-start md:justify-center">
                             <div className="flex items-center border border-border rounded-lg bg-white overflow-hidden h-9">
-                              <button onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)} className="w-8 h-full flex items-center justify-center text-text hover:bg-cream transition-colors">
+                              <button onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity - 1)} className="w-8 h-full flex items-center justify-center text-text hover:bg-cream transition-colors">
                                 <Minus size={12} />
                               </button>
                               <span className="w-10 text-center text-xs font-semibold text-text">{item.quantity}</span>
-                              <button onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)} className="w-8 h-full flex items-center justify-center text-text hover:bg-cream transition-colors">
+                              <button onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity + 1)} className="w-8 h-full flex items-center justify-center text-text hover:bg-cream transition-colors">
                                 <Plus size={12} />
                               </button>
                             </div>
@@ -208,7 +208,7 @@ export default function CartPage() {
                           </div>
                            
                           <div className="w-10 flex justify-end">
-                             <button onClick={() => removeItem(item.id, item.size)} className="text-text/40 hover:text-red-500 transition-colors p-2" aria-label="Remove item">
+                             <button onClick={() => removeItem(item.id, item.size, item.color)} className="text-text/40 hover:text-red-500 transition-colors p-2" aria-label="Remove item">
                                <Trash2 size={18} />
                              </button>
                           </div>
