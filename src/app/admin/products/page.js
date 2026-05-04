@@ -185,7 +185,7 @@ export default function ProductsListPage() {
                       </div>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center justify-end gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                         <Link href={`/collections/${p.slug}`} target="_blank" className="p-2 text-[#6B7280] hover:text-[#2563EB] hover:bg-blue-50 rounded-md transition-colors" title="View Live"><ExternalLink size={15} /></Link>
                         <Link href={`/admin/products/edit?id=${p.id}`} className="p-2 text-[#6B7280] hover:text-[#2563EB] hover:bg-blue-50 rounded-md transition-colors" title="Edit"><Edit2 size={15} /></Link>
                         <button onClick={() => handleDelete(p.id)} disabled={isDeleting === p.id} className="p-2 text-[#6B7280] hover:text-[#DC2626] hover:bg-red-50 rounded-md transition-colors" title="Delete"><Trash2 size={15} /></button>

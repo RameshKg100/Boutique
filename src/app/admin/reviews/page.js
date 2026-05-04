@@ -146,7 +146,7 @@ export default function AdminReviewsPage() {
                        <span className="text-xs font-medium text-[#6B7280]">{r.date || "N/A"}</span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                       <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                       <div className="flex items-center justify-end gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                           <Link 
                             href={`/admin/reviews/edit/${r.id}`}
                             className="p-2 text-[#6B7280] hover:text-[#2563EB] hover:bg-blue-50 rounded-md transition-colors"
