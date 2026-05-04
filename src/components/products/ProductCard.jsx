@@ -11,6 +11,7 @@ import { formatPrice, getDiscountPercentage } from "@/lib/utils";
 export default function ProductCard({ product, onZoom }) {
   const { addItem } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
+  const [addedToCart, setAddedToCart] = useState(false);
   const discount = getDiscountPercentage(product.originalPrice, product.price);
   const wishlisted = isInWishlist(product.id);
 
@@ -18,6 +19,7 @@ export default function ProductCard({ product, onZoom }) {
     e.preventDefault();
     e.stopPropagation();
     addItem(product, product.sizes[1] || product.sizes[0]);
+    setAddedToCart(true);
   };
 
   const handleZoom = (e) => {
@@ -93,13 +95,18 @@ export default function ProductCard({ product, onZoom }) {
                   Out of Stock
                 </div>
               ) : (
-                <button
-                  onClick={handleAddToCart}
-                  className="bg-white text-text hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1.5 shadow-lg"
-                >
-                  <ShoppingBag size={13} />
-                  Add to Cart
-                </button>
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={addedToCart}
+                    className={`px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1.5 shadow-lg ${
+                      addedToCart 
+                        ? "bg-green-600 text-white opacity-80 cursor-not-allowed" 
+                        : "bg-white text-text hover:bg-primary hover:text-white"
+                    }`}
+                  >
+                    <ShoppingBag size={13} />
+                    {addedToCart ? "Added" : "Add to Cart"}
+                  </button>
               )}
               <button
                 onClick={handleZoom}

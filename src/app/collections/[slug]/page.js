@@ -121,7 +121,6 @@ export default function ProductDetailPage() {
       addItem(product, selectedSize);
     }
     setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 2000);
   };
 
   const handleToggleWishlist = () => {
@@ -363,9 +362,10 @@ My Query: `;
                   ) : (
                     <button
                       onClick={handleAddToCart}
+                      disabled={addedToCart}
                       className={`flex-1 py-3.5 px-6 rounded-lg text-sm font-medium uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
                         addedToCart
-                          ? "bg-green-600 text-white"
+                          ? "bg-green-600 text-white opacity-80 cursor-not-allowed"
                           : "bg-primary text-white hover:bg-primary-dark hover:shadow-lg"
                       }`}
                       id="add-to-cart-btn"
