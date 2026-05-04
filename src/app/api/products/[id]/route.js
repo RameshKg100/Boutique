@@ -23,9 +23,9 @@ const writeLocalProducts = (products) => {
   }
 };
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const id = params.id;
+    const { id } = await context.params;
 
     if (supabaseAdmin) {
       const { error } = await supabaseAdmin
