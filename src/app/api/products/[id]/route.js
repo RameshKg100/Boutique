@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseAdmin } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
@@ -27,13 +27,14 @@ export async function DELETE(request, { params }) {
   try {
     const id = params.id;
 
-    if (supabase) {
-      const { error } = await supabase
+    if (supabaseAdmin) {
+      const { error } = await supabaseAdmin
         .from('products')
         .delete()
         .eq('id', id);
 
       if (error) {
+        console.error("Supabase delete error:", error);
         return NextResponse.json({ error: error.message }, { status: 400 });
       }
       return NextResponse.json({ success: true, message: "Product deleted" });
