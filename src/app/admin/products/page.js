@@ -158,7 +158,7 @@ export default function ProductsListPage() {
                         </div>
                         <div className="min-w-0">
                           <p className="font-medium text-[#111827] truncate group-hover/item:text-[#2563EB] transition-colors">{p.name}</p>
-                          <p className="text-[10px] text-[#6B7280] mt-0.5">ID: {p.id.slice(0, 8)}</p>
+                          <p className="text-[10px] text-[#6B7280] mt-0.5">ID: {String(p.id || '').slice(0, 8)}</p>
                         </div>
                       </Link>
                     </td>

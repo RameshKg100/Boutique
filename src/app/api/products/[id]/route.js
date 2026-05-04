@@ -25,7 +25,7 @@ const writeLocalProducts = (products) => {
 
 export async function DELETE(request, { params }) {
   try {
-    const id = parseInt(params.id);
+    const id = params.id;
 
     if (supabase) {
       const { error } = await supabase
@@ -45,7 +45,7 @@ export async function DELETE(request, { params }) {
       }
 
       const initialLength = products.length;
-      products = products.filter((p) => Number(p.id) !== Number(id));
+      products = products.filter((p) => String(p.id) !== String(id));
       
       if (products.length === initialLength) {
         return NextResponse.json({ error: "Product not found" }, { status: 404 });
