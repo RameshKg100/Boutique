@@ -168,9 +168,12 @@ export default function CheckoutPage() {
                               {item.quantity}
                             </span>
                          </div>
-                         <div className="flex-1 flex flex-col justify-center">
+                          <div className="flex-1 flex flex-col justify-center">
                             <p className="text-sm font-semibold text-dark line-clamp-1">{item.name}</p>
-                            <p className="text-xs text-text-light mt-0.5">Size: {item.size}</p>
+                            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-0.5">
+                               <p className="text-xs text-text-light">Size: {item.size}</p>
+                               {item.color && <p className="text-xs text-text-light">Color: {item.color}</p>}
+                            </div>
                             <p className="text-sm font-medium text-dark mt-1">{formatPrice(item.price)}</p>
                          </div>
                       </div>

@@ -137,9 +137,8 @@ export default function AdminReviewsPage() {
                                <ImageIcon size={20} className="text-gray-300" />
                             )}
                          </div>
-                         <div className="min-w-0">
+                         <div className="min-w-0 flex items-center">
                             <p className="text-sm font-bold text-[#111827]">Snapshot Review</p>
-                            <p className="text-xs text-[#6B7280] mt-0.5 italic">Customer Screenshot</p>
                          </div>
                       </div>
                     </td>

@@ -114,27 +114,7 @@ export default function AdminDashboard() {
             </div>
           </div>
  
-          {/* Placeholder Reviews */}
-          <div className="bg-white rounded-lg border border-[#E5E7EB] shadow-sm">
-             <div className="px-5 py-4 border-b border-[#E5E7EB] flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-[#111827]">Recent Feedback</h3>
-                <Link href="/admin/reviews" className="text-[#2563EB] text-xs font-medium hover:underline">View All</Link>
-             </div>
-             <div className="divide-y divide-[#E5E7EB]">
-                {[1, 2, 3].map((i) => (
-                   <div key={i} className="px-5 py-3 flex gap-3 hover:bg-[#F9FAFB] transition-colors">
-                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-[#2563EB] shrink-0 text-xs font-semibold">C{i}</div>
-                      <div className="min-w-0">
-                         <p className="text-sm font-medium text-[#111827]">Customer Review #{i}</p>
-                         <p className="text-xs text-[#6B7280] line-clamp-1 mt-0.5">The quality of the fabric is excellent. Perfect for evening wear.</p>
-                         <div className="flex items-center gap-0.5 mt-1.5">
-                            {[1,2,3,4,5].map(s => <Star key={s} size={10} className="text-[#D97706] fill-[#D97706]" />)}
-                         </div>
-                      </div>
-                   </div>
-                ))}
-             </div>
-          </div>
+
         </div>
 
         {/* Right Sidebar */}

@@ -54,6 +54,7 @@ export default function ProductDetailPage() {
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -68,6 +69,10 @@ export default function ProductDetailPage() {
         
         if (found) {
           setProduct(found);
+          // Set default color if available
+          if (found.colors && found.colors.length > 0) {
+            setSelectedColor(found.colors[0]);
+          }
           
           // Fetch related products from the same category only
           const allRes = await fetch(`/api/products?category=${found.category}`, { cache: "no-store" });
@@ -117,8 +122,12 @@ export default function ProductDetailPage() {
       alert("Please select a size");
       return;
     }
+    if (product.colors && product.colors.length > 0 && !selectedColor) {
+      alert("Please select a color");
+      return;
+    }
     for (let i = 0; i < quantity; i++) {
-      addItem(product, selectedSize);
+      addItem(product, selectedSize, selectedColor);
     }
     setAddedToCart(true);
   };
@@ -135,6 +144,8 @@ export default function ProductDetailPage() {
     const message = `Hello! I have a query regarding a dress from ${siteConfig.name}.
 
 Product: ${product.name}
+Size: ${selectedSize || 'Not selected'}
+Color: ${selectedColor || 'Not selected'}
 
 My Name: 
 Location: 
@@ -286,11 +297,24 @@ My Query: `;
                 </p>
 
                 {/* Colors */}
-                {product.colors && (
+                {product.colors && product.colors.length > 0 && (
                   <div className="mb-6">
-                    <p className="text-sm font-medium text-dark mb-2">
-                      Available Colors: <span className="text-text-light font-normal">{product.colors.join(", ")}</span>
-                    </p>
+                    <p className="text-sm font-medium text-dark mb-3">Select Color</p>
+                    <div className="flex flex-wrap gap-2">
+                      {product.colors.map((color) => (
+                        <button
+                          key={color}
+                          onClick={() => setSelectedColor(color)}
+                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                            selectedColor === color
+                              ? "bg-primary text-white shadow-md"
+                              : "bg-cream text-dark border border-border hover:border-primary"
+                          }`}
+                        >
+                          {color}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
 

@@ -337,8 +337,11 @@ export default function OrdersPage() {
                               </div>
                               <div className="flex-1 min-w-0">
                                 <p className="text-[11px] font-bold text-dark leading-tight line-clamp-2">{item.name}</p>
-                                <div className="flex items-center gap-2 mt-1.5">
+                                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                                   <span className="text-[9px] font-black uppercase tracking-widest bg-cream px-1.5 py-0.5 rounded text-text/60">Size: {item.size}</span>
+                                  {item.color && (
+                                    <span className="text-[9px] font-black uppercase tracking-widest bg-primary/10 px-1.5 py-0.5 rounded text-primary/80">Color: {item.color}</span>
+                                  )}
                                   <span className="text-[9px] font-black uppercase tracking-widest text-text/40">Qty: {item.quantity}</span>
                                 </div>
                                 <p className="text-xs font-black text-primary mt-1.5">{formatPrice(item.price)}</p>

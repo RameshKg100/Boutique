@@ -19,7 +19,9 @@ function cartReducer(state, action) {
     case "ADD_ITEM": {
       const existingIndex = state.items.findIndex(
         (item) =>
-          item.id === action.payload.id && item.size === action.payload.size
+          item.id === action.payload.id && 
+          item.size === action.payload.size &&
+          item.color === action.payload.color
       );
 
       if (existingIndex > -1) {
@@ -42,7 +44,9 @@ function cartReducer(state, action) {
         ...state,
         items: state.items.filter(
           (item) =>
-            !(item.id === action.payload.id && item.size === action.payload.size)
+            !(item.id === action.payload.id && 
+              item.size === action.payload.size &&
+              item.color === action.payload.color)
         ),
       };
 
@@ -63,7 +67,9 @@ function cartReducer(state, action) {
       return {
         ...state,
         items: state.items.map((item) =>
-          item.id === action.payload.id && item.size === action.payload.size
+          item.id === action.payload.id && 
+          item.size === action.payload.size &&
+          item.color === action.payload.color
             ? { ...item, quantity: action.payload.quantity }
             : item
         ),
@@ -105,7 +111,7 @@ export function CartProvider({ children }) {
     }
   }, [state.items]);
 
-  const addItem = (product, size) => {
+  const addItem = (product, size, color) => {
     dispatch({
       type: "ADD_ITEM",
       payload: {
@@ -115,16 +121,17 @@ export function CartProvider({ children }) {
         price: product.price,
         image: product.images[0],
         size,
+        color,
       },
     });
   };
 
-  const removeItem = (id, size) => {
-    dispatch({ type: "REMOVE_ITEM", payload: { id, size } });
+  const removeItem = (id, size, color) => {
+    dispatch({ type: "REMOVE_ITEM", payload: { id, size, color } });
   };
 
-  const updateQuantity = (id, size, quantity) => {
-    dispatch({ type: "UPDATE_QUANTITY", payload: { id, size, quantity } });
+  const updateQuantity = (id, size, color, quantity) => {
+    dispatch({ type: "UPDATE_QUANTITY", payload: { id, size, color, quantity } });
   };
 
   const clearCart = () => {
