@@ -28,6 +28,7 @@ import {
   ZoomOut,
   Maximize
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const sizeChart = {
   headers: ["Size", "Bust (in)", "Waist (in)"],
@@ -207,15 +208,26 @@ My Query: `;
                           wrapperStyle={{ width: "100%", height: "100%" }} 
                           contentStyle={{ width: "100%", height: "100%" }}
                         >
-                          <div className="relative w-full h-full cursor-zoom-in">
-                            <Image
-                              src={product.images[selectedImage]}
-                              alt={`${product.name} - View ${selectedImage + 1}`}
-                              fill
-                              className="object-cover"
-                              priority
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                            />
+                          <div className="relative w-full h-full cursor-zoom-in overflow-hidden">
+                            <AnimatePresence mode="wait">
+                              <motion.div
+                                key={selectedImage}
+                                initial={{ opacity: 0, x: 20, scale: 0.98 }}
+                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                exit={{ opacity: 0, x: -20, scale: 1.02 }}
+                                transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                                className="relative w-full h-full"
+                              >
+                                <Image
+                                  src={product.images[selectedImage]}
+                                  alt={`${product.name} - View ${selectedImage + 1}`}
+                                  fill
+                                  className="object-cover"
+                                  priority
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                />
+                              </motion.div>
+                            </AnimatePresence>
                           </div>
                         </TransformComponent>
                       </>
