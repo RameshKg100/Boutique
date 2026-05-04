@@ -57,12 +57,8 @@ export default function WishlistPage() {
                         sizes="(max-width: 768px) 50vw, 25vw"
                       />
                       
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100">
-                        <div className="bg-white text-dark hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1.5 shadow-lg">
-                           <Eye size={13} /> View Details
-                        </div>
-                      </div>
+                      {/* Hover Overlay Removed */}
+                      <div className="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-all duration-500 opacity-0 group-hover:opacity-100 pointer-events-none" />
                     </Link>
 
                     {/* Remove Button */}
@@ -96,9 +92,7 @@ export default function WishlistPage() {
                           </span>
                         )}
                       </div>
-                      <Link href={`/collections/${item.slug}`} className="btn-secondary w-full justify-center text-xs py-2 bg-cream">
-                         Select Options
-                      </Link>
+                      {/* Removed Select Options button */}
                     </div>
                   </div>
                 </div>
