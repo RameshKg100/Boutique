@@ -41,8 +41,12 @@ export default function ProductsListPage() {
     try {
       setIsDeleting(id);
       const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
-      if (res.ok) setProducts(products.filter(p => p.id !== id));
-      else alert("Failed to delete product");
+      if (res.ok) {
+        setProducts(products.filter(p => p.id !== id));
+      } else {
+        const errorData = await res.json();
+        alert(`Failed to delete product: ${errorData.error || 'Unknown error'}`);
+      }
     } catch (error) {
       console.error("Error deleting product:", error);
     } finally { setIsDeleting(null); }
