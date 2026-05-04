@@ -142,20 +142,6 @@ export default function Navbar() {
             {/* Right Actions */}
             <div className="flex-1 lg:flex-none flex justify-end items-center gap-2 md:gap-3">
               <Link
-                href="/wishlist"
-                className="relative p-2 text-foreground hover:text-primary transition-colors"
-                id="wishlist-icon"
-                aria-label="Wishlist"
-              >
-                <Heart size={20} />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 right-0 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-medium">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
-              <Link
                 href="/cart"
                 className="relative p-2 text-foreground hover:text-primary transition-colors"
                 id="cart-icon"

@@ -350,21 +350,30 @@ My Query: `;
                   </div>
                 </div>
 
-                {/* Action Buttons - Removed Add to Cart as per request */}
+                {/* Action Buttons */}
                 <div className="flex gap-3 mb-3">
-                  <button
-                    onClick={handleToggleWishlist}
-                    className={`flex-1 h-14 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 border ${
-                      wishlisted
-                        ? "bg-primary text-white border-primary"
-                        : "bg-white text-dark border-border hover:border-primary hover:text-primary"
-                    }`}
-                    aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
-                    id="add-to-wishlist-btn"
-                  >
-                    <Heart size={20} fill={wishlisted ? "currentColor" : "none"} />
-                    {wishlisted ? "In Wishlist" : "Add to Wishlist"}
-                  </button>
+                  {product.inStock === false ? (
+                    <button
+                      disabled
+                      className="flex-1 py-3.5 px-6 rounded-lg text-sm font-medium uppercase tracking-wider bg-gray-200 text-gray-500 cursor-not-allowed flex items-center justify-center border border-gray-300"
+                    >
+                      Out of Stock
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={addedToCart}
+                      className={`flex-1 py-3.5 px-6 rounded-lg text-sm font-medium uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
+                        addedToCart
+                          ? "bg-green-600 text-white opacity-80 cursor-not-allowed"
+                          : "bg-primary text-white hover:bg-primary-dark hover:shadow-lg"
+                      }`}
+                      id="add-to-cart-btn"
+                    >
+                      <ShoppingBag size={16} />
+                      {addedToCart ? "Added to Cart ✓" : "Add to Cart"}
+                    </button>
+                  )}
                 </div>
 
                 {/* WhatsApp Button */}
